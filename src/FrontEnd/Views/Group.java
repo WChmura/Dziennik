@@ -5,7 +5,7 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 
-public class Marks extends Page {
+public class Group extends Page {
 
     @Override
     public void createGUI() {
