@@ -10,7 +10,7 @@ public class Group extends Page {
     @Override
     public void createGUI() {
         addPanel();
-        JButton button = new JButton("Marks");
-        mainContent.add(button, BorderLayout.SOUTH);
+        JButton button = new JButton("Group");
+        mainContent.add(button, BorderLayout.NORTH);
     }
 }

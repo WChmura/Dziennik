@@ -11,6 +11,6 @@ public class Marks extends Page {
     public void createGUI() {
         addPanel();
         JButton button = new JButton("Marks");
-        mainContent.add(button, BorderLayout.SOUTH);
+        mainContent.add(button, BorderLayout.NORTH);
     }
 }

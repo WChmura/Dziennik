@@ -11,6 +11,6 @@ public class Lesson extends Page {
     public void createGUI() {
         addPanel();
         JButton button = new JButton("Lesson");
-        mainContent.add(button, BorderLayout.SOUTH);
+        mainContent.add(button, BorderLayout.NORTH);
     }
 }

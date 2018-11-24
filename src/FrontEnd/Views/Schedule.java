@@ -5,12 +5,12 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 
-public class Schelude extends Page {
+public class Schedule extends Page {
 
     @Override
     public void createGUI() {
         addPanel();
-        JButton button = new JButton("Schelude");
-        mainContent.add(button, BorderLayout.SOUTH);
+        JButton button = new JButton("Schedule");
+        mainContent.add(button, BorderLayout.NORTH);
     }
 }

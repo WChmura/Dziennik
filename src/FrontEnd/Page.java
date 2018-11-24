@@ -19,10 +19,11 @@ public abstract class Page extends JApplet {
     }
     public void addPanel(){
         TopPanel topPanel = new TopPanel(this.getAppletContext());
+        this.setJMenuBar(topPanel);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());
-        mainContent.add(topPanel,BorderLayout.NORTH);
         mainContent.setOpaque(true);
+        mainContent.setBackground(Colors.background);
         setContentPane(mainContent);
     }
     public abstract void createGUI();
