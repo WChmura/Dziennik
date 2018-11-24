@@ -1,6 +1,8 @@
 package FrontEnd;
 
+import Common.MockModel;
 import Common.UserType;
+import FrontEnd.Forms.LoginForm;
 
 import javax.swing.*;
 
@@ -14,8 +16,8 @@ import java.net.URL;
 import static Common.UserType.*;
 
 public class TopPanel extends JMenuBar implements ActionListener {
-    private UserType userType = teacher;
-    AppletContext appletContext;
+    private MockModel mockModel;
+    private AppletContext appletContext;
     private final String marksText = "Oceny";
     private final String scheduleText = "Plan Zajec";
     private final String attendanceText = "Obecnosci";
@@ -23,10 +25,13 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String groupText = "Klasa";
     private final String lessonText = "Lekcja";
     private final String adminText = "Panel Administratora";
-    TopPanel(AppletContext appletContext) {
+    private final String logInText = "Zaloguj";
+    private final String logOutText = "Wyloguj";
+    TopPanel(AppletContext appletContext,MockModel mockModel) {
         super();
         this.appletContext = appletContext;
-        JPanel panel = new JPanel(new GridLayout(1,10));
+        this.mockModel = mockModel;
+        JPanel panel = new JPanel(new GridLayout(1,8));
 
         JButton marksButton = configureButton(marksText);
         panel.add(marksButton);
@@ -40,18 +45,31 @@ public class TopPanel extends JMenuBar implements ActionListener {
         JButton settingsButton = configureButton(settingsText);
         panel.add(settingsButton);
 
-        if(userType==teacher||userType==admin) {
+        if(mockModel.userType==teacher||mockModel.userType==admin) {
             JButton groupButton = configureButton(groupText);
             panel.add(groupButton);
 
-            if(userType==teacher) {
+            if(mockModel.userType==teacher) {
                 JButton lessonButton = configureButton(lessonText);
                 panel.add(lessonButton);
             }
-            if(userType==admin) {
+            if(mockModel.userType==admin) {
                 JButton adminButton = configureButton(adminText);
                 panel.add(adminButton);
             }
+            panel.add(new JLabel());
+        }
+        else{
+            for(int i=0;i<3;i++)
+                panel.add(new JLabel());
+        }
+        if(mockModel.userType==notLogged){
+            JButton logInButton = configureButton(logInText);
+            panel.add(logInButton);
+        }
+        else{
+            JButton logOutButton = configureButton(logOutText);
+            panel.add(logOutButton);
         }
         add(panel);
     }
@@ -67,41 +85,79 @@ public class TopPanel extends JMenuBar implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
-        switch (command){
-            case marksText:
-                link+="Marks.html";
-                break;
-            case scheduleText:
-                link+="Schedule.html";
-                break;
-            case settingsText:
-                link+="Settings.html";
-                break;
-            case groupText:
-                link+="Group.html";
-                break;
-            case adminText:
-                link+="AdminPanel.html";
-                break;
-            case attendanceText:
-                link+="Attendance.html";
-                break;
-            case lessonText:
-                link+="Lesson.html";
-                break;
+        if(MockModel.userType !=notLogged) {
+            String command = e.getActionCommand();
+            String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
+            switch (command) {
+                case marksText:
+                    link += "Marks.html";
+                    goToPage(link);
+                    break;
+                case scheduleText:
+                    link += "Schedule.html";
+                    goToPage(link);
+                    break;
+                case settingsText:
+                    link += "Settings.html";
+                    goToPage(link);
+                    break;
+                case groupText:
+                    link += "Group.html";
+                    goToPage(link);
+                    break;
+                case adminText:
+                    link += "AdminPanel.html";
+                    goToPage(link);
+                    break;
+                case attendanceText:
+                    link += "Attendance.html";
+                    goToPage(link);
+                    break;
+                case lessonText:
+                    link += "Lesson.html";
+                    goToPage(link);
+                    break;
+                case logOutText:
+                    if (logOutMessage()) {
+                        link += "WelcomePage.html";
+                        setUserType(notLogged);
+                        goToPage(link);
+                    }
+                    break;
+            }
         }
-        link+="?_ijt=7gfbuno64p2b64c3dsfe1q9802";
-        goToPage(link);
+        else if(e.getActionCommand().equals(logInText)){
+            LoginForm sd = new LoginForm(null, "Test test");
+            sd.setVisible(true);
+            String[] loginData= sd.getData();
+            System.out.println(loginData[1]);
+            if (mockModel.logIn(loginData)){
+                String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
+                goToPage(link);
+            }
+        }
     }
-
     public void goToPage(String link){
+        link+="?_ijt=7gfbuno64p2b64c3dsfe1q9802";
         try {
             URL u = new URL(link);
             appletContext.showDocument(u,"_self");
         } catch (MalformedURLException e){
             System.out.println(e.getMessage());
         }
+    }
+    public void setUserType(UserType userType) {
+        MockModel.userType = userType;
+    }
+    private boolean logOutMessage(){
+        int n = JOptionPane.showConfirmDialog(
+                this,
+                "Jestes pewien?",
+                "",
+                JOptionPane.YES_NO_OPTION);
+        if(n==1)
+            return false;
+        else
+            return true;
     }
 }

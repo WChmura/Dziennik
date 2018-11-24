@@ -1,12 +1,18 @@
 package FrontEnd;
 
+import Common.MockModel;
+
 import javax.swing.*;
 import java.awt.*;
 
 public abstract class Page extends JApplet {
-    public JPanel mainContent;
+    protected JPanel mainContent;
+    private TopPanel topPanel;
+    static MockModel model;
     public void init() {
-        //Execute a job on the event-dispatching thread; creating this applet's GUI.
+        if(model==null) {
+            model = new MockModel();
+        }
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
@@ -17,8 +23,8 @@ public abstract class Page extends JApplet {
             System.err.println("createGUI didn't complete successfully");
         }
     }
-    public void addPanel(){
-        TopPanel topPanel = new TopPanel(this.getAppletContext());
+    protected void addPanel(){
+        topPanel = new TopPanel(this.getAppletContext(), model);
         this.setJMenuBar(topPanel);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());
