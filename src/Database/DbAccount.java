@@ -59,27 +59,31 @@ public class DbAccount {
         }
     }
     /******************Zmiana hasla*****************************************************/
-    static void updatePassword(int personID, String haslo)
+    static void updatePassword(int personID, String password)
     {
         try {
-            String insertTableSQL = "Update KONTO set haslo= \"?\" where ID_osoby= ?";
+            Statement statement = con.createStatement();
+            String insertTableSQL = "UPDATE konto Set haslo = ? WHERE id_osoby = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, personID);
-            preparedStatement.setString(2, haslo);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, personID);
             preparedStatement.executeUpdate();
             preparedStatement.close();
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     /******************Zmiana maila*****************************************************/
-    static void updateMail()
+    static void updateMail(String mail, int id)
     {
         try {
             Statement statement = con.createStatement();
-            statement.execute("UPDATE konto Set adres_mail = 'Suchenia' WHERE id_osoby = 3");
+            String insertTableSQL = "UPDATE konto Set adres_mail = ? WHERE id_osoby = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, mail);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
