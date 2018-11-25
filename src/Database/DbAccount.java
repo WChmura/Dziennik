@@ -10,6 +10,16 @@ public class DbAccount {
     private String mailAddress;
     private static Connection con = DbConnection.getConnection();
 
+    public DbAccount()
+    {
+
+    }
+    /*Narazie zaslepka*/
+    public static DbAccount fetch(String login, String haslo)
+    {
+        DbAccount db = new DbAccount();
+        return db;
+    }
 
     /********************Insert_do_tabeli***********************/
     /********************Zastonowic_sie_co_z_uczniem***************/
