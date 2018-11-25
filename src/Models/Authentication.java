@@ -1,4 +1,4 @@
-package Models;
+/*package Models;
 
 import Database.DbAccount;
 import FrontEnd.Views.WelcomePage;
@@ -21,4 +21,4 @@ public class Authentication extends Model {
         this.account = null;
         showPage(new FrondEnd.View.WelcomePage());
     }
-}
+}*/

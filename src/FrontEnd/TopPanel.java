@@ -32,7 +32,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         this.appletContext = appletContext;
         this.mockModel = mockModel;
         JPanel panel = new JPanel(new GridLayout(1,8));
-
+        panel.setBackground(Color.white);
         JButton marksButton = configureButton(marksText);
         panel.add(marksButton);
 
@@ -45,15 +45,15 @@ public class TopPanel extends JMenuBar implements ActionListener {
         JButton settingsButton = configureButton(settingsText);
         panel.add(settingsButton);
 
-        if(mockModel.userType==teacher||mockModel.userType==admin) {
+        if(MockModel.userType ==teacher|| MockModel.userType ==admin) {
             JButton groupButton = configureButton(groupText);
             panel.add(groupButton);
 
-            if(mockModel.userType==teacher) {
+            if(MockModel.userType ==teacher) {
                 JButton lessonButton = configureButton(lessonText);
                 panel.add(lessonButton);
             }
-            if(mockModel.userType==admin) {
+            if(MockModel.userType ==admin) {
                 JButton adminButton = configureButton(adminText);
                 panel.add(adminButton);
             }
@@ -63,7 +63,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             for(int i=0;i<3;i++)
                 panel.add(new JLabel());
         }
-        if(mockModel.userType==notLogged){
+        if(MockModel.userType ==notLogged){
             JButton logInButton = configureButton(logInText);
             panel.add(logInButton);
         }
@@ -130,15 +130,19 @@ public class TopPanel extends JMenuBar implements ActionListener {
             LoginForm sd = new LoginForm(null, "Test test");
             sd.setVisible(true);
             String[] loginData= sd.getData();
-            System.out.println(loginData[1]);
-            if (mockModel.logIn(loginData)){
-                String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
-                goToPage(link);
+            if(loginData!=null) {
+                if (mockModel.logIn(loginData)) {
+                    String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
+                    setUserType(student);
+                    goToPage(link);
+                } else {
+                    System.out.println("zle dane");
+                }
             }
         }
     }
-    public void goToPage(String link){
-        link+="?_ijt=7gfbuno64p2b64c3dsfe1q9802";
+    private void goToPage(String link){
+        link+="?_ijt=9920l7o5t4tqun41qmbt182ehk";
         try {
             URL u = new URL(link);
             appletContext.showDocument(u,"_self");
@@ -146,7 +150,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             System.out.println(e.getMessage());
         }
     }
-    public void setUserType(UserType userType) {
+    private void setUserType(UserType userType) {
         MockModel.userType = userType;
     }
     private boolean logOutMessage(){

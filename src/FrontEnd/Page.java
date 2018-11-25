@@ -7,8 +7,7 @@ import java.awt.*;
 
 public abstract class Page extends JApplet {
     protected JPanel mainContent;
-    private TopPanel topPanel;
-    static MockModel model;
+    protected static MockModel model;
     public void init() {
         if(model==null) {
             model = new MockModel();
@@ -24,7 +23,7 @@ public abstract class Page extends JApplet {
         }
     }
     protected void addPanel(){
-        topPanel = new TopPanel(this.getAppletContext(), model);
+        TopPanel topPanel = new TopPanel(this.getAppletContext(), model);
         this.setJMenuBar(topPanel);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());

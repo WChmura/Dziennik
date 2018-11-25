@@ -15,6 +15,18 @@ public class DbMark {
     private String description;
     private Connection con = DbConnection.getConnection();
 
+    public DbMark(int markID, int subjectID, int studentID, int teacherID, SimpleDateFormat date, String type, int mark, int weight, String description) {
+        this.markID = markID;
+        this.subjectID = subjectID;
+        this.studentID = studentID;
+        this.teacherID = teacherID;
+        this.mark = mark;
+        this.weight = weight;
+        this.date = date;
+        this.type = type;
+        this.description = description;
+    }
+
     /*******************GETTERS*****************************/
     public int getMarkID() {
         return markID;

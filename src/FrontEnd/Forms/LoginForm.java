@@ -7,5 +7,6 @@ public class LoginForm extends Form {
         super(frame,title);
         addTextField("login");
         addTextField("haslo");
+        addButtons();
     }
 }
