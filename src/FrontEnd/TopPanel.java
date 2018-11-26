@@ -57,12 +57,12 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 JButton adminButton = configureButton(adminText);
                 panel.add(adminButton);
             }
-            panel.add(new JLabel());
         }
         else{
-            for(int i=0;i<3;i++)
+            for(int i=0;i<2;i++)
                 panel.add(new JLabel());
         }
+        panel.add(new JLabel("    zalogwano jako: "+ mockModel.userName));
         if(MockModel.userType ==notLogged){
             JButton logInButton = configureButton(logInText);
             panel.add(logInButton);
@@ -133,7 +133,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             if(loginData!=null) {
                 if (mockModel.logIn(loginData)) {
                     String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
-                    setUserType(student);
+                    //setUserType(student);
                     goToPage(link);
                 } else {
                     System.out.println("zle dane");

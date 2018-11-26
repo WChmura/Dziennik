@@ -5,8 +5,8 @@ import java.awt.*;
 public class LoginForm extends Form {
     public LoginForm(Frame frame,String title) {
         super(frame,title);
-        addTextField("login");
-        addTextField("haslo");
+        addTextField("login",null);
+        addTextField("haslo",null);
         addButtons();
     }
 }

@@ -7,13 +7,27 @@ import java.util.Random;
 
 public class MockModel {
     public static UserType userType;
-    Random r= new Random();
+    public String userName = null;
+    private Random r= new Random();
     public MockModel() {
         if(userType==null)
             userType=UserType.student;
     }
     public boolean logIn(String[] loginData){
-        return loginData[0].equals("admin") && loginData[1].equals("admin");
+        if (loginData[0].equals("admin") && loginData[1].equals("admin")){
+            userName="Admin";
+            userType=UserType.admin;
+            return true;
+        }else if(loginData[0].equals("tw") && loginData[1].equals("tw")){
+            userType=UserType.teacher;
+            userName ="Tw";
+            return true;
+        }else if(loginData[0].equals("s") && loginData[1].equals("s")){
+            userType=UserType.student;
+            userName = "s";
+            return true;
+        }
+        return false;
     }
     public DbMark[] getMockMarks(){
         DbMark[] marks = new DbMark[20];

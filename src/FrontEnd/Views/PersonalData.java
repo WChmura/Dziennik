@@ -1,4 +1,4 @@
-package FrontEnd.Views;
+/*package FrontEnd.Views;
 
 import Common.UserType;
 import FrontEnd.Page;
@@ -38,4 +38,4 @@ public class PersonalData extends Page {
         else // new Text(error);
         mainContent.add(button, BorderLayout.NORTH);
     }
-}
+}*/

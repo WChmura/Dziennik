@@ -18,11 +18,11 @@ public class Form extends JDialog {
     public String[] getData() {
         return data;
     }
-    protected void addTextField(String title){
+    protected void addTextField(String title,String initialValue){
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1,2));
         JLabel label = new JLabel(title);
-        JTextField textField = new JTextField(32);
+        JTextField textField = new JTextField(initialValue);
         panel.add(label);
         panel.add(textField);
         getContentPane().add(panel);

@@ -12,6 +12,6 @@ public class Group extends Page {
     public void createGUI() {
         addPanel();
         JButton button = new JButton("Group");
-        mainContent.add(button, BorderLayout.NORTH);
+        mainContent.add(button, BorderLayout.SOUTH);
     }
 }

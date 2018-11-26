@@ -1,6 +1,6 @@
 package Models;
 
-import Database.DbStudent;
+/*import Database.DbStudent;
 import FrontEnd.Views.PersonalData;
 
 public class StudentPanel extends Model {
@@ -68,4 +68,4 @@ public class StudentPanel extends Model {
 
         showPage(view);
     }
-}
+}*/

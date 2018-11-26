@@ -11,11 +11,11 @@ public class Authentication extends Model {
     }
 
     public void logIn(String username, String password) {
-        Database.DbAccount account = Database.DbAccount.fetch(username, hash(password)
-        if (account) {
+        Database.DbAccount account = Database.DbAccount.fetch(username, hash(password));
+        /*if (account) {
             this.account = account;
         }
-        else showPage(new FrontEnd.Views.WelcomePage());
+        else showPage(new FrontEnd.Views.WelcomePage());*/
     }
 
     public void logOut() {
