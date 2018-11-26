@@ -1,4 +1,4 @@
-/*package Models;
+package Models;
 
 import Database.DbAccount;
 import FrontEnd.Views.WelcomePage;
@@ -11,14 +11,15 @@ public class Authentication extends Model {
     }
 
     public void logIn(String username, String password) {
-        if (account = Database.DbAccount.fetch(username, hash(password)) {
+        Database.DbAccount account = Database.DbAccount.fetch(username, hash(password)
+        if (account) {
             this.account = account;
         }
-        else showPage(new FrondEnd.View.WelcomePage());
+        else showPage(new FrontEnd.Views.WelcomePage());
     }
 
     public void logOut() {
         this.account = null;
-        showPage(new FrondEnd.View.WelcomePage());
+        showPage(new FrontEnd.Views.WelcomePage());
     }
-}*/
+}
