@@ -10,8 +10,7 @@ public class WelcomePage extends Page {
 
     @Override
     public void createGUI() {
-        //super.changeUserType(UserType.notLogged);
-        addPanel();
+        addTopMenu(1);
         mainContent.add(new JLabel("Zaloguj sie aby otrzymac dostep do serwisu"),BorderLayout.NORTH);
     }
 }

@@ -9,10 +9,31 @@ public class MockModel {
     public static UserType userType;
     public String userName = null;
     private Random r= new Random();
+    private AttendanceValues [][] attendanceValues;
     public MockModel() {
         if(userType==null)
             userType=UserType.student;
+        attendanceValues = new AttendanceValues[2][34];
+        attendanceValues[0][0]=attendanceValues[1][0]=AttendanceValues.absent;
+        for(int i =1;i<29;i++){
+            if(i%7==0)
+                attendanceValues[0][i]=attendanceValues[1][i]=null;
+            else
+                attendanceValues[0][i]=attendanceValues[1][i]=AttendanceValues.present;
+        }
+        for(int i =29;i<34;i++){
+            attendanceValues[0][i]=attendanceValues[1][i]=AttendanceValues.absentJustified;
+        }
     }
+
+    public AttendanceValues[][] getAttendanceValues(int numOfweeks,int startWeek){
+        //Todo:powinno zwraca© tylko kilka tygodni
+        return attendanceValues;
+    }
+    public static UserType getUserType() {
+        return userType;
+    }
+
     public boolean logIn(String[] loginData){
         if (loginData[0].equals("admin") && loginData[1].equals("admin")){
             userName="Admin";

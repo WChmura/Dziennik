@@ -10,7 +10,7 @@ public class Lesson extends Page {
 
     @Override
     public void createGUI() {
-        addPanel();
+        addTopMenu(1);
         JButton button = new JButton("Lesson");
         mainContent.add(button, BorderLayout.NORTH);
     }

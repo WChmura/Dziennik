@@ -26,6 +26,50 @@ public class DbMark {
         this.type = type;
         this.description = description;
     }
+    /*******************SETTERS*****************************/
+
+    //TODO:[Mateusz]Potrzebowałbym żeby settery mark and weight sprawdzały
+    // czy to co dostają jest liczbą, jak nie to dawały np 0
+    // jak ocena jest wyższa niż 6 mniejsza niż 0 to też niech na cos zamienia
+    public void setMarkID(int markID) {
+        this.markID = markID;
+    }
+
+    public void setSubjectID(int subjectID) {
+        this.subjectID = subjectID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+
+    public void setTeacherID(int teacherID) {
+        this.teacherID = teacherID;
+    }
+
+    public void setDate(SimpleDateFormat date) {
+        this.date = date;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCon(Connection con) {
+        this.con = con;
+    }
 
     /*******************GETTERS*****************************/
     public int getMarkID() {

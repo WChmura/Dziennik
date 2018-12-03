@@ -17,37 +17,20 @@ public class Marks extends Page {
     private DbMark[] marks;
     @Override
     public void createGUI() {
-        addPanel();
-        marks = model.getMockMarks();
-        JPanel subjectsPanel = new JPanel();
-        subjectsPanel.setSize(mainContent.getWidth(),mainContent.getHeight());
-        subjectsPanel.setLayout(new GridLayout(numOfSubjects+1,1,0,0));
-        for(int i=0;i<numOfSubjects;i++){
-            JPanel subjectPanel = new JPanel();
-            int numOfMarks=0;
-            JPanel marksPanel = new JPanel();
-            marksPanel.setLayout(new GridLayout(1,40,5,0));
-            JLabel label = new JLabel("Przedmiot: "+i);
-            //label.setSize(80,20);
-            subjectPanel.add(label,BorderLayout.EAST);
-            for(int j =0;j<marks.length;j++){
-                if(marks[j].getSubjectID()==i){
-                    JButton markButton = configureMarkButton(marks[j].getMark(),j);
-                    //markButton.setSize(80,20);
-                    marksPanel.add(markButton);
-                    numOfMarks++;
-                }
-            }
-            for(int j=numOfMarks;j<20;j++){
-                JLabel emptyLabel = new JLabel();
-                marksPanel.add(emptyLabel);
-            }
-            subjectPanel.setSize(mainContent.getWidth(),50);
-            subjectPanel.add(marksPanel);
-            subjectsPanel.add(subjectPanel);
+        if(MockModel.getUserType()==UserType.teacher){
+            addTopMenu(numOfSubjects+2);
+            addTeacherPanel();
         }
-        mainContent.add(subjectsPanel,BorderLayout.NORTH);
+        else{
+            addTopMenu(numOfSubjects+1);
+        }
+        marks = model.getMockMarks();
+        for(int i=0;i<numOfSubjects;i++){
+            addMarkPanel(i);
+        }
+
     }
+    //dodac myszke po najehaniu ->klasa wewnetrza?
     private JButton configureMarkButton(int value,int i){
         JButton button = new JButton(String.valueOf(value));
         button.setBorderPainted(false);
@@ -62,12 +45,34 @@ public class Marks extends Page {
     private void editMark(int i){
         EditMarkForm edit = new EditMarkForm(null,marks[i]);
         edit.setVisible(true);
-        /*DbMark editedMark = edit.ge();
-        if(editedMark!=null) {
-            marks[i]=editedMark
-        }*/
+        String[] changesInMark = edit.getData();
+        if(changesInMark!=null) {
+            marks[i].setMark(Integer.valueOf(changesInMark[0]));
+            marks[i].setWeight(Integer.valueOf(changesInMark[1]));
+            marks[i].setType(changesInMark[2]);
+            marks[i].setDescription(changesInMark[3]);
+        }
+        //TODO:ustaw w bazie danuych tez
     }
     private void addTeacherPanel(){
-
+    }
+    private void addMarkPanel(int subjectId){
+        JPanel subjectPanel = new JPanel();
+        JPanel marksPanel = new JPanel();
+        int numOfMarks=0;
+        marksPanel.setLayout(new GridLayout(1,30,5,0));
+        for(int i =0;i<marks.length;i++){
+            if(marks[i].getSubjectID()==subjectId){
+                JButton markButton = configureMarkButton(marks[i].getMark(),i);
+                marksPanel.add(markButton);
+                numOfMarks++;
+            }
+        }
+        for(int j=numOfMarks;j<20;j++){
+            marksPanel.add(new JLabel());
+        }
+        subjectPanel.add(new JLabel("Przedmiot: "),BorderLayout.EAST);
+        subjectPanel.add(marksPanel);
+        this.addSubPanel(subjectPanel,50);
     }
 }

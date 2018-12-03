@@ -9,4 +9,9 @@ public class LoginForm extends Form {
         addTextField("haslo",null);
         addButtons();
     }
+
+    @Override
+    protected boolean checkDataValues() {
+        return super.checkDataValues();
+    }
 }

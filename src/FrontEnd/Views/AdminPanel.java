@@ -10,7 +10,7 @@ public class AdminPanel extends Page {
 
     @Override
     public void createGUI() {
-        addPanel();
+        addTopMenu(1);
         JButton button = new JButton("AdminPanel");
         mainContent.add(button, BorderLayout.NORTH);
     }

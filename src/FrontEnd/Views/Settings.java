@@ -10,7 +10,7 @@ public class Settings extends Page {
 
     @Override
     public void createGUI() {
-        addPanel();
+        addTopMenu(1);
         JButton button = new JButton("Settings");
         mainContent.add(button, BorderLayout.SOUTH);
     }

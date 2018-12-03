@@ -10,7 +10,7 @@ public class Schedule extends Page {
 
     @Override
     public void createGUI() {
-        addPanel();
+        addTopMenu(1);
         JButton button = new JButton("Schedule");
         mainContent.add(button, BorderLayout.NORTH);
     }
