@@ -4,27 +4,28 @@ import java.sql.Statement;
 public class DbGroup {
 
     private int groupID;
+    private String name;
     private int teacherID;
     private int classroomID;
-    private int classLevel;
 
-    private static Connection con = DbConnection.getConnection();
 
     /***********Insert_do_tabeli******************************************************/
-    public DbGroup(int groupID, int teacherID, int classroomID, int classLevel) {
+    public DbGroup(int groupID, String name, int classroomID, int teacherID) {
         this.groupID = groupID;
-        this.teacherID = teacherID;
+        this.name = name;
         this.classroomID = classroomID;
-        this.classLevel = classLevel;
+        this.teacherID = teacherID;
+
         try {
+            Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Klasa"
-                    + "(id_klasy, id_nauczyciela, id_sali, numer) VALUES"
+                    + "(id_klasy, nazwa, id_sali, id_nauczyciela) VALUES"
                     + "(?,?,?,?)";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, this.groupID);
-            preparedStatement.setInt(2, this.teacherID);
+            preparedStatement.setString(2, this.name);
             preparedStatement.setInt(3, this.classroomID);
-            preparedStatement.setInt(4, this.classLevel);
+            preparedStatement.setInt(4, this.teacherID);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -35,28 +36,11 @@ public class DbGroup {
     /******************Delete_z_bazy*****************************************************/
     static void delete(int groupID)
     {
-        try {
-            Statement statement = con.createStatement();
-            statement.execute("Delete from KLASA where ID_klasy="+groupID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     /*****************Getters************************************************************/
-    public int getGroupID() {
-        return groupID;
-    }
 
-    public int getTeacherID() {
-        return teacherID;
-    }
 
-    public int getClassroomID() {
-        return classroomID;
-    }
 
-    public int getClassLevel() {
-        return classLevel;
-    }
 }

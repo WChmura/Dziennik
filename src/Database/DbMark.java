@@ -1,3 +1,4 @@
+
 package Database;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -8,103 +9,88 @@ public class DbMark {
     private int subjectID;
     private int studentID;
     private int teacherID;
-    private SimpleDateFormat date;
-    private String type;
+    private Date date;
     private int mark;
     private int weight;
     private String description;
-    private Connection con = DbConnection.getConnection();
 
-    public DbMark(int markID, int subjectID, int studentID, int teacherID, SimpleDateFormat date, String type, int mark, int weight, String description) {
+    public DbMark(int markID, int subjectID, int studentID, int teacherID, Date date, int mark, int weight, String description) {
         this.markID = markID;
         this.subjectID = subjectID;
         this.studentID = studentID;
         this.teacherID = teacherID;
+        this.date = date;
         this.mark = mark;
         this.weight = weight;
-        this.date = date;
-        this.type = type;
         this.description = description;
-    }
-    /*******************SETTERS*****************************/
 
-    //TODO:[Mateusz]Potrzebowałbym żeby settery mark and weight sprawdzały
-    // czy to co dostają jest liczbą, jak nie to dawały np 0
-    // jak ocena jest wyższa niż 6 mniejsza niż 0 to też niech na cos zamienia
-    public void setMarkID(int markID) {
-        this.markID = markID;
-    }
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "INSERT INTO OCENA"
+                    + "(ID_OCENY, DATA, OCENA, WAGA, OPIS, ID_UCZNIA, ID_NAUCZYCIELA, ID_PRZEDMIOTU) VALUES"
+                    + "(?,?,?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, this.markID);
+            preparedStatement.setDate(2, this.date);
+            preparedStatement.setInt(3, this.mark);
+            preparedStatement.setInt(4, this.weight);
+            preparedStatement.setString(5, this.description);
+            preparedStatement.setInt(6, this.studentID);
+            preparedStatement.setInt(7, this.teacherID);
+            preparedStatement.setInt(8, this.subjectID);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
 
-    public void setSubjectID(int subjectID) {
-        this.subjectID = subjectID;
-    }
-
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
-    }
-
-    public void setTeacherID(int teacherID) {
-        this.teacherID = teacherID;
-    }
-
-    public void setDate(SimpleDateFormat date) {
-        this.date = date;
+        } catch (SQLException e) {
+            System.out.println("Blad, opis ponizej: ");
+            e.printStackTrace();
+        }
     }
 
-    public void setType(String type) {
-        this.type = type;
+
+    /********************EDYCJA OCENY**********************************************/
+    public static void updateMark(int markID, int mark ) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE Ocena set ocena = ? where id_oceny = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, mark);
+            preparedStatement.setInt(2, markID);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setMark(int mark) {
-        this.mark = mark;
+    public static void updateWeight(int markID, int weight) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE Ocena set waga = ? where id_oceny = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, weight);
+            preparedStatement.setInt(2, markID);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public static void updateDescription(int markID, String description) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE Ocena set opis = ? where id_oceny = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, description);
+            preparedStatement.setInt(2, markID);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
-    public void setCon(Connection con) {
-        this.con = con;
-    }
-
-    /*******************GETTERS*****************************/
-    public int getMarkID() {
-        return markID;
-    }
-
-    public int getSubjectID() {
-        return subjectID;
-    }
-
-    public int getStudentID() {
-        return studentID;
-    }
-
-    public int getTeacherID() {
-        return teacherID;
-    }
-
-    public SimpleDateFormat getDate() {
-        return date;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getMark() {
-        return mark;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }
+ 

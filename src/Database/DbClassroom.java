@@ -9,27 +9,34 @@ public class DbClassroom {
     private int numberOfSeats;
     private String type;
     private String specialEquipment;
-    private Connection con = DbConnection.getConnection();
 
 
-    /*************Getters***************************/
-    public int getClassroomID() {
-        return classroomID;
+    public DbClassroom(int classroomID, String name, int numberOfSeats, String type, String specialEquipment) {
+        this.classroomID = classroomID;
+        this.name = name;
+        this.numberOfSeats = numberOfSeats;
+        this.type = type;
+        this.specialEquipment = specialEquipment;
+
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "INSERT INTO SALA"
+                    + "(id_sali, nazwa, ilosc_miejsc, typ, wyposazenie_specjalne) VALUES"
+                    + "(?,?,?,?,?)";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, this.classroomID);
+            preparedStatement.setString(2, this.name);
+            preparedStatement.setInt(3, this.numberOfSeats);
+            preparedStatement.setString(4, this.type);
+            preparedStatement.setString(5, this.specialEquipment);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Blad, opis ponizej: ");
+            e.printStackTrace();
+        }
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public int getNumberOfSeats() {
-        return numberOfSeats;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getSpecialEquipment() {
-        return specialEquipment;
-    }
 }
