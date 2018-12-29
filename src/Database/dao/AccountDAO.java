@@ -1,45 +1,31 @@
-package Database;
-import java.sql.*;
+package Database.dao;
 
-public class DbAccount {
+import Database.C3poDataSource;
+import Database.DbAccount;
+import Database.pojo.Account;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-    private int personID;
-    private String login;
-    private String hash;
-    private int permission;
-    private String mailAddress;
-    private int studentID;
+public class AccountDAO {
 
-    /*******************Zaslepki/do usuniecia**********************/
-    public DbAccount() {
-    }
-    public static DbAccount fetch(String login, String haslo) {
-        DbAccount db = new DbAccount();
-        return db;
-    }
-
-    /********************Insert_do_tabeli***********************/
-    public DbAccount(int personID, String login, String hash, int permission, String mailAddress, int studentID) {
-
-        this.personID = personID;
-        this.login = login;
-        this.hash = hash;
-        this.permission = permission;
-        this.mailAddress = mailAddress;
-        this.studentID = studentID;
-
+    /** Insert do tabeli. Jako parametr przyjmuje obiekt typu Account**/
+    public static void insertAccount(Account acc)
+    {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Konto"
                     + "(id_konta,login, hash, uprawnienia, adres_mail, id_ucznia) VALUES"
                     + "(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, this.personID);
-            preparedStatement.setString(2, this.login);
-            preparedStatement.setString(3, this.hash);
-            preparedStatement.setInt(4, this.permission);
-            preparedStatement.setString(5, this.mailAddress);
-            preparedStatement.setInt(6, this.studentID);
+            preparedStatement.setInt(1, acc.getPersonID());
+            preparedStatement.setString(2, acc.getLogin());
+            preparedStatement.setString(3, acc.getHash());
+            preparedStatement.setInt(4, acc.getPermission());
+            preparedStatement.setString(5, acc.getMailAddress());
+            preparedStatement.setInt(6, acc.getStudentID());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -48,13 +34,14 @@ public class DbAccount {
         }
     }
 
-    /******************Delete_z_bazy*****************************************************/
-    public static void delete(int personID) {
+    /** Delete z bazy **/
+    public static void deleteAccount(Account acc)
+    {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "Delete from KONTO WHERE Id_konta= ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, personID);
+            preparedStatement.setInt(1, acc.getPersonID());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -62,29 +49,30 @@ public class DbAccount {
         }
     }
 
-    /******************Zmiana hash*****************************************************/
-    public static void updatePassword(int personID, String hash) {
+    /** Zmiana hasla w bazie **/
+    public static void updatePassword(Account acc, String hash) {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE konto set hash = ? where id_konta = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, hash);
-            preparedStatement.setInt(2, personID);
+            preparedStatement.setInt(2, acc.getPersonID());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    /******************Zmiana maila*****************************************************/
-    public static void updateMail(String mail, int id) {
+
+
+    /** Zmiana maila w bazie **/
+    public static void updateMail(Account acc, String mail) {
         try {
             Connection con = C3poDataSource.getConnection();
-            Statement statement = con.createStatement();
-            String insertTableSQL = "UPDATE konto Set adres_mail = ? WHERE id_konta = ?";
+            String insertTableSQL = "UPDATE konto set adres_mail = ? where id_konta = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, mail);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, acc.getPersonID());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -92,11 +80,30 @@ public class DbAccount {
         }
     }
 
-
-    /*************** Pawel ***************************/
-    public static DbAccount getAccount(String login, String hash)
+    /** Zwraca liste wszystkich loginow **/
+    public static ArrayList<String> getAllAccounts()
     {
+        ArrayList<String> ListOfLogins = new ArrayList<String>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " Select login from Konto ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next())
+            {
+                ListOfLogins.add(rs.getString("login"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ListOfLogins;
+    }
 
+    /**Zwraca obiekt klasy Account  **/
+    /**Jezeli nie istnieje konto o takim loginie i hashu zwraca null  **/
+    public static Account getAccount(String login, String hash)
+    {
+        Account acc = null;
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Konto where login = ? AND hash = ?";
@@ -104,6 +111,11 @@ public class DbAccount {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, hash);
             ResultSet rs = preparedStatement.executeQuery();
+            if(!rs.isBeforeFirst())
+            {
+                System.out.println("Takie konto nie istnieje");
+                return null;
+            }
 
             int personIDT;
             String loginT;
@@ -111,21 +123,24 @@ public class DbAccount {
             int permissionT;
             String mailAddressT;
             int studentIDT;
-            DbAccount acc1;
             while(rs.next())
             {
-                personIDT=rs.getInt("ID_KONTA");
+                personIDT = rs.getInt("ID_KONTA");
                 loginT=rs.getString("LOGIN");
                 hashT=rs.getString("HASH");
                 permissionT=rs.getInt("UPRAWNIENIA");
                 mailAddressT=rs.getString("ADRES_MAIL");
                 studentIDT=rs.getInt("ID_ucznia");
-                acc1 = new DbAccount(personIDT,loginT,hashT,permissionT,mailAddressT,studentIDT);
-                return acc1;
+                acc = new Account(loginT,hashT,permissionT,mailAddressT,studentIDT);
+                acc.setPersonID(personIDT);
+                return acc;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return acc;
     }
+
+
+
 }

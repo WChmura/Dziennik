@@ -10,6 +10,7 @@ public class DbPresence {
     private int teacherId;
     private int subjectId;
 
+
     public DbPresence(int presenceId, Date date, Integer type, int studentId, int teacherId, int subjectId) {
         if(type == null)
         {
