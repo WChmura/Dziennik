@@ -51,7 +51,7 @@ public class StudentDAO {
         }
     }
 
-    /**********Zmiana danych osobowych*******************************************/
+    /**********Zmiana danych osobowych; Czy potrzeba zmieniac cos wiecej niz adres? **/
     public static void updatePersonalData(Student std, String adress) {
         try {
             Connection con = C3poDataSource.getConnection();
@@ -122,6 +122,40 @@ public class StudentDAO {
         return ListOfMarks;
     }
 
+    /** zwraca obiekt Student z bazy na podstawie id, moze sie przyda **/
+    public static Student getStudent(int id)
+    {
+        Student std= null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Uczen where id_ucznia = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
 
+            int studentID;
+            int groupID;
+            String firstName;
+            String secondName;
+            String adress;
+            String sex;
+            String personal_identity_number;
+            while(rs.next())
+            {
+                studentID = rs.getInt("ID_ucznia");
+                groupID = rs.getInt("Id_klasy");
+                firstName = rs.getString("Imie");
+                secondName = rs.getString("nazwisko");
+                adress = rs.getString("adres");
+                sex = rs.getString("plec");
+                personal_identity_number = rs.getString("Pesel");
+                std = new Student(groupID,firstName,secondName,adress,sex,personal_identity_number);
+                std.setStudentID(studentID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return std;
+    }
 
 }

@@ -116,7 +116,6 @@ public class AccountDAO {
                 System.out.println("Takie konto nie istnieje");
                 return null;
             }
-
             int personIDT;
             String loginT;
             String hashT;
@@ -142,5 +141,38 @@ public class AccountDAO {
     }
 
 
+    /** zwraca obiekt Account z bazy na podstawie id, moze sie przyda **/
+    public static Account getAccount(int id)
+    {
+        Account acc = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Konto where id_konta = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
 
+            int personIDT;
+            String loginT;
+            String hashT;
+            int permissionT;
+            String mailAddressT;
+            int studentIDT;
+            while(rs.next())
+            {
+                personIDT = rs.getInt("ID_KONTA");
+                loginT=rs.getString("LOGIN");
+                hashT=rs.getString("HASH");
+                permissionT=rs.getInt("UPRAWNIENIA");
+                mailAddressT=rs.getString("ADRES_MAIL");
+                studentIDT=rs.getInt("ID_ucznia");
+                acc = new Account(loginT,hashT,permissionT,mailAddressT,studentIDT);
+                acc.setPersonID(personIDT);
+                return acc;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return acc;
+    }
 }

@@ -14,6 +14,7 @@ public class Mark {
     private String description;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
 
+
     public Mark(int subjectID, int studentID, int teacherID, Date date, int mark, int weight, String description) {
         this.markID = ID_GENERATOR.getAndIncrement();
         this.subjectID = subjectID;

@@ -6,10 +6,12 @@ import Database.pojo.Subject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SubjectDAO {
 
+    /*** Insert do bazy ****/
     public static void insertSubject(Subject sub)
     {
         try {
@@ -27,5 +29,34 @@ public class SubjectDAO {
             e.printStackTrace();
         }
     }
+
+    /** zwraca obiekt Przedmiot z bazy na podstawie id, moze sie przyda **/
+    public static Subject getSubject(int id)
+    {
+        Subject sub = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Przedmiot where id_przedmiotu = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int subjectID;
+            String name;
+            while(rs.next())
+            {
+                subjectID = rs.getInt("id_przedmiotu");
+                name = rs.getString("nazwa");
+                sub = new Subject(name);
+                sub.setSubjectID(subjectID);
+                return sub;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sub;
+    }
+
+
 
 }

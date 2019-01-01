@@ -8,7 +8,7 @@ public class Teacher {
     private String firstName;
     private String secondName;
     private String degree;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1060);
 
     public Teacher(String firstName, String secondName, String degree) {
         this.teacherID = ID_GENERATOR.getAndIncrement();

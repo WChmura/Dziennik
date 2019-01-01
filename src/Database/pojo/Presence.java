@@ -7,6 +7,7 @@ public class Presence {
 
     private int presenceId;
     private Date date;
+    /** 0-obecnosc, 1-nieobecnosc **/
     private Integer type;
     private int studentId;
     private int teacherId;

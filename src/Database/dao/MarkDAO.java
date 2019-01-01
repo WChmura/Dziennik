@@ -3,12 +3,11 @@ package Database.dao;
 import Database.C3poDataSource;
 import Database.pojo.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class MarkDAO {
 
+    /** Insert do bazy **/
     public static void insertMark(Mark mark)
     {
         try {
@@ -49,7 +48,7 @@ public class MarkDAO {
             e.printStackTrace();
         }
     }
-
+    /** Edycja wagi oceny w bazie **/
     public static void changeWeight(Mark mar, int weight) {
         try {
             Connection con = C3poDataSource.getConnection();
@@ -64,6 +63,7 @@ public class MarkDAO {
         }
     }
 
+    /** Edycja opisu w bazie **/
     public static void changeDescription(Mark mar, String description) {
         try {
             Connection con = C3poDataSource.getConnection();
@@ -76,6 +76,44 @@ public class MarkDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /** zwraca obiekt Ocena z bazy na podstawie id, moze sie przyda **/
+    public static Mark getMark(int id)
+    {
+        Mark mar = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Ocena where id_oceny = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int markID;
+            int subjectID;
+            int studentID;
+            int teacherID;
+            Date date;
+            int mark;
+            int weight;
+            String description;
+            while(rs.next()) {
+                markID = rs.getInt("id_oceny");
+                subjectID = rs.getInt("id_przedmiotu");
+                studentID = rs.getInt("id_ucznia");
+                teacherID = rs.getInt("id_nauczyciela");
+                date = rs.getDate("data");
+                mark = rs.getInt("ocena");
+                weight = rs.getInt("waga");
+                description = rs.getString("opis");
+                mar = new Mark(subjectID,studentID,teacherID,date,mark,weight,description);
+                mar.setMarkID(markID);
+                return mar;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mar;
     }
 
 
