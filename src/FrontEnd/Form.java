@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -8,10 +9,10 @@ import javax.swing.*;
 public class Form extends JDialog {
     private String[] data;
     protected ArrayList<JTextField> input = new ArrayList<>();
+    private ArrayList<String> comboBoxScores = new ArrayList<>();
     public Form(Frame owner, String title) {
         super(owner, title, true);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
-
         pack();
     }
 
@@ -29,22 +30,32 @@ public class Form extends JDialog {
         input.add(textField);
         this.repaint();
     }
+    protected void addComboBox(String title,String answers[]){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1,2));
+        JLabel label = new JLabel(title);
+        final JComboBox<String> comboBox = new JComboBox<>(answers);
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String score = (String)comboBox.getSelectedItem();
+                comboBoxScores.add(score);
+            }
+        });
+        panel.add(label);
+        panel.add(comboBox);
+        getContentPane().add(panel);
+
+        this.repaint();
+    }
     protected void addButtons()
     {
         JPanel btnPanel = new JPanel();
         JButton okBtn   = new JButton("Wyslij");
         JButton noBtn   = new JButton("Anuluj");
         btnPanel.add(okBtn);
-        okBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent ae) {
-                okButton();
-            }
-        });
-        noBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent ae) {
-                noButton();
-            }
-        });
+        okBtn.addActionListener(ae -> okButton());
+        noBtn.addActionListener(ae -> noButton());
         btnPanel.add(noBtn);
         getContentPane().add(btnPanel,BorderLayout.PAGE_END);
         super.setSize(300,100+(30*input.size()));
@@ -52,22 +63,23 @@ public class Form extends JDialog {
     }
     private void okButton() {
         if(!checkDataValues()){
-            //TODO: sprawdz czy dobrze
             if(wrongValuesMessage()){
-                data = new String[input.size()];
-                for (int i = 0; i < input.size(); i++)
-                    data[i] = input.get(i).getText();
-                setVisible(false);
+                getDataValues();
             }
         }
         else {
-            data = new String[input.size()];
-            for (int i = 0; i < input.size(); i++)
-                data[i] = input.get(i).getText();
-            setVisible(false);
+            getDataValues();
         }
     }
-
+    private void getDataValues(){
+        //TODO: sprawdzic
+        data = new String[input.size()+comboBoxScores.size()];
+        for (int i = 0; i < input.size(); i++)
+            data[i] = input.get(i).getText();
+        for(int i= input.size();i<input.size()+comboBoxScores.size();i++)
+            data[i] = comboBoxScores.get(i-input.size());
+        setVisible(false);
+    }
     private void noButton() {
         input = null;
         setVisible(false);

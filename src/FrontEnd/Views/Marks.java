@@ -3,6 +3,7 @@ package FrontEnd.Views;
 import Common.MockModel;
 import Common.UserType;
 import Database.DbMark;
+import FrontEnd.Colors;
 import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Page;
 import com.sun.deploy.panel.JavaPanel;
@@ -36,9 +37,7 @@ public class Marks extends Page {
         button.setBorderPainted(false);
         button.setBackground(Color.white);
         if(MockModel.userType==UserType.teacher){
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent ae) { editMark(i); }
-            });
+            button.addActionListener(ae -> editMark(i));
         }
         return button;
     }
@@ -47,19 +46,30 @@ public class Marks extends Page {
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
-            marks[i].setMark(Integer.valueOf(changesInMark[0]));
-            marks[i].setWeight(Integer.valueOf(changesInMark[1]));
-            marks[i].setType(changesInMark[2]);
-            marks[i].setDescription(changesInMark[3]);
+            DbMark.updateMark(marks[i].getMarkID(),Integer.valueOf(changesInMark[0]));
+            DbMark.updateWeight(marks[i].getMarkID(),Integer.valueOf(changesInMark[1]));
+            DbMark.updateDescription(marks[i].getMarkID(),changesInMark[2]);
         }
-        //TODO:ustaw w bazie danuych tez
     }
     private void addTeacherPanel(){
+        JPanel teacherPanel = new JPanel();
+        String[] s = model.getStudentsList();
+        final JComboBox<String> comboBox = new JComboBox<>(s);
+        comboBox.addActionListener(e -> {
+            String studentName = (String)comboBox.getSelectedItem();
+            System.out.println(studentName);
+            //TODO;dodac zmiane studneta
+        });
+        teacherPanel.add(comboBox,BorderLayout.EAST);
+        this.addSubPanel(teacherPanel,30);
     }
     private void addMarkPanel(int subjectId){
         JPanel subjectPanel = new JPanel();
         JPanel marksPanel = new JPanel();
+        subjectPanel.setBackground(Colors.main);
+        marksPanel.setBackground(Colors.main);
         int numOfMarks=0;
+        //TODO: cos zeby sie nie rozlatywalo jak nie masz ocenki
         marksPanel.setLayout(new GridLayout(1,30,5,0));
         for(int i =0;i<marks.length;i++){
             if(marks[i].getSubjectID()==subjectId){

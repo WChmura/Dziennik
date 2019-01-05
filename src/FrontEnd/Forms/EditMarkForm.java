@@ -13,7 +13,6 @@ public class EditMarkForm extends Form {
         this.mark=mark;
         addTextField("Ocena:",String.valueOf(mark.getMark()));
         addTextField("Waga:",String.valueOf(mark.getWeight()));
-        addTextField("Typ:",mark.getType());
         addTextField("Opis:,",mark.getDescription());
         addButtons();
     }

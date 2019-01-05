@@ -32,7 +32,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         this.appletContext = appletContext;
         this.mockModel = mockModel;
         JPanel panel = new JPanel(new GridLayout(1,8));
-        panel.setBackground(Color.white);
+        panel.setBackground(Colors.topPanelbackground);
         JButton marksButton = configureButton(marksText);
         panel.add(marksButton);
 
@@ -141,8 +141,8 @@ public class TopPanel extends JMenuBar implements ActionListener {
             }
         }
     }
-    private void goToPage(String link){
-        link+="?_ijt=9920l7o5t4tqun41qmbt182ehk";
+    public void goToPage(String link){
+        link+="?_ijt=cu41sp7r2pc0iqql4cmct3337v";
         try {
             URL u = new URL(link);
             appletContext.showDocument(u,"_self");
@@ -159,9 +159,6 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 "Jestes pewien?",
                 "",
                 JOptionPane.YES_NO_OPTION);
-        if(n==1)
-            return false;
-        else
-            return true;
+        return n != 1;
     }
 }
