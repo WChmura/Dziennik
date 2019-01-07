@@ -1,17 +1,11 @@
 package FrontEnd.Views;
 
 import Common.AttendanceValues;
-import Common.UserType;
-import Database.DbMark;
-import Database.DbStudent;
-import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Forms.NewMarkForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Lesson extends Page{
     //to potrzebuje - tylko dla nauczycieli i adminów

@@ -1,8 +1,5 @@
 package Models;
 
-import Database.DbAccount;
-import FrontEnd.Views.WelcomePage;
-
 public class Authentication extends Model {
 
     private String hash(String password) {
@@ -11,7 +8,7 @@ public class Authentication extends Model {
     }
 
     public void logIn(String username, String password) {
-        Database.DbAccount account = Database.DbAccount.fetch(username, hash(password));
+        //Database.DbAccount account = Database.DbAccount.fetch(username, hash(password));
         /*if (account) {
             this.account = account;
         }

@@ -2,17 +2,12 @@ package FrontEnd.Views;
 
 import Common.MockModel;
 import Common.UserType;
-import Database.DbMark;
-import Database.pojo.Mark;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Page;
-import com.sun.deploy.panel.JavaPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class Marks extends Page {
     //To potrzebuje
@@ -52,9 +47,7 @@ public class Marks extends Page {
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
-            DbMark.updateMark(marks[i].getMarkID(),Integer.valueOf(changesInMark[0]));
-            DbMark.updateWeight(marks[i].getMarkID(),Integer.valueOf(changesInMark[1]));
-            DbMark.updateDescription(marks[i].getMarkID(),changesInMark[2]);
+            //TODO;dodac zmiane oceny
         }
     }
     private void addTeacherPanel(){

@@ -1,8 +1,5 @@
 package Models;
 
-import Database.DbStudent;
-import FrontEnd.Views.PersonalData;
-
 public class StudentPanel extends Model {
 
     /*public void showPersonalData(int studentID) {

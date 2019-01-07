@@ -4,14 +4,12 @@ import Common.AttendanceValues;
 import Common.DaysOfWeek;
 import Common.MockModel;
 import Common.UserType;
-import Database.DbPresence;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditAttendanceForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
@@ -144,7 +142,7 @@ public class Attendance extends Page {
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
-            DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),Integer.valueOf(changesInMark[0]));
+            //DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),Integer.valueOf(changesInMark[0]));
         }
     }
 
@@ -154,8 +152,8 @@ public class Attendance extends Page {
                 "Czy chcesz usprawiedliwic nieobecnosc?",
                 "",
                 JOptionPane.YES_NO_OPTION);
-        if(n==1)
-            DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),2);
+        //if(n==1)
+            //DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),2);
     }
 
     private void setAttendanceValues(){

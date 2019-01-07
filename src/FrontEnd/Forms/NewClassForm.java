@@ -4,14 +4,13 @@ import FrontEnd.Form;
 
 import java.awt.*;
 
-public class NewMarkForm extends Form {
+public class NewClassForm extends Form {
 
-    public NewMarkForm(Frame frame, String studentId) {
-        super(frame,"Edycja obecnosci");
-        addTextField("Student ID:",studentId);
-        addTextField("Ocena:",null);
-        addTextField("Waga:",null);
-        addTextField("Opis:",null);
+    public NewClassForm(Frame frame) {
+        super(frame,"Nowa klasa");
+        addTextField("Nazwa:",null);
+        addTextField("Id_nauczyciela:",null);
+        addTextField("Numer Klasy:",null);
         addButtons();
     }
     @Override

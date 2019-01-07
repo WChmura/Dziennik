@@ -1,10 +1,7 @@
 package Common;
 
-import Database.DbMark;
-import Database.DbPresence;
-import Database.DbStudent;
-
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MockModel {
@@ -53,35 +50,31 @@ public class MockModel {
         }
         return false;
     }
-    public DbMark[] getMockMarks(){
-        DbMark[] marks = new DbMark[20];
+    public Database.pojo.Mark[] getMockMarks(){
+        Database.pojo.Mark[] marks = new Database.pojo.Mark[20];
         for(int i=0;i<20;i++){
             marks[i]=addRandomMark();
         }
         return marks;
     }
-    private DbMark addRandomMark(){
-        return new DbMark(r.nextInt(1000),r.nextInt(5),17,r.nextInt(5),
-                new Date(2000,5,1),r.nextInt(6)+1,1,"opis");
+    private Database.pojo.Mark addRandomMark(){
+        return new Database.pojo.Mark(r.nextInt(5),5,5,new Date(1,1,1),r.nextInt(5)+1,1,"ocenka");
     }
-    public DbPresence[][] getMockAttendances(int startWeek, int numOfweeks){
-        DbPresence[][] attendances = new DbPresence[numOfweeks][35];
-        for(int i=0;i<numOfweeks;i++){
-            for(int j=0;j<35;j++){
-                attendances[i][j]= new DbPresence(r.nextInt(1000),new Date(1999,2,23),1,1,1,1);
-            }
-        }
+    public Database.pojo.Presence[][] getMockAttendances(int startWeek, int numOfweeks){
+        Database.pojo.Presence[][] attendances = new Database.pojo.Presence[numOfweeks][35];
+        for(int i=0;i<numOfweeks;i++)
+            for(int j=0;j<35;j++)
+                attendances[i][j]= new Database.pojo.Presence(new Date(1,1,1),1,1,1,1);
         return attendances;
     }
     public String[] getStudentsList(){
 
         return names;
     }
-    public DbStudent[] getMockStudents(){
-        DbStudent[] score = new DbStudent[3];
+    public Database.pojo.Student[] getMockStudents(){
+        Database.pojo.Student[] score = new Database.pojo.Student[3];
         for(int i=0;i<3;i++){
-            score[i]=new DbStudent(r.nextInt(1000),r.nextInt(1000),"Jan",names[i],"Krakow",
-                    "m",String.valueOf(r.nextInt(1000)));
+            score[i]=new Database.pojo.Student(1,"anon",String.valueOf(i),"Krakow","m","1");
         }
         return score;
     }
@@ -91,6 +84,14 @@ public class MockModel {
     }
     public String[] getClassList(){
         String score [] = {"I A", "II A", "III A","IV A","V A","VI A","VII A","VIII A"};
+        return score;
+    }
+    public String[][] getStudentsByClasses(){
+        String[][] score = new String[8][10];
+        for(int i=0;i<8;i++){
+            for(int j =0;j<10;j++)
+                score[i][j]=(String.valueOf((i*10)+j));
+        }
         return score;
     }
     public int getNumOfLessons(){

@@ -47,5 +47,9 @@ public abstract class Page extends JApplet {
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel);
     }
+    protected void addEmptyPanel(int height){
+        JPanel panel = new JPanel();
+        this.addSubPanel(panel,height);
+    }
     public abstract void createGUI();
 }

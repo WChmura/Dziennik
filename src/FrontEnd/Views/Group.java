@@ -2,7 +2,6 @@ package FrontEnd.Views;
 
 import Common.MockModel;
 import Common.UserType;
-import Database.DbStudent;
 import FrontEnd.Page;
 
 import javax.swing.*;

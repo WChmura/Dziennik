@@ -1,7 +1,6 @@
 package Database.dao;
 
 import Database.C3poDataSource;
-import Database.DbAccount;
 import Database.pojo.Account;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
