@@ -1,21 +1,33 @@
 package FrontEnd.Views;
 
 import Common.AttendanceValues;
+import Common.DaysOfWeek;
 import Common.MockModel;
 import Common.UserType;
-import Database.DbMark;
+import Database.DbPresence;
 import FrontEnd.Colors;
+import FrontEnd.Forms.EditAttendanceForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 
 public class Attendance extends Page {
-    private int numOfWeeksShowed=2;
-    private AttendanceValues[][] attendanceValues;
-    private JButton[][] attendanceButtons;
+    //to potrzebuje - wszystko dla wszystkich
+    private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
+    private Database.pojo.Presence[][] attendances;//obecności
+    private AttendanceValues[][] attendanceValues;//obecności ob/niob/usp ->prztłumaczone na enum, ewt zmiana na int i tylko wyciągnięte
+    // + metoda do zmiany typu obecności <- nauczyciele i rodzice
+    private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
+
+    //tego juz nie
     private int numOfLessons;
+    private Date startDate = new Date(2008,5,1);
+    private Date endDate = new Date(2008,5,15);
+    private int startWeek =0;
     @Override
     public void createGUI() {
         if(MockModel.getUserType()==UserType.teacher){
@@ -25,15 +37,16 @@ public class Attendance extends Page {
         else{
             addTopMenu(numOfWeeksShowed+2);
         }
-        attendanceValues = model.getAttendanceValues(numOfWeeksShowed,0);
-        numOfLessons=attendanceValues[0].length;
-        attendanceButtons = new JButton[numOfWeeksShowed][numOfLessons];
+        //attendances = model.getMockAttendances(startWeek,numOfWeeksShowed);
+        numOfLessons = model.getNumOfLessons();
+        setAttendanceValues();
         addLabelsPanel();
         for(int i=0;i<numOfWeeksShowed;i++){
             addWeekPanel(i);
         }
         addChangeWeekPanel();
     }
+
     private JButton configureAttendanceButton(AttendanceValues value,int week,int lesson){
         JButton button = new JButton("xD");
         switch (value){
@@ -51,46 +64,106 @@ public class Attendance extends Page {
                 break;
                 default:
         }
-        attendanceButtons[week][lesson]=button;
-        System.out.println(button.getText());
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
         if(MockModel.userType==UserType.teacher){
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent ae) { editAttendance(week,lesson); }
-            });
+            button.addActionListener(ae -> editAttendance(week,lesson));
         }
         if(MockModel.userType==UserType.parent&&value==AttendanceValues.absent){
-            button.addActionListener(new ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent ae) { justifyAbsention(week,lesson); }
-            });
+            button.addActionListener(ae -> justifyAbsention(week,lesson));
         }
         return button;
     }
+
     private void addTeacherPanel(){
+        JPanel teacherPanel = new JPanel();
+        String[] s = model.getStudentsList();
+        final JComboBox<String> comboBox = new JComboBox<>(s);
+        comboBox.addActionListener(e -> {
+            String studentName = (String)comboBox.getSelectedItem();
+            //TODO:reakcja na zmianę ucznia
+        });
+        teacherPanel.add(comboBox,BorderLayout.EAST);
+        this.addSubPanel(teacherPanel,30);
     }
+
     private void addLabelsPanel(){
+        int lesson =1;
+        int day =0;
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new GridLayout(1,numOfLessons,5,0));
+        for(int i=0;i<numOfLessons;i++){
+            JLabel label;
+            if(attendanceValues[0][i]==null){
+                label = new JLabel(DaysOfWeek.dayName[day++]);
+                lesson=1;
+            }
+            else {
+                label = new JLabel(String.valueOf(lesson++));
+            }
+            label.setHorizontalAlignment(JLabel.CENTER);
+            labelPanel.add(label);
+        }
+        this.addSubPanel(labelPanel,30);
     }
+
     private void addWeekPanel(int week){
         JPanel weekPanel = new JPanel();
         weekPanel.setLayout(new GridLayout(1,numOfLessons,5,0));
         for(int i=0;i<numOfLessons;i++){
-            JButton button;
+            JComponent component;
             if(attendanceValues[week][i]!=null)
-               button = configureAttendanceButton(attendanceValues[week][i],week,i);
+               component = configureAttendanceButton(attendanceValues[week][i],week,i);
             else
-                button = new JButton(" ");
-            weekPanel.add(button);
+                component = new JLabel(" ");
+            weekPanel.add(component);
         }
         this.addSubPanel(weekPanel,50);
     }
+
     private void addChangeWeekPanel(){
-
+        JPanel changeWeekPanel = new JPanel();
+        String dateText = "Pokazywany okres od "+startDate.toString()+" do "+endDate.toString();
+        JLabel label = new JLabel(dateText);
+        changeWeekPanel.add(label,BorderLayout.CENTER);
+        JButton button = new JButton("Pokaz wczesniejszy okres");
+        button.setBorderPainted(false);
+        button.setMargin(new Insets(0,0,0,0));
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                //TODO:reakcja na zmianę
+            }
+        });
+        changeWeekPanel.add(button,BorderLayout.EAST);
+        this.addSubPanel(changeWeekPanel,50);
     }
+
     private void editAttendance(int week, int lesson){
-
+        System.out.println("edit attendance");
+        EditAttendanceForm edit = new EditAttendanceForm(null,attendances[week][lesson]);
+        edit.setVisible(true);
+        String[] changesInMark = edit.getData();
+        if(changesInMark!=null) {
+            DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),Integer.valueOf(changesInMark[0]));
+        }
     }
-    private void justifyAbsention(int week, int lesson){
 
+    private void justifyAbsention(int week, int lesson){
+        int n = JOptionPane.showConfirmDialog(
+                this,
+                "Czy chcesz usprawiedliwic nieobecnosc?",
+                "",
+                JOptionPane.YES_NO_OPTION);
+        if(n==1)
+            DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),2);
+    }
+
+    private void setAttendanceValues(){
+        //nie będzie w koncowej wersji
+        AttendanceValues[] values = model.getAttendanceValues();
+        attendanceValues = new AttendanceValues[numOfWeeksShowed][numOfLessons];
+        for(int i=1;i<numOfLessons;i++){
+            attendanceValues[0][i]= attendanceValues[1][i]=values[i];
+        }
     }
 }

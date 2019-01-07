@@ -7,9 +7,10 @@ import java.awt.*;
 
 public abstract class Page extends JApplet {
     protected JPanel mainContent;
-    protected JPanel mainPanel;
+    private JPanel mainPanel;
     protected static MockModel model;
-    protected int numOfSubPanels;
+    protected TopPanel topPanel;
+
     public void init() {
         if(model==null) {
             model = new MockModel();
@@ -25,9 +26,10 @@ public abstract class Page extends JApplet {
         }
     }
     protected void addTopMenu(int numOfPanels){
-        this.numOfSubPanels = numOfPanels;
-        TopPanel topPanel = new TopPanel(this.getAppletContext(), model);
+        topPanel = new TopPanel(this.getAppletContext(), model);
         this.setJMenuBar(topPanel);
+        this.setBackground(Colors.background);
+        //this.setForeground(Colors.background);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());
         mainContent.setOpaque(true);
@@ -35,12 +37,14 @@ public abstract class Page extends JApplet {
         setContentPane(mainContent);
 
         mainPanel = new JPanel();
+        mainPanel.setBackground(Colors.main);
         mainPanel.setSize(mainContent.getWidth(),mainContent.getHeight());
-        mainPanel.setLayout(new GridLayout(numOfSubPanels,1,0,5));
+        mainPanel.setLayout(new GridLayout(numOfPanels,1,0,5));
         mainContent.add(mainPanel,BorderLayout.NORTH);
     }
     protected void addSubPanel(JPanel subPanel,int height){
         subPanel.setSize(mainPanel.getWidth(),height);
+        subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel);
     }
     public abstract void createGUI();

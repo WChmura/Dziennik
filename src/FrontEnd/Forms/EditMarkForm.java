@@ -7,13 +7,12 @@ import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.*;
 
 public class EditMarkForm extends Form {
-    DbMark mark;
-    public EditMarkForm(Frame frame,DbMark mark) {
+    Database.pojo.Mark mark;
+    public EditMarkForm(Frame frame,Database.pojo.Mark mark) {
         super(frame,"Edycja oceny");
         this.mark=mark;
         addTextField("Ocena:",String.valueOf(mark.getMark()));
         addTextField("Waga:",String.valueOf(mark.getWeight()));
-        addTextField("Typ:",mark.getType());
         addTextField("Opis:,",mark.getDescription());
         addButtons();
     }
