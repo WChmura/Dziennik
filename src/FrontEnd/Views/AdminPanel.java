@@ -1,16 +1,32 @@
 package FrontEnd.Views;
 
+import Common.MockModel;
 import Database.DbAccount;
 import FrontEnd.Colors;
 import FrontEnd.Forms.NewUserForm;
 import FrontEnd.Page;
+import Models.StudentPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AdminPanel extends Page implements ActionListener {
-    private String [] allUsersNames;
+    //to potrzebuje - wszystko tylko dla Admina
+    private String [] allUsersNames;//loginy wszystkich użytkowników
+    private String [] classNames;//nazwy wszystkich klas
+    private ArrayList<String>[] studentsByClasses;//uczniowie według klas
+    /*metody do:
+    - dodawania user do bazy danych
+    - zmieniania hasła
+    - usuwania user z bazy
+    - dodawnia klasy
+    - usuwania klasy
+    - przenoszenia ucznia do innej klasy
+     */
+
     private JList<String> userList;
     @Override
     public void createGUI() {
@@ -79,6 +95,7 @@ public class AdminPanel extends Page implements ActionListener {
                 //TODO:dopisanie wywalania z bazy
                 break;
             case "personalData":
+                System.out.println("personalData");
                 //TODO:dopisanie otwierania danych
                 break;
             default:

@@ -16,13 +16,17 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 
 public class Attendance extends Page {
-    private int numOfWeeksShowed=2;
-    private int startWeek =0;
-    private AttendanceValues[][] attendanceValues;
-    private DbPresence[][] attendances;
+    //to potrzebuje - wszystko dla wszystkich
+    private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
+    private Database.pojo.Presence[][] attendances;//obecności
+    private AttendanceValues[][] attendanceValues;//obecności ob/niob/usp ->prztłumaczone na enum, ewt zmiana na int i tylko wyciągnięte
+    // + metoda do zmiany typu obecności
+    private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
+
     private int numOfLessons;
     private Date startDate = new Date(2008,5,1);
     private Date endDate = new Date(2008,5,15);
+    private int startWeek =0;
     @Override
     public void createGUI() {
         if(MockModel.getUserType()==UserType.teacher){
@@ -32,7 +36,7 @@ public class Attendance extends Page {
         else{
             addTopMenu(numOfWeeksShowed+2);
         }
-        attendances = model.getMockAttendances(startWeek,numOfWeeksShowed);
+        //attendances = model.getMockAttendances(startWeek,numOfWeeksShowed);
         numOfLessons = model.getNumOfLessons();
         setAttendanceValues();
         addLabelsPanel();

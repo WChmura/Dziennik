@@ -1,24 +1,34 @@
 package Models;
 
-/*import Database.DbStudent;
+import Database.DbStudent;
 import FrontEnd.Views.PersonalData;
 
 public class StudentPanel extends Model {
-    public void showPersonalData(int studentID) {
-        FrontEnd.Views.PersonalData view = new FrontEnd.Views.PersonalData();
 
-        Database.DbStudent student = Database.DbStudent.fetch(studentID);
-        if (student) {
-            view.firstName = student.getFirstName();
-            view.lastName = student.getSecondName();
-            view.groupName = "Nazwa grupy";
+    /*public void showPersonalData(int studentID) {
+
+        FrontEnd.Views.PersonalData view = new FrontEnd.Views.PersonalData();
+        //Database.DbStudent student = Database.DbStudent.fetch(studentID);
+        if (student!=null) {
+            /*view.setFirstName = student.getFirstName();
+            view.setLastName = student.getSecondName();
+            view.setAdress = student.getAdress();
         }
         else view.error = "Nie znaleziono ucznia";
 
         showPage(view);
     }
 
-    public void showPersonalData() {
+    public String getFirstName(){
+
+    }
+    public String getAdress(){
+
+    }
+    public String getSecondName(){
+
+    }*/
+    /*public void showPersonalData() {
         // TODO: complete
         if (this.account.getPermission() == "STUDENT") {
             // showPersonalData(this.account.getStudentID());
@@ -67,5 +77,5 @@ public class StudentPanel extends Model {
         else view.error = "Nie znaleziono konta";
 
         showPage(view);
-    }
-}*/
+    }*/
+}

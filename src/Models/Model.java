@@ -7,6 +7,6 @@ public abstract class Model {
     DbAccount account;
 
     public void showPage(FrontEnd.Page page) {
-        page.createGUI();
+        page.init();
     }
 }
