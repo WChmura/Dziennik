@@ -3,6 +3,7 @@ package FrontEnd.Views;
 import Common.MockModel;
 import Common.UserType;
 import Database.DbMark;
+import Database.pojo.Mark;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Page;
@@ -14,8 +15,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Marks extends Page {
-    private int numOfSubjects=5;
-    private DbMark[] marks;
+    //To potrzebuje
+    private int numOfSubjects=5;//ile ten konkrenty uczen ma przedmiotow
+    private Database.pojo.Mark[] marks; // wszystkie jego ocenki
+    // + metoda do zmiany oceny, ja podaje cale pojo.Mark <- tylko dla nauczycieli
+    private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
+
+    //to już nie
     @Override
     public void createGUI() {
         if(MockModel.getUserType()==UserType.teacher){
@@ -25,7 +31,7 @@ public class Marks extends Page {
         else{
             addTopMenu(numOfSubjects+1);
         }
-        marks = model.getMockMarks();
+        //marks = model.getMockMarks();
         for(int i=0;i<numOfSubjects;i++){
             addMarkPanel(i);
         }

@@ -7,7 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Settings extends Page {
-
+    //to potrzebuje
+    //metodka na zmiane hasła (własnego)
     @Override
     public void createGUI() {
         addTopMenu(1);

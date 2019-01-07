@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WelcomePage extends Page {
-
+    //tu mi nic nie trzeba
     @Override
     public void createGUI() {
         addTopMenu(1);

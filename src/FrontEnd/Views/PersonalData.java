@@ -1,24 +1,19 @@
 package FrontEnd.Views;
 
-import Common.UserType;
 import FrontEnd.Page;
-import Models.StudentPanel;
-
 import javax.swing.*;
-import java.awt.*;
 
 public class PersonalData extends Page {
-    // podajesz model który obsługuje ten widok
-    private StudentPanel model = new StudentPanel();
 
-    // tutaj podaj pola, które potrzebujesz do tego widoku:
     public String error;
+    //To potrzebuje
     private String firstName;
     private String secondName;
     private String adress;
     private String sex;
     private String personal_identity_number;
-    // w momencie wywołania createGUI będą one zapełnione przez któryś z moich modeli
+    //+metodki do zmiany tego
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

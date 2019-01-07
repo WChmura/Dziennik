@@ -14,14 +14,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Lesson extends Page{
-    DbStudent students[];
+    //to potrzebuje - tylko dla nauczycieli i adminów
+    private String students[];//imiona i nazwiska studentów
+    private String groupName; //nazwa klasy
+    private String allGroupsNames[]; //nazwy wszystkich klas - tylko dla adminów
+    //+ metodki
+    // na dodawanie nowej ocenki
+    // taka co jest dam tablice czy uczen byl obecny, a ona to wbije do bazy
+
+    //to już nie
     AttendanceValues attendances[];
     int numOfStudents;
     int lessonId;
     int teacherId;
     @Override
     public void createGUI() {
-        students = model.getMockStudents();
+        //students = model.getMockStudents();
         numOfStudents = students.length;
         attendances = new AttendanceValues[numOfStudents];
         addTopMenu(numOfStudents+2);
@@ -34,9 +42,8 @@ public class Lesson extends Page{
 
     private void addStudentPanel(int number) {
         JPanel studentPanel = new JPanel(new GridLayout(1,10,10,0));
-        String name = students[number].getFirstName()+" "+students[number].getSecondName();
         studentPanel.add(new JLabel(" "));
-        studentPanel.add(new JLabel(name));
+        studentPanel.add(new JLabel(students[number]));
 
         JButton markButton = new JButton("Dodaj ocene");
         markButton.addActionListener(ae -> addMark(number));

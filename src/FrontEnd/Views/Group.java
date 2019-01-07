@@ -11,13 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Group extends Page implements ActionListener {
-    DbStudent students[];
+    //to potrzebuje - tylko dla nauczycieli i adminów
+    private String students[];//imiona i nazwiska studentów
+    private String groupName; //nazwa klasy
+    private String allGroupsNames[]; //nazwy wszystkich kls - tylko dla adminów
+
+    //tego juz nie
     int numOfStudents;
-    String className;
+
     @Override
     public void createGUI() {
-        className = model.getClassName();
-        students = model.getMockStudents();
+        groupName = model.getClassName();
+        //students = model.getMockStudents();
         numOfStudents = 3;
         if(MockModel.getUserType()== UserType.admin){
             System.out.println("admin");
@@ -46,9 +51,8 @@ public class Group extends Page implements ActionListener {
     }
     private void addStudentPanel(int number){
         JPanel studentPanel = new JPanel(new GridLayout(1,10,10,0));
-        String name = students[number].getFirstName()+" "+students[number].getSecondName();
         studentPanel.add(new JLabel(" "));
-        studentPanel.add(new JLabel(name));
+        studentPanel.add(new JLabel(students[number]));
         JButton marksButton = new JButton("Pokaz oceny");
         JButton attendanceButton = new JButton("Pokaz obecnosci");
         JButton personalButton = new JButton("Pokaz dane");
@@ -75,7 +79,7 @@ public class Group extends Page implements ActionListener {
     private void addGroupNamePanel(){
         JPanel classPanel = new JPanel(new GridLayout(1,10));
         classPanel.add(new JLabel(" "));
-        classPanel.add(new JLabel("Klasa " + className));
+        classPanel.add(new JLabel("Klasa " + groupName));
         for(int i=0;i<8;i++){
             classPanel.add(new JLabel(" "));
         }

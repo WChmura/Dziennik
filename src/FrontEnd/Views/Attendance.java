@@ -20,9 +20,10 @@ public class Attendance extends Page {
     private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
     private Database.pojo.Presence[][] attendances;//obecności
     private AttendanceValues[][] attendanceValues;//obecności ob/niob/usp ->prztłumaczone na enum, ewt zmiana na int i tylko wyciągnięte
-    // + metoda do zmiany typu obecności
+    // + metoda do zmiany typu obecności <- nauczyciele i rodzice
     private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
 
+    //tego juz nie
     private int numOfLessons;
     private Date startDate = new Date(2008,5,1);
     private Date endDate = new Date(2008,5,15);
