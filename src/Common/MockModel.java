@@ -71,14 +71,28 @@ public class MockModel {
 
         return names;
     }
-    public Database.pojo.Student[] getMockStudents(){
+    public String[] getMockStudents(){
         Database.pojo.Student[] score = new Database.pojo.Student[3];
         for(int i=0;i<3;i++){
             score[i]=new Database.pojo.Student(1,"anon",String.valueOf(i),"Krakow","m","1");
         }
-        return score;
+        String[] wynik = new String[3];
+        for (int i=0;i<3;i++){
+            wynik[i]=score[i].getFirstName()+" "+score[i].getSecondName();
+        }
+        return wynik;
     }
-
+    public String[] getMockStudents2(){
+        Database.pojo.Student[] score = new Database.pojo.Student[3];
+        for(int i=0;i<3;i++){
+            score[i]=new Database.pojo.Student(1,"dvnqembhygqui",String.valueOf(i),"Krakow","m","1");
+        }
+        String[] wynik = new String[3];
+        for (int i=0;i<3;i++){
+            wynik[i]=score[i].getFirstName()+" "+score[i].getSecondName();
+        }
+        return wynik;
+    }
     public String getClassName(){
         return "VII A";
     }

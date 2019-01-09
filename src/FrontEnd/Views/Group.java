@@ -21,7 +21,7 @@ public class Group extends Page implements ActionListener {
     @Override
     public void createGUI() {
         groupName = model.getClassName();
-        //students = model.getMockStudents();
+        students = model.getMockStudents();
         numOfStudents = 3;
         if(MockModel.getUserType()== UserType.admin){
             System.out.println("admin");
@@ -33,7 +33,7 @@ public class Group extends Page implements ActionListener {
         }
         addGroupNamePanel();
         for(int i=0;i<numOfStudents;i++){
-            addStudentPanel(i);
+            addSubPanel(addStudentPanel(i),50);
         }
     }
     private void addChooseGroupPanel(){
@@ -43,37 +43,45 @@ public class Group extends Page implements ActionListener {
         comboBox.addActionListener(e -> {
             String className = (String)comboBox.getSelectedItem();
             System.out.println(className);
-            //TODO;dodac zmiane klasy
+            students = model.getMockStudents2();
+            for(int i =0;i<numOfStudents;i++){
+                this.replacePanel(addStudentPanel(i),50,i+1);
+            }
         });
         chooseGroupPanel.add(comboBox,BorderLayout.EAST);
         this.addSubPanel(chooseGroupPanel,30);
     }
-    private void addStudentPanel(int number){
+    private JPanel addStudentPanel(int number){
         JPanel studentPanel = new JPanel(new GridLayout(1,10,10,0));
         studentPanel.add(new JLabel(" "));
         studentPanel.add(new JLabel(students[number]));
+
         JButton marksButton = new JButton("Pokaz oceny");
-        JButton attendanceButton = new JButton("Pokaz obecnosci");
-        JButton personalButton = new JButton("Pokaz dane");
         marksButton.addActionListener(this);
-        attendanceButton.addActionListener(this);
-        personalButton.addActionListener(this);
         marksButton.setActionCommand("marks");
-        attendanceButton.setActionCommand("attendances");
-        personalButton.setActionCommand("personal info");
         marksButton.setBorderPainted(false);
         marksButton.setMargin(new Insets(0,0,0,0));
+
+        JButton attendanceButton = new JButton("Pokaz obecnosci");
+        attendanceButton.addActionListener(this);
+        attendanceButton.setActionCommand("attendances");
         attendanceButton.setBorderPainted(false);
         attendanceButton.setMargin(new Insets(0,0,0,0));
+
+        JButton personalButton = new JButton("Pokaz dane");
+        personalButton.addActionListener(this);
+        personalButton.setActionCommand("personal info");
         personalButton.setBorderPainted(false);
         personalButton.setMargin(new Insets(0,0,0,0));
+
         studentPanel.add(marksButton);
         studentPanel.add(attendanceButton);
         studentPanel.add(personalButton);
         for(int i=0;i<5;i++){
             studentPanel.add(new JLabel(" "));
         }
-        this.addSubPanel(studentPanel,50);
+        return studentPanel;
+        //this.addSubPanel(studentPanel,50);
     }
     private void addGroupNamePanel(){
         JPanel classPanel = new JPanel(new GridLayout(1,10));
@@ -98,7 +106,8 @@ public class Group extends Page implements ActionListener {
                 topPanel.goToPage(link);
                 break;
             case "personal info":
-                //
+                link += "PersonalData.html";
+                topPanel.goToPage(link);
                 break;
             default:
         }

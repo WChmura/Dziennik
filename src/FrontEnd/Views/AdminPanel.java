@@ -7,6 +7,8 @@ import FrontEnd.Forms.NewUserForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -122,9 +124,19 @@ public class AdminPanel extends Page implements ActionListener {
         classList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         classList.setLayoutOrientation(JList.VERTICAL);
         classList.setVisibleRowCount(5);
+        classList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    System.out.println("Zmiana klasy");
+                    classSelected = classList.getSelectedIndex();
+                    refreshStudentsList();
+                }
+            }
+        });
         JScrollPane classScroller = new JScrollPane(classList);
         classScroller.setPreferredSize(new Dimension(200, 100));
-        //TODO:zeby sie zmienialo
+
         studentList = new JList<>(studentsByClasses[classSelected]);
         studentList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         studentList.setLayoutOrientation(JList.VERTICAL);
@@ -184,8 +196,7 @@ public class AdminPanel extends Page implements ActionListener {
                 changeClass.setVisible(true);
                 String[] changesInStudents = changeClass.getData();
                 if(changesInStudents!=null) {
-
-                    //TODO:zmiana tu
+                    System.out.println(studentList.getSelectedIndex());
                     //TODO: zmiana w bazie
                 }
                 refreshStudentsList();

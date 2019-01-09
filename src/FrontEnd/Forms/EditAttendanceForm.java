@@ -10,7 +10,7 @@ public class EditAttendanceForm extends Form {
         //TODO:przerobić na comboxa
         super(frame,"Edycja obecnosci");
         this.attendance=attendance;
-        addTextField("Status:",String.valueOf(attendance.getType()));
+        addComboBox("Status",new String[]{"Obecny","Nieobecny","Usprawiedliwiony"});
         addButtons();
     }
 }
