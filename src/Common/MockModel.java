@@ -30,6 +30,7 @@ public class MockModel {
     public AttendanceValues[] getAttendanceValues(){
         return attendanceValues;
     }
+
     public static UserType getUserType() {
         return userType;
     }
@@ -50,6 +51,7 @@ public class MockModel {
         }
         return false;
     }
+
     public Database.pojo.Mark[] getMockMarks(){
         Database.pojo.Mark[] marks = new Database.pojo.Mark[20];
         for(int i=0;i<20;i++){
@@ -57,9 +59,11 @@ public class MockModel {
         }
         return marks;
     }
+
     private Database.pojo.Mark addRandomMark(){
         return new Database.pojo.Mark(r.nextInt(5),5,5,new Date(1,1,1),r.nextInt(5)+1,1,"ocenka");
     }
+
     public Database.pojo.Presence[][] getMockAttendances(int startWeek, int numOfweeks){
         Database.pojo.Presence[][] attendances = new Database.pojo.Presence[numOfweeks][35];
         for(int i=0;i<numOfweeks;i++)
@@ -67,10 +71,11 @@ public class MockModel {
                 attendances[i][j]= new Database.pojo.Presence(new Date(1,1,1),1,1,1,1);
         return attendances;
     }
-    public String[] getStudentsList(){
 
+    public String[] getStudentsList(){
         return names;
     }
+
     public String[] getMockStudents(){
         Database.pojo.Student[] score = new Database.pojo.Student[3];
         for(int i=0;i<3;i++){
@@ -82,6 +87,7 @@ public class MockModel {
         }
         return wynik;
     }
+
     public String[] getMockStudents2(){
         Database.pojo.Student[] score = new Database.pojo.Student[3];
         for(int i=0;i<3;i++){
@@ -93,13 +99,16 @@ public class MockModel {
         }
         return wynik;
     }
+
     public String getClassName(){
         return "VII A";
     }
+
     public String[] getClassList(){
         String score [] = {"I A", "II A", "III A","IV A","V A","VI A","VII A","VIII A"};
         return score;
     }
+
     public String[][] getStudentsByClasses(){
         String[][] score = new String[8][10];
         for(int i=0;i<8;i++){
@@ -108,9 +117,11 @@ public class MockModel {
         }
         return score;
     }
+
     public int getNumOfLessons(){
         return 35;
     }
+
     public String[] getAccountNames(){
         String score [] = {"I A", "II A", "III A","IV A","V A","VI A","VII A","VIII A",
         "B","C","D","E","F","G"};

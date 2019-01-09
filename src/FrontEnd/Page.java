@@ -55,12 +55,22 @@ public abstract class Page extends JApplet {
         JPanel panel = new JPanel();
         this.addSubPanel(panel,height);
     }
-    protected void replacePanel(JPanel subPanel, int height, int num){
-        System.out.println("Trying to replace");
-        mainPanel.remove(num);
+    protected void addSubPanel(JPanel subPanel, int height, int num){
         subPanel.setSize(mainPanel.getWidth(),height);
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel,num);
+        //mainPanel.repaint();
+    }
+    protected void deletePanel(int num){
+        mainPanel.remove(num);
+    }
+    protected boolean confirmationPane(){
+        int n = JOptionPane.showConfirmDialog(
+                this,
+                "Na pewno?",
+                "",
+                JOptionPane.YES_NO_OPTION);
+        return n != 1;
     }
     public abstract void createGUI();
 }

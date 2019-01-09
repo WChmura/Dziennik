@@ -31,9 +31,9 @@ public class Group extends Page implements ActionListener {
         else {
             addTopMenu(numOfStudents + 2);
         }
-        addGroupNamePanel();
+        this.addSubPanel(GroupNamePanel(),30);
         for(int i=0;i<numOfStudents;i++){
-            addSubPanel(addStudentPanel(i),50);
+            addSubPanel(StudentPanel(i),50);
         }
     }
     private void addChooseGroupPanel(){
@@ -43,15 +43,21 @@ public class Group extends Page implements ActionListener {
         comboBox.addActionListener(e -> {
             String className = (String)comboBox.getSelectedItem();
             System.out.println(className);
-            students = model.getMockStudents2();
-            for(int i =0;i<numOfStudents;i++){
-                this.replacePanel(addStudentPanel(i),50,i+1);
+            for (int i = numOfStudents+1;i>0;i--){
+                this.deletePanel(i);
             }
+            students = model.getMockStudents2();//TODO:pobranie nowych danych
+            groupName = className;
+            this.addSubPanel(GroupNamePanel(),30,1);
+            for(int i =0;i<numOfStudents;i++){
+                this.addSubPanel(StudentPanel(i),50,i+2);
+            }
+            this.mainContent.repaint();
         });
         chooseGroupPanel.add(comboBox,BorderLayout.EAST);
         this.addSubPanel(chooseGroupPanel,30);
     }
-    private JPanel addStudentPanel(int number){
+    private JPanel StudentPanel(int number){
         JPanel studentPanel = new JPanel(new GridLayout(1,10,10,0));
         studentPanel.add(new JLabel(" "));
         studentPanel.add(new JLabel(students[number]));
@@ -81,16 +87,16 @@ public class Group extends Page implements ActionListener {
             studentPanel.add(new JLabel(" "));
         }
         return studentPanel;
-        //this.addSubPanel(studentPanel,50);
     }
-    private void addGroupNamePanel(){
+    private JPanel GroupNamePanel(){
         JPanel classPanel = new JPanel(new GridLayout(1,10));
         classPanel.add(new JLabel(" "));
         classPanel.add(new JLabel("Klasa " + groupName));
         for(int i=0;i<8;i++){
             classPanel.add(new JLabel(" "));
         }
-        this.addSubPanel(classPanel,30);
+        return classPanel;
+
     }
     @Override
     public void actionPerformed(ActionEvent e) {

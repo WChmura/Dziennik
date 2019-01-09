@@ -213,12 +213,5 @@ public class AdminPanel extends Page implements ActionListener {
     private void refreshStudentsList(){
         studentList.setListData(studentsByClasses[classSelected]);
     }
-    private boolean confirmationPane(){
-        int n = JOptionPane.showConfirmDialog(
-                this,
-                "Na pewno chcesz kontynuować?",
-                "",
-                JOptionPane.YES_NO_OPTION);
-        return n != 1;
-    }
+
 }
