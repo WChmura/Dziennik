@@ -44,17 +44,19 @@ public class Marks extends Page {
     //abo bardziej jakiś mouse listener
     private JButton configureMarkButton(JButton button,int value,int i){
         if(value!=0){
-            button = new JButton(String.valueOf(value));
+            button.setText(String.valueOf(value));
             button.setBorderPainted(false);
+            button.setEnabled(true);
             button.setBackground(Color.white);
             if(MockModel.userType==UserType.teacher){
                 button.addActionListener(ae -> editMark(i));
             }
         }
         else{
-            button = new JButton("");
+            button.setText("");
             button.setBorderPainted(false);
             button.setBackground(Colors.main);
+            button.setEnabled(false);
         }
         return button;
     }
@@ -74,6 +76,7 @@ public class Marks extends Page {
         final JComboBox<String> comboBox = new JComboBox<>(s);
         comboBox.addActionListener(e -> {
             //String studentName = (String)comboBox.getSelectedItem();
+            System.out.println("Nowy uczeń");
             //TODO:załaduj nowe dane
             marks = model.getMockMarks();
             convertMarks();
@@ -91,7 +94,8 @@ public class Marks extends Page {
         convertMarks();
         marksPanel.setLayout(new GridLayout(1,25,5,0));
         for(int i=0;i<maxNumOfMarks;i++){
-            marksPanel.add(configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]));
+            marksButtons[num][i]=configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]);
+            marksPanel.add(marksButtons[num][i]);
         }
         subjectPanel.add(new JLabel("Przedmiot: "+ num),BorderLayout.EAST);
         subjectPanel.add(marksPanel);
@@ -107,12 +111,17 @@ public class Marks extends Page {
                     marksId[i][numOfMarks++]=j;
                 }
             }
+            for(int j=numOfMarks;j<maxNumOfMarks;j++){
+                marksValues[i][j]=0;
+                marksId[i][j]=0;
+            }
         }
     }
     private void updateValues(){
         for(int i=0;i<numOfSubjects;i++){
             for(int j=0;j<maxNumOfMarks;j++){
-
+                marksButtons[i][j]=configureMarkButton(marksButtons[i][j],marksValues[i][j],marksId[i][j]);
+                marksButtons[i][j].repaint();
             }
         }
     }

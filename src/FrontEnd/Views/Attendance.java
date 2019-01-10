@@ -170,7 +170,6 @@ public class Attendance extends Page {
         }
     }
 
-
     private void justifyAbsention(int week, int lesson){
         int n = JOptionPane.showConfirmDialog(
                 this,
@@ -185,6 +184,7 @@ public class Attendance extends Page {
         }
 
     }
+
     private void updateValues(){
         for(int week=0;week<numOfWeeksShowed;week++){
             for(int i=0;i<numOfLessons;i++){
@@ -194,6 +194,7 @@ public class Attendance extends Page {
             }
         }
     }
+
     private void setAttendanceValues(){
         //nie będzie w koncowej wersji
         AttendanceValues[] values = model.getAttendanceValues();

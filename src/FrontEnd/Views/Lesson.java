@@ -3,6 +3,7 @@ package FrontEnd.Views;
 import Common.AttendanceValues;
 import Common.MockModel;
 import Common.UserType;
+import FrontEnd.Colors;
 import FrontEnd.Forms.ChangeClassForm;
 import FrontEnd.Forms.NewMarkForm;
 import FrontEnd.Forms.SelectLessonForm;
@@ -21,13 +22,15 @@ public class Lesson extends Page{
     //+ metodki
     // na dodawanie nowej ocenki
     // taka co jest dam tablice czy uczen byl obecny, a ona to wbije do bazy
+    // funkcja co dostanie id_klasy, id_nauczyciela, date w formacie "" i mi powie czy taka lekcja istnieje
 
     //to już nie
-    AttendanceValues attendances[];
-    int numOfStudents;
+    private AttendanceValues[] attendances;
+    private JButton[][] newMarks;
+    private int[] numOfMarks;
+    private int numOfStudents;
     int lessonId;
     int teacherId;
-    //TODO: dopisac oknienko wyboru daty
     //TODO: dopisać okienko pokzywania ocen
     @Override
     public void createGUI() {
@@ -36,6 +39,8 @@ public class Lesson extends Page{
         groupName = classNames[groupNumber];
         students = model.getMockStudents();
         numOfStudents = 3;
+        newMarks = new JButton[numOfStudents][4];
+        numOfMarks = new int[numOfStudents];
         attendances = new AttendanceValues[numOfStudents];
         addTopMenu(numOfStudents + 2);
         this.addSubPanel(GroupNamePanel(),30);
@@ -47,6 +52,7 @@ public class Lesson extends Page{
         }
         addEndLessonPanel();
     }
+
     private JPanel GroupNamePanel(){
         JPanel classPanel = new JPanel(new GridLayout(1,10));
         classPanel.add(new JLabel(" "));
@@ -58,6 +64,7 @@ public class Lesson extends Page{
         return classPanel;
 
     }
+
     private JPanel StudentPanel(int number) {
         JPanel studentPanel = new JPanel(new GridLayout(1,10,10,0));
         studentPanel.add(new JLabel(" "));
@@ -66,7 +73,61 @@ public class Lesson extends Page{
         JButton markButton = new JButton("Dodaj ocene");
         markButton.addActionListener(ae -> addMark(number));
         studentPanel.add(markButton);
+        studentPanel.add(comboBoxSubPanel(number));
+        studentPanel.add(marksSubPanel(number));
+        for(int i=0;i<5;i++){
+            studentPanel.add(new JLabel(" "));
+        }
+        return studentPanel;
+    }
 
+    private void addEndLessonPanel(){
+        JPanel endLessonPanel = new JPanel(new GridLayout(1,5,5,5));
+        JButton button = new JButton("Zapisz zmiany");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(confirmationPane()) {
+                    //TODO: dopisanie obecnosci calej klasy
+                }
+            }
+        });
+        endLessonPanel.add(new JLabel(" "));
+        endLessonPanel.add(button);
+        for(int i=0;i<3;i++){
+            endLessonPanel.add(new JLabel(" "));
+        }
+        this.addSubPanel(endLessonPanel,50);
+    }
+
+    private void addMark(int studentNum){
+        NewMarkForm edit = new NewMarkForm(null,String.valueOf(studentNum));
+        edit.setVisible(true);
+        String[] changesInMark = edit.getData();
+        if(changesInMark!=null) {
+            newMarks[studentNum][numOfMarks[studentNum]].setText(changesInMark[1]);
+            newMarks[studentNum][numOfMarks[studentNum]++].setBackground(Color.white);
+            //TODO: wysłac do bazy
+            //new DbMark();
+        }
+    }
+
+    private JPanel marksSubPanel(int number){
+        JPanel marksPanel = new JPanel(new GridLayout(1,4,5,5));
+        marksPanel.setBackground(Colors.main);
+        for(int i=0;i<4;i++){
+            JButton button=new JButton("");
+            button.setEnabled(false);
+            button.setBackground(Colors.main);
+            button.setBorderPainted(false);
+            button.setMargin(new Insets(0,0,0,0));
+            newMarks[number][i]=button;
+            marksPanel.add(newMarks[number][i]);
+        }
+        return marksPanel;
+    }
+
+    private JComboBox<String> comboBoxSubPanel(int number){
         String[] s = {"obecny", "nieobecny", "usprawiedliwiony"};
         final JComboBox<String> comboBox = new JComboBox<>(s);
         comboBox.addActionListener(e -> {
@@ -82,45 +143,14 @@ public class Lesson extends Page{
                     case "usprawiedliwiony":
                         attendances[number]=AttendanceValues.absentJustified;
                         break;
-                        default:
-                            System.out.println("Bledna wartosc");
+                    default:
+                        System.out.println("Bledna wartosc");
                 }
             }
         });
-        studentPanel.add(comboBox);
-        for(int i=0;i<6;i++){
-            studentPanel.add(new JLabel(" "));
-        }
-        return studentPanel;
+        return comboBox;
     }
-    private void addEndLessonPanel(){
-        JPanel endLessonPanel = new JPanel(new GridLayout(1,5,5,5));
-        JButton button = new JButton("Zakoncz lekcje");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(confirmationPane()) {
-                    //TODO: dopisanie obecnosci calej klasy
-                    //TODO: przejscie do klasy
-                }
-            }
-        });
-        endLessonPanel.add(new JLabel(" "));
-        endLessonPanel.add(button);
-        for(int i=0;i<3;i++){
-            endLessonPanel.add(new JLabel(" "));
-        }
-        this.addSubPanel(endLessonPanel,50);
-    }
-    private void addMark(int studentNum){
-        NewMarkForm edit = new NewMarkForm(null,String.valueOf(studentNum));
-        edit.setVisible(true);
-        String[] changesInMark = edit.getData();
-        if(changesInMark!=null) {
-            //TODO: wysłac do bazy
-            //new DbMark();
-        }
-    }
+
     private int chooseGroup(){
         //TODO:to by mozna przerobic, bo brzydkie i na około
         SelectLessonForm selectClass = new SelectLessonForm(null,classNames);
