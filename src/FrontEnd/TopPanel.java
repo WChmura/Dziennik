@@ -19,6 +19,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private MockModel mockModel;
     private AppletContext appletContext;
     private final String marksText = "Oceny";
+    private final String messagesText = "Wiadomosci";
     private final String scheduleText = "Plan Zajec";
     private final String attendanceText = "Obecnosci";
     private final String settingsText = "Ustawienia";
@@ -31,7 +32,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         super();
         this.appletContext = appletContext;
         this.mockModel = mockModel;
-        JPanel panel = new JPanel(new GridLayout(1,8));
+        JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
         JButton marksButton = configureButton(marksText);
         panel.add(marksButton);
@@ -44,6 +45,9 @@ public class TopPanel extends JMenuBar implements ActionListener {
 
         JButton settingsButton = configureButton(settingsText);
         panel.add(settingsButton);
+
+        JButton messagesButton = configureButton(messagesText);
+        panel.add(messagesButton);
 
         if(MockModel.userType ==teacher|| MockModel.userType ==admin) {
             JButton groupButton = configureButton(groupText);
@@ -117,6 +121,10 @@ public class TopPanel extends JMenuBar implements ActionListener {
                     link += "Lesson.html";
                     goToPage(link);
                     break;
+                case messagesText:
+                    link +="Messages.html";
+                    goToPage(link);
+                    break;
                 case logOutText:
                     if (logOutMessage()) {
                         link += "WelcomePage.html";
@@ -127,7 +135,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             }
         }
         else if(e.getActionCommand().equals(logInText)){
-            LoginForm sd = new LoginForm(null, "Test test");
+            LoginForm sd = new LoginForm(null);
             sd.setVisible(true);
             String[] loginData= sd.getData();
             if(loginData!=null) {

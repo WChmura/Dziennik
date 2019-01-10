@@ -19,6 +19,17 @@ public class Form extends JDialog {
     public String[] getData() {
         return data;
     }
+    protected void addPasswordField(String title,String initialValue){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1,2));
+        JLabel label = new JLabel(title);
+        JPasswordField passwordField = new JPasswordField(initialValue);
+        panel.add(label);
+        panel.add(passwordField);
+        getContentPane().add(panel);
+        input.add(passwordField);
+        this.repaint();
+    }
     protected void addTextField(String title,String initialValue){
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1,2));

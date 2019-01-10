@@ -5,7 +5,7 @@ import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Forms.ChangeClassForm;
 import FrontEnd.Forms.NewMarkForm;
-import FrontEnd.Forms.SelectClassForm;
+import FrontEnd.Forms.SelectLessonForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
@@ -27,6 +27,8 @@ public class Lesson extends Page{
     int numOfStudents;
     int lessonId;
     int teacherId;
+    //TODO: dopisac oknienko wyboru daty
+    //TODO: dopisać okienko pokzywania ocen
     @Override
     public void createGUI() {
         classNames=model.getClassList();
@@ -121,7 +123,7 @@ public class Lesson extends Page{
     }
     private int chooseGroup(){
         //TODO:to by mozna przerobic, bo brzydkie i na około
-        SelectClassForm selectClass = new SelectClassForm(null,classNames);
+        SelectLessonForm selectClass = new SelectLessonForm(null,classNames);
         selectClass.setVisible(true);
         String[] changesInStudents = selectClass.getData();
         if(changesInStudents!=null) {

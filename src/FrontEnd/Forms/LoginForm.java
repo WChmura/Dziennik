@@ -3,10 +3,10 @@ import FrontEnd.Form;
 import java.awt.*;
 
 public class LoginForm extends Form {
-    public LoginForm(Frame frame,String title) {
-        super(frame,title);
+    public LoginForm(Frame frame) {
+        super(frame,"Logowanie");
         addTextField("login",null);
-        addTextField("haslo",null);
+        addPasswordField("haslo",null);
         addButtons();
     }
 

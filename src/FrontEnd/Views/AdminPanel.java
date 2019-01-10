@@ -2,6 +2,7 @@ package FrontEnd.Views;
 
 import FrontEnd.Colors;
 import FrontEnd.Forms.ChangeClassForm;
+import FrontEnd.Forms.ChangePasswordForm;
 import FrontEnd.Forms.NewClassForm;
 import FrontEnd.Forms.NewUserForm;
 import FrontEnd.Page;
@@ -33,7 +34,7 @@ public class AdminPanel extends Page implements ActionListener {
      - czy istneieje teacher o danym id
      - czy istnieje sala o danym numerze
      */
-
+    //TODO: zmiana hałsa guzik
     private JList<String> userList;
     private JList<String> classList;
     private JList<String> studentList;
@@ -52,7 +53,7 @@ public class AdminPanel extends Page implements ActionListener {
 
     private void addUsersPanel(){
         JPanel usersPanel = new JPanel(new GridLayout(1,6,15,0));
-        JPanel buttonPanel = new JPanel(new GridLayout(3,1,0,5));
+        JPanel buttonPanel = new JPanel(new GridLayout(4,1,0,5));
         buttonPanel.setBackground(Colors.main);
         JButton newUserbutton = new JButton("Dodaj nowego użytkownika");
         newUserbutton.addActionListener(this);
@@ -65,6 +66,12 @@ public class AdminPanel extends Page implements ActionListener {
         deleteUserButton.setActionCommand("deleteUser");
         deleteUserButton.setBorderPainted(false);
         deleteUserButton.setMargin(new Insets(0,0,0,0));
+
+        JButton changePasswordButton = new JButton("Zmien haslo");
+        changePasswordButton.addActionListener(this);
+        changePasswordButton.setActionCommand("changePassword");
+        changePasswordButton.setBorderPainted(false);
+        changePasswordButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalDataButton = new JButton("Pokaz/edytuj dane osobowe");
         personalDataButton.addActionListener(this);
@@ -81,6 +88,7 @@ public class AdminPanel extends Page implements ActionListener {
 
         buttonPanel.add(newUserbutton);
         buttonPanel.add(personalDataButton);
+        buttonPanel.add(changePasswordButton);
         buttonPanel.add(deleteUserButton);
         JLabel label = new JLabel("Lista uczniow w klasie");
         label.setHorizontalAlignment(JLabel.RIGHT);
@@ -175,6 +183,15 @@ public class AdminPanel extends Page implements ActionListener {
             case "personalData":
                 System.out.println("personalData");
                 //TODO:dopisanie otwierania danych<-jak bedzie server
+                break;
+            case "changePassword":
+                ChangePasswordForm passwordForm = new ChangePasswordForm(null,"password",true);
+                passwordForm.setVisible(true);
+                String[] changes = passwordForm.getData();
+                if(changes!=null) {
+                    //TODO:dopisanie dodawania do bazy
+                    System.out.println(changes[1]);
+                }
                 break;
             case "newClass":
                 NewClassForm newClass = new NewClassForm(null);
