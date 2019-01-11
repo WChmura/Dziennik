@@ -41,6 +41,17 @@ public class Form extends JDialog {
         input.add(textField);
         this.repaint();
     }
+    protected void addBigTextField(String initialValue,boolean editable){
+        JPanel panel = new JPanel(new GridLayout(1,1));
+        JTextField textField = new JTextField(initialValue);
+        if(editable)
+            input.add(textField);
+        else
+            textField.setEnabled(false);
+        panel.add(textField);
+        getContentPane().add(panel);
+        this.repaint();
+    }
     protected void addComboBox(String title,String answers[]){
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1,2));

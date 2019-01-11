@@ -224,9 +224,11 @@ public class AdminPanel extends Page implements ActionListener {
     private void refreshUserList(){
         userList.setListData(allUsersNames);
     }
+
     private void refreshClassList(){
         classList.setListData(classNames);
     }
+
     private void refreshStudentsList(){
         studentList.setListData(studentsByClasses[classSelected]);
     }
