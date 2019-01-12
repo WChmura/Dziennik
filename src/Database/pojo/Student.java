@@ -1,5 +1,7 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Student {
@@ -10,7 +12,7 @@ public class Student {
     private String adress;
     private String sex;
     private String personal_identity_number;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Student(int groupID, String firstName, String secondName, String adress, String sex, String personal_identity_number) {
         this.studentID = ID_GENERATOR.getAndIncrement();

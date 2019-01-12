@@ -1,5 +1,7 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Account {
@@ -9,10 +11,10 @@ public class Account {
     private String hash;
     private int permission;
     private String mailAddress;
-    private int studentID;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private Integer studentID;
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
-    public Account(String login, String hash, int permission, String mailAddress, int studentID) {
+    public Account(String login, String hash, int permission, String mailAddress, Integer studentID) {
         this.personID = ID_GENERATOR.getAndIncrement();
         this.login = login;
         this.hash = hash;
@@ -61,11 +63,11 @@ public class Account {
         this.mailAddress = mailAddress;
     }
 
-    public int getStudentID() {
+    public Integer getStudentID() {
         return studentID;
     }
 
-    public void setStudentID(int studentID) {
+    public void setStudentID(Integer studentID) {
         this.studentID = studentID;
     }
 

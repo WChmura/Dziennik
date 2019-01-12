@@ -1,5 +1,7 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Timetable {
@@ -11,7 +13,7 @@ public class Timetable {
     private int day;
     private int hour;
     private int subjectID;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Timetable(int groupID, int classroomID, int teacherID, int day, int hour, int subjectID) {
         this.lessonID = ID_GENERATOR.getAndIncrement();

@@ -1,5 +1,7 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.sql.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,7 +14,7 @@ public class Presence {
     private int studentId;
     private int teacherId;
     private int subjectId;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Presence(Date date, Integer type, int studentId, int teacherId, int subjectId) {
         this.presenceId = ID_GENERATOR.getAndIncrement();

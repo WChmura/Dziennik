@@ -1,12 +1,14 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Subject {
 
     private int subjectID;
     private String name;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Subject(String name) {
         this.subjectID = ID_GENERATOR.getAndIncrement();

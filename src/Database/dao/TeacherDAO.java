@@ -16,13 +16,13 @@ public class TeacherDAO {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Nauczyciel"
-                    + "(imie, nazwisko, wyksztalcenie) VALUES"
-                    + "(?,?,?)";
+                    + "(id_nauczyciela,imie, nazwisko, wyksztalcenie) VALUES"
+                    + "(?,?,?,?)";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            //preparedStatement.setInt(1, Tea.getTeacherID());
-            preparedStatement.setString(1, Tea.getFirstName());
-            preparedStatement.setString(2, Tea.getSecondName());
-            preparedStatement.setString(3, Tea.getDegree());
+            preparedStatement.setInt(1, Tea.getTeacherID());
+            preparedStatement.setString(2, Tea.getFirstName());
+            preparedStatement.setString(3, Tea.getSecondName());
+            preparedStatement.setString(4, Tea.getDegree());
             preparedStatement.executeUpdate();
             preparedStatement.close();
 

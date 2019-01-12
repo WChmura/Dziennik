@@ -1,5 +1,7 @@
 package Database.pojo;
 
+import Database.Db_tests;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Message {
@@ -11,7 +13,7 @@ public class Message {
     private String msg;
     /* 0 - przeczytana, 1 - nieprzeczytana */
     private int readed;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1060);
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Message(int id_sender, int id_recipient, String topic, String msg, int readed) {
         this.id_message = ID_GENERATOR.getAndIncrement();
