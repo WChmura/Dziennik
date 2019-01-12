@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GroupDAO {
 
@@ -84,4 +85,56 @@ public class GroupDAO {
         return grp;
     }
 
+    /** zwraca obiekt Group z bazy na podstawie nazwy, moze sie przyda **/
+    public static Group getGroup(String groupName)
+    {
+        Group grp = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Klasa where nazwa = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, groupName);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int groupID;
+            String name;
+            int teacherID;
+            int classroomID;
+
+
+            while(rs.next())
+            {
+                groupID = rs.getInt("ID_klasy");
+                name = rs.getString("nazwa");
+                teacherID = rs.getInt("id_nauczyciela");
+                classroomID = rs.getInt("id_sali");
+
+                grp = new Group(name, teacherID, classroomID);
+                grp.setGroupID(groupID);
+                return  grp;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return grp;
+    }
+
+    /** Zwraca liste wszystkich klas **/
+    public static ArrayList<String> getAllGroups()
+    {
+        ArrayList<String> ListOfClasses = new ArrayList<String>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " Select nazwa from Klasa ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next())
+            {
+                ListOfClasses.add(rs.getString("nazwa"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ListOfClasses;
+    }
 }

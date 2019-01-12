@@ -17,15 +17,15 @@ import java.util.ArrayList;
 
 public class AdminPanel extends Page implements ActionListener {
     //to potrzebuje - wszystko tylko dla Admina
-    private String [] allUsersNames;//loginy wszystkich użytkowników
-    private String [] classNames;//nazwy wszystkich klas
-    private String[][] studentsByClasses;//uczniowie według klas
+    private String [] allUsersNames;//loginy wszystkich użytkowników = ArrayList<String> getAllUserNames()
+    private String [] classNames;//nazwy wszystkich klas =  ArrayList<String> getAllClassesNames()
+    private String[][] studentsByClasses;//uczniowie według klas = ArrayList<ArrayList <Student>> getStudentsFromAllGroups()
     /*metody do:
-    - dodawania user do bazy danych
-    - zmieniania hasła
-    - usuwania user z bazy
-    - dodawnia klasy
-    - usuwania klasy
+    - dodawania user do bazy danych = void addUser(String login, String hash, int permission, String mailAddress, int studentID)
+    - zmieniania hasła = void changePassword(String accountName, String newPassword)
+    - usuwania user z bazy = void deleteUser(String accountName)
+    - dodawnia klasy = addGroup(String name, int teacherID, int classroomID)
+    - usuwania klasy = deleteGroup(String name)
     - przenoszenia ucznia do innej klasy
      */
 

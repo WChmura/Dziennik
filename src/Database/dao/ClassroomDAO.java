@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ClassroomDAO {
 
@@ -33,7 +34,6 @@ public class ClassroomDAO {
             e.printStackTrace();
         }
     }
-
 
     /** zwraca obiekt Classroom z bazy na podstawie id, moze sie przyda **/
     public static Classroom getClassroom(int id)
