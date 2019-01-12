@@ -19,7 +19,7 @@ public class TimetableDAO {
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, tbl.getLessonID());
             preparedStatement.setInt(2, tbl.getDay());
-            preparedStatement.setDouble(3, tbl.getHour());
+            preparedStatement.setInt(3, tbl.getHour());
             preparedStatement.setInt(4, tbl.getGroupID());
             preparedStatement.setInt(5, tbl.getClassroomID());
             preparedStatement.setInt(6, tbl.getTeacherID());
@@ -80,7 +80,7 @@ public class TimetableDAO {
                 int classroomID = rs.getInt("id_sali");
                 int teacherID = rs.getInt("id_nauczyciela");
                 int day = rs.getInt("dzien");
-                double hour = rs.getInt("godzina");
+                int hour = rs.getInt("godzina");
                 int subjectID = rs.getInt("id_przedmiotu");
 
                 Timetable tim = new Timetable(groupID,classroomID,teacherID,day,hour,subjectID);

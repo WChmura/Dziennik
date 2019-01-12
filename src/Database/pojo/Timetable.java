@@ -9,11 +9,11 @@ public class Timetable {
     private int classroomID;
     private int teacherID;
     private int day;
-    private double hour;
+    private int hour;
     private int subjectID;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(1040);
 
-    public Timetable(int groupID, int classroomID, int teacherID, int day, double hour, int subjectID) {
+    public Timetable(int groupID, int classroomID, int teacherID, int day, int hour, int subjectID) {
         this.lessonID = ID_GENERATOR.getAndIncrement();
         this.groupID = groupID;
         this.classroomID = classroomID;
@@ -63,11 +63,11 @@ public class Timetable {
         this.day = day;
     }
 
-    public double getHour() {
+    public int getHour() {
         return hour;
     }
 
-    public void setHour(double hour) {
+    public void setHour(int hour) {
         this.hour = hour;
     }
 
