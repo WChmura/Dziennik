@@ -134,15 +134,16 @@ public class Schedule extends Page {
         }
 
     }
-    //Blad przy wywalaniu panelu
+
     private void reloadPanels(){
-            for (int i = maxNumOfLesson+2;i>1;i--){
+            for (int i = maxNumOfLesson+1;i>1;i--){
                 System.out.println("Usuwanie Panelu");
                 this.deletePanel(i);
             }
             maxNumOfLesson = 6;
             for(int i =0;i<maxNumOfLesson;i++){
                 this.addSubPanel(addLessonPanel(i),50,i+2);
+                System.out.println("Dodano Panel");
             }
             this.mainContent.repaint();
     }

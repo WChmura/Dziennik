@@ -150,7 +150,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         }
     }
     public void goToPage(String link){
-        link+="?_ijt=cu41sp7r2pc0iqql4cmct3337v";
+        link+="?_ijt=1c51tf2t8gp1a15i6d5ge4qc09";
         try {
             URL u = new URL(link);
             appletContext.showDocument(u,"_self");
