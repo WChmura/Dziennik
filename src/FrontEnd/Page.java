@@ -55,11 +55,13 @@ public abstract class Page extends JApplet {
         JPanel panel = new JPanel();
         this.addSubPanel(panel,height);
     }
+
     protected void addSubPanel(JPanel subPanel, int height, int num){
         subPanel.setSize(mainPanel.getWidth(),height);
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel,num);
-        //mainPanel.repaint();
+        System.out.println("Teoretycznie dodano");
+        //TODO:jakis repaint? Bo ma laga
     }
     protected void deletePanel(int num){
         mainPanel.remove(num);
