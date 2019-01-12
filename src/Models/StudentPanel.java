@@ -2,37 +2,23 @@ package Models;
 
 public class StudentPanel extends Model {
 
-    /*public void showPersonalData(int studentID) {
-
+    /*public String[] showPersonalData(int studentID) {
         FrontEnd.Views.PersonalData view = new FrontEnd.Views.PersonalData();
-        //Database.DbStudent student = Database.DbStudent.fetch(studentID);
+        Database.dao.StudentDAO studentDAO;
+        Database.pojo.Student student = studentDAO.getStudent(studentID);
         if (student!=null) {
-            /*view.setFirstName = student.getFirstName();
-            view.setLastName = student.getSecondName();
-            view.setAdress = student.getAdress();
+            String info[] = {student.getFirstName(), student.getSecondName(), student.getAdress()};
         }
-        else view.error = "Nie znaleziono ucznia";
-
-        showPage(view);
-    }
-
-    public String getFirstName(){
-
-    }
-    public String getAdress(){
-
-    }
-    public String getSecondName(){
-
     }*/
+
     /*public void showPersonalData() {
         // TODO: complete
         if (this.account.getPermission() == "STUDENT") {
-            // showPersonalData(this.account.getStudentID());
+            //showPersonalData(this.account.getStudentID());
         }
-    }
+    }*/
 
-    public void showMarks(int studentID) {
+    /*public void showMarks(int studentID) {
         // TODO: create overloaded method
         FrontEnd.Views.Marks view = new FrontEnd.Views.Marks();
 
@@ -45,9 +31,9 @@ public class StudentPanel extends Model {
         else view.error = "Nie znaleziono ucznia";
 
         showPage(view);
-    }
+    }*/
 
-    public void showAttendance(int studentID) {
+    /*public void showAttendance(int studentID) {
         // TODO: create overloaded method
         FrontEnd.Views.Attendance view = new FrontEnd.Views.Attendance();
 
@@ -60,19 +46,9 @@ public class StudentPanel extends Model {
         else view.error = "Nie znaleziono ucznia";
 
         showPage(view);
-    }
-
-    public void changePassword(int personID) { // TODO: cmplete method code
-        FrontEnd.Views.Settings view = new FrontEnd.Views.Settings();
-
-        Database.DbAccount account = Database.DbAccount.fetch(studentID);
-        if (account) {
-            view.login = account.getLogin();
-            view.mail = account.getMailAddress();
-            // TODO: add student name here
-        }
-        else view.error = "Nie znaleziono konta";
-
-        showPage(view);
     }*/
+
+    public void changePassword(String accountName, String newPassword) {
+        Database.dao.AccountDAO.updatePassword(Database.dao.AccountDAO.getAccount(accountName), newPassword);
+    }
 }

@@ -30,10 +30,6 @@ public class AdminPanel extends TeacherPanel {
         Database.dao.AccountDAO.insertAccount(acc);
     }
 
-    public void changePassword(String accountName, String newPassword) {
-        Database.dao.AccountDAO.updatePassword(Database.dao.AccountDAO.getAccount(accountName), newPassword);
-    }
-
     public void deleteUser(String accountName) {
         Database.dao.AccountDAO.deleteAccount(Database.dao.AccountDAO.getAccount(accountName));
     }

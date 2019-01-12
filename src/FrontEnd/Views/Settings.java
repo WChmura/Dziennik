@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Settings extends Page {
     //to potrzebuje
-    //metodka na zmiane hasła (własnego)
+    //metodka na zmiane hasła (własnego) = void changePassword(String accountName, String newPassword)
     @Override
     public void createGUI() {
         addTopMenu(1);
