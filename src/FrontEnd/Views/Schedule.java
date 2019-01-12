@@ -2,6 +2,7 @@ package FrontEnd.Views;
 
 import Common.MockModel;
 import Common.UserType;
+import FrontEnd.Forms.DeleteLesson;
 import FrontEnd.Forms.LessonForm;
 import FrontEnd.Page;
 
@@ -89,19 +90,35 @@ public class Schedule extends Page {
         lessonPanel.add(hourLabel);
 
         for(int i=0;i<5;i++){
-            String[] lessonData = breakLessonData(i,number);
-            JButton lessonLabel = new JButton("<html>"+lessonData[0]+"<br>"+lessonData[1]+" "+lessonData[2]);
-            lessonLabel.setBackground(Color.white);
-            lessonLabel.setForeground(Color.BLACK);
-            if(isAdmin){
-
+            if(subjects[i][number]!=null) {
+                String[] lessonData = breakLessonData(i, number);
+                JButton lessonLabel = new JButton("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
+                lessonLabel.setBackground(Color.white);
+                lessonLabel.setForeground(Color.BLACK);
+                if (isAdmin) {
+                    lessonLabel.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            //potrzebna metodka co mi zwróci cały subject
+                            LessonForm newLesson = new LessonForm(null, null);
+                            newLesson.setVisible(true);
+                            String[] changes = newLesson.getData();
+                            if (changes != null) {
+                                //TODO;dodac edycjelekcji
+                            /*reloadGroup(-1);
+                            reloadPanels();*/
+                            }
+                        }
+                    });
+                } else {
+                    lessonLabel.setEnabled(false);
+                }
+                Border border = BorderFactory.createLineBorder(Color.BLACK);
+                lessonLabel.setBorder(border);
+                lessonPanel.add(lessonLabel);
             }
-            else {
-                lessonLabel.setEnabled(false);
-            }
-            Border border = BorderFactory.createLineBorder(Color.BLACK);
-            lessonLabel.setBorder(border);
-            lessonPanel.add(lessonLabel);
+            else
+                lessonPanel.add(new JLabel(""));
         }
         lessonPanel.add(new JLabel(""));
         return lessonPanel;
@@ -120,13 +137,21 @@ public class Schedule extends Page {
     }
 
     private void deleteSelected(){
-
+        DeleteLesson newLesson = new DeleteLesson(null);
+        newLesson.setVisible(true);
+        String[] changes = newLesson.getData();
+        if(changes!=null) {
+            //TODO;dodac usuwanie lekcji
+            subjects[Integer.parseInt(changes[0])][Integer.parseInt(changes[1])]=null;
+            System.out.println("Usuwanie lekcji");
+            reloadPanels();
+        }
     }
 
     private void reloadGroup(int classNumber){
         if(classNumber<0){
             //TODO:załduj zmieniony plan lekcji
-            subjects = model.schelude2();
+            subjects = model.schelude();
         }
         else{
         //TODO: zaladuj nowy plan lekcji
