@@ -46,9 +46,9 @@ public class Marks extends Page {
         if(value!=0){
             button.setText(String.valueOf(value));
             button.setBorderPainted(false);
-            button.setEnabled(true);
             button.setBackground(Color.white);
             if(MockModel.userType==UserType.teacher){
+                button.setEnabled(true);
                 button.addActionListener(ae -> editMark(i));
             }
         }

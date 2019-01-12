@@ -109,6 +109,11 @@ public class MockModel {
         return score;
     }
 
+    public String[] messages(){
+        String score [] = {"I A", "II A", "III A","IV A","V A","VI A","VII A","VIII A"};
+        return score;
+    }
+
     public String[][] getStudentsByClasses(){
         String[][] score = new String[8][10];
         for(int i=0;i<8;i++){
@@ -125,6 +130,26 @@ public class MockModel {
     public String[] getAccountNames(){
         String score [] = {"I A", "II A", "III A","IV A","V A","VI A","VII A","VIII A",
         "B","C","D","E","F","G"};
+        return score;
+    }
+
+    public String[][] schelude(){
+        String[][] score = new String[5][7];
+        for(int i=0;i<5;i++){
+            for(int j=0;j<7;j++){
+                score[i][j]="lekcja:noname:sala"+(i+j);
+            }
+        }
+        return score;
+    }
+
+    public String[][] schelude2(){
+        String[][] score = new String[5][6];
+        for(int i=0;i<5;i++){
+            for(int j=0;j<6;j++){
+                score[i][j]="Lesson:NoName:sala"+(i+j);
+            }
+        }
         return score;
     }
 }
