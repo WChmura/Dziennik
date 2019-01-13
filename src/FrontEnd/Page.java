@@ -13,7 +13,7 @@ public abstract class Page extends JApplet {
     private JPanel mainPanel;
     private JPanel subPanels[];
     private int numOfSubPanels=0;
-    protected static String userName;
+    protected static String userName = "qazxsw123";
     protected static UserType userType=UserType.teacher;
     protected static Model model;
     protected TopPanel topPanel;
