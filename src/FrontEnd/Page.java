@@ -6,35 +6,44 @@ import Models.*;
 import javax.swing.*;
 import java.awt.*;
 
-import static Common.UserType.student;
 
-public abstract class Page extends JApplet {
+public abstract class Page extends JFrame {
     protected JPanel mainContent;
     private JPanel mainPanel;
-    private JPanel subPanels[];
+    private JPanel[] subPanels;
     private int numOfSubPanels=0;
     protected static String userName = "qazxsw123";
     protected static UserType userType=UserType.teacher;
+    //protected static String userName = " ";
+    //protected static UserType userType = UserType.notLogged;
     protected static Model model;
     protected TopPanel topPanel;
 
-    public void init() {
+    /*public void init() {
         if(model==null) {
             model = new TeacherPanel(userName);
+            //model=createNewModel();
         }
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
                     System.out.println("Tworzenie GUI");
-                    createGUI();
+
                 }
             });
         } catch (Exception e) {
             System.err.println("createGUI didn't complete successfully");
         }
+    }*/
+
+    public Page(){
+        super("Hello World");
+        createGUI();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
     protected void addTopMenu(int numOfPanels){
-        topPanel = new TopPanel(this.getAppletContext(), model,userType);
+        topPanel = new TopPanel(model,userType);
         this.setJMenuBar(topPanel);
         this.setBackground(Colors.background);
         mainContent = new JPanel();
@@ -82,6 +91,7 @@ public abstract class Page extends JApplet {
     public abstract void createGUI();
 
     protected Model createNewModel(){
+        System.out.println("Create new model");
         switch (userType) {
             case admin:
                 return new AdminPanel(userName);
@@ -91,7 +101,8 @@ public abstract class Page extends JApplet {
                 return new ParentPanel(userName);
             case student:
                 return new StudentPanel(userName);
+            default:
+                return new Authentication();
         }
-        return new Authentication(userName);
     }
 }

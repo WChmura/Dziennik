@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class Authentication extends Model {
 
+    public Authentication() {
+    }
+
     public Authentication(String login) {
         super(login);
     }
@@ -47,7 +50,6 @@ public class Authentication extends Model {
         return null;
     }
 
-
     @Override
     public ArrayList<ArrayList<Student>> getStudentsFromAllGroups() {
         return null;
@@ -67,4 +69,23 @@ public class Authentication extends Model {
     public String getFormGroup() {
         return null;
     }
+
+    @Override
+    public void addUser(String login, String hash, int permission, String mailAddress, int studentID) {
+    }
+
+    @Override
+    public void deleteUser(String accountName) { }
+
+    @Override
+    public void addGroup(String name, int teacherID, int classroomID) { }
+
+    @Override
+    public void deleteGroup(String name) { }
+
+    @Override
+    public void changeStudentGroup(String firstName, String lastName, String groupName) {}
+
+    @Override
+    public void changePassword(String accountName, String newPassword) { }
 }

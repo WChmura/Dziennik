@@ -10,7 +10,7 @@ public class NewClassForm extends Form {
         super(frame,"Nowa klasa");
         addTextField("Nazwa:",null);
         addTextField("Id_nauczyciela:",null);
-        addTextField("Numer Klasy:",null);
+        addTextField("Id_sali:",null);
         addButtons();
     }
     @Override

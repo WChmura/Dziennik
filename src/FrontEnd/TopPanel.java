@@ -31,9 +31,8 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String logInText = "Zaloguj";
     private final String logOutText = "Wyloguj";
 
-    TopPanel(AppletContext appletContext, Model model,UserType userType) {
+    TopPanel( Model model,UserType userType) {
         super();
-        this.appletContext = appletContext;
         this.model = model;
         this.userType = userType;
         JPanel panel = new JPanel(new GridLayout(1,9));

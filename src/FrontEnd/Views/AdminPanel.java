@@ -21,14 +21,6 @@ public class AdminPanel extends Page implements ActionListener {
     private String[] allUsersNames;
     private String[] classNames;
     private ArrayList<ArrayList <Student>> studentsByClasses;
-    /*metody do:
-    - dodawania user do bazy danych = void addUser(String login, String hash, int permission, String mailAddress, int studentID)
-    - zmieniania hasła = void changePassword(String accountName, String newPassword)
-    - usuwania user z bazy = void deleteUser(String accountName)
-    - dodawnia klasy = addGroup(String name, int teacherID, int classroomID)
-    - usuwania klasy = deleteGroup(String name)
-    - przenoszenia ucznia do innej klasy = void changeStudentGroup(String firstName, String lastName, String groupName)
-     */
 
     /*+ jeszcze, takie mniej ważne:
      - czy dana nazwa klasy istnieje
@@ -176,27 +168,38 @@ public class AdminPanel extends Page implements ActionListener {
                 newUser.setVisible(true);
                 String[] changesInMark = newUser.getData();
                 if(changesInMark!=null) {
+                    int permission=0;
+                    switch (changesInMark[2]){
+                        case "Uczen":
+                            break;
+                        case"Rodzic":
+                            break;
+                        case "Nauczyciel":
+                            break;
+                        case"Admin":
+                            break;
+                    }
+                    model.addUser(changesInMark[0],changesInMark[1],permission,changesInMark[3],Integer.parseInt(changesInMark[4]));
                     //TODO:dopisanie dodawania do bazy
                 }
                 refreshUserList();
                 break;
             case "deleteUser":
                 if(confirmationPane()) {
-                    //TODO:dopisanie wywalania z bazy
+                    model.deleteUser(userList.getSelectedValue());
                     refreshUserList();
                 }
                 break;
             case "personalData":
                 System.out.println("personalData");
-                //TODO:dopisanie otwierania danych<-jak bedzie server
+                topPanel.goToPage("http://localhost:63342/Dziennik/out/production/Dziennik/PersonalData.html");
                 break;
             case "changePassword":
                 ChangePasswordForm passwordForm = new ChangePasswordForm(null,"password",true);
                 passwordForm.setVisible(true);
                 String[] changes = passwordForm.getData();
                 if(changes!=null) {
-                    //TODO:dopisanie dodawania do bazy
-                    System.out.println(changes[1]);
+                    model.changePassword(userList.getSelectedValue(),changes[1]);
                 }
                 break;
             case "newClass":
@@ -204,13 +207,13 @@ public class AdminPanel extends Page implements ActionListener {
                 newClass.setVisible(true);
                 String[] changesInClass = newClass.getData();
                 if(changesInClass!=null) {
-                    //TODO:dopisanie dodawania do bazy
+                    model.addGroup(changesInClass[0],Integer.parseInt(changesInClass[1]),Integer.parseInt(changesInClass[2]));
                 }
                 refreshUserList();
                 break;
             case "deleteClass":
                 if(confirmationPane()) {
-                    //TODO:usuwanie klasy z bazy
+                    model.deleteGroup(classList.getSelectedValue());
                     refreshClassList();
                 }
                 break;
@@ -219,8 +222,8 @@ public class AdminPanel extends Page implements ActionListener {
                 changeClass.setVisible(true);
                 String[] changesInStudents = changeClass.getData();
                 if(changesInStudents!=null) {
-                    System.out.println(studentList.getSelectedIndex());
-                    //TODO: zmiana w bazie
+                    String[] studentData = studentList.getSelectedValue().split(" ");
+                    model.changeStudentGroup(studentData[0],studentData[1],classList.getSelectedValue());
                 }
                 refreshStudentsList();
                 break;
