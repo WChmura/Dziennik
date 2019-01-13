@@ -1,6 +1,5 @@
 package FrontEnd.Views;
 
-import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Page;
 
@@ -20,10 +19,13 @@ public class Group extends Page implements ActionListener {
 
     @Override
     public void createGUI() {
-        groupName = model.getClassName();
-        students = model.getMockStudents();
-        numOfStudents = 3;
-        if(MockModel.getUserType()== UserType.admin){
+        model = createNewModel();
+        System.out.println("start pobierania");
+        groupName = model.getFormGroup();
+        students = model.getNamesOfGroup(groupName).toArray(new String[0]);
+        numOfStudents = students.length;
+        System.out.println("koniec pobierania");
+        if(userType== UserType.admin){
             System.out.println("admin");
             addTopMenu(numOfStudents+3);
             addChooseGroupPanel();
@@ -38,7 +40,7 @@ public class Group extends Page implements ActionListener {
     }
     private void addChooseGroupPanel(){
         JPanel chooseGroupPanel = new JPanel();
-        String[] s = model.getClassList();
+        String[] s = model.getAllGroupsNames().toArray(new String[0]);
         final JComboBox<String> comboBox = new JComboBox<>(s);
         comboBox.addActionListener(e -> {
             String className = (String)comboBox.getSelectedItem();
@@ -46,7 +48,7 @@ public class Group extends Page implements ActionListener {
             for (int i = numOfStudents+1;i>0;i--){
                 this.deletePanel(i);
             }
-            students = model.getMockStudents2();//TODO:pobranie nowych danych
+            students = model.getNamesOfGroup(groupName).toArray(new String[0]);;//TODO:pobranie nowych danych
             groupName = className;
             this.addSubPanel(GroupNamePanel(),30,1);
             for(int i =0;i<numOfStudents;i++){

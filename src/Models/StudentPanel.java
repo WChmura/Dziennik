@@ -1,7 +1,9 @@
 package Models;
 
+import Common.UserType;
 import Database.dao.StudentDAO;
 import Database.pojo.Presence;
+import Database.pojo.Student;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -67,6 +69,36 @@ public class StudentPanel extends Model {
         LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate nextMonday = lastMonday.plusWeeks(2);
         return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(account.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
+    }
+
+    @Override
+    public String getFormGroup() {
+        return null;
+    }
+
+    @Override
+    public UserType logIn(String[] loginData) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllUserNames() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllGroupsNames() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ArrayList<Student>> getStudentsFromAllGroups() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getNamesOfGroup(String groupName) {
+        return null;
     }
 
     //public void changeAttendance

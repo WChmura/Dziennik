@@ -15,6 +15,7 @@ public class Settings extends Page {
     //metodka na zmiane hasła (własnego) = void changePassword(String accountName, String newPassword)
     @Override
     public void createGUI() {
+        model = createNewModel();
         addTopMenu(3);
         addSubPanel(new JPanel(),30);
         addButtonsPanel();

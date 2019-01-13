@@ -1,6 +1,5 @@
 package FrontEnd.Views;
 
-import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Page;
 import javax.swing.*;
@@ -42,8 +41,11 @@ public class PersonalData extends Page {
 
     @Override
     public void createGUI() {
+        model = createNewModel();
+        System.out.println("Utworzono model");
         this.addTopMenu(7);
-        if(MockModel.getUserType()!= UserType.student)
+        System.out.println("Dodano pasek");
+        if(userType!= UserType.student)
             canEdit = true;
         else
             canEdit = false;

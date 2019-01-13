@@ -34,13 +34,14 @@ public class Messages extends Page {
     private JTextField recivedTextField;
     @Override
     public void createGUI() {
+        model = createNewModel();
         addTopMenu(1);
         setMessagesValues();
         addMessagesPanel();
     }
 
     private void setMessagesValues(){
-        sendMessages=model.messages();
+        /*sendMessages=model.messages();
         recivedMessages=model.messages();
         sendMessagesTitles=model.messages();
         recivedMessagesTitles=model.messages();
@@ -55,7 +56,7 @@ public class Messages extends Page {
         recivedM = new String[numOfRecived];
         for(int i=0;i<numOfRecived;i++){
             recivedM[i]="'"+recivedMessagesTitles[i]+"' od "+ recivedMessagesSender[i];
-        }
+        }*/
     }
 
     private void addMessagesPanel(){

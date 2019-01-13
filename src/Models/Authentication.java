@@ -1,6 +1,10 @@
 package Models;
 
 import Common.UserType;
+import Database.pojo.Presence;
+import Database.pojo.Student;
+
+import java.util.ArrayList;
 
 public class Authentication extends Model {
 
@@ -26,6 +30,37 @@ public class Authentication extends Model {
         else if(loginData[0].equals("r") && loginData[1].equals("r")){
             return UserType.parent;
         }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllUserNames() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllGroupsNames() {
+        return null;
+    }
+
+
+    @Override
+    public ArrayList<ArrayList<Student>> getStudentsFromAllGroups() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getNamesOfGroup(String groupName) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Presence> getAttendance(String date) {
+        return null;
+    }
+
+    @Override
+    public String getFormGroup() {
         return null;
     }
 }

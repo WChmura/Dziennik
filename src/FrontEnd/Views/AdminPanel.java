@@ -1,5 +1,6 @@
 package FrontEnd.Views;
 
+import Database.pojo.Student;
 import FrontEnd.Colors;
 import FrontEnd.Forms.ChangeClassForm;
 import FrontEnd.Forms.ChangePasswordForm;
@@ -16,10 +17,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AdminPanel extends Page implements ActionListener {
-    //to potrzebuje - wszystko tylko dla Admina
-    private String [] allUsersNames;//loginy wszystkich użytkowników = ArrayList<String> getAllUserNames()
-    private String [] classNames;//nazwy wszystkich klas =  ArrayList<String> getAllClassesNames()
-    private String[][] studentsByClasses;//uczniowie według klas = ArrayList<ArrayList <Student>> getStudentsFromAllGroups()
+
+    private String[] allUsersNames;
+    private String[] classNames;
+    private ArrayList<ArrayList <Student>> studentsByClasses;
     /*metody do:
     - dodawania user do bazy danych = void addUser(String login, String hash, int permission, String mailAddress, int studentID)
     - zmieniania hasła = void changePassword(String accountName, String newPassword)
@@ -34,7 +35,6 @@ public class AdminPanel extends Page implements ActionListener {
      - czy istneieje teacher o danym id
      - czy istnieje sala o danym numerze
      */
-    //TODO: zmiana hałsa guzik
     private JList<String> userList;
     private JList<String> classList;
     private JList<String> studentList;
@@ -42,9 +42,10 @@ public class AdminPanel extends Page implements ActionListener {
     private int studentSelected;
     @Override
     public void createGUI() {
-        allUsersNames = model.getAccountNames();
-        classNames = model.getClassList();
-        studentsByClasses = model.getStudentsByClasses();
+        model = createNewModel();
+        allUsersNames = model.getAllUserNames().toArray(new String[0]);
+        classNames = model.getAllGroupsNames().toArray(new String[0]);
+        studentsByClasses = model.getStudentsFromAllGroups();
         addTopMenu(3);
         addUsersPanel();
         addClassPanel();
@@ -79,7 +80,7 @@ public class AdminPanel extends Page implements ActionListener {
         personalDataButton.setBorderPainted(false);
         personalDataButton.setMargin(new Insets(0,0,0,0));
 
-        userList = new JList<>(allUsersNames);
+        userList = new JList<String>(allUsersNames);
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setVisibleRowCount(5);
@@ -145,7 +146,12 @@ public class AdminPanel extends Page implements ActionListener {
         JScrollPane classScroller = new JScrollPane(classList);
         classScroller.setPreferredSize(new Dimension(200, 100));
 
-        studentList = new JList<>(studentsByClasses[classSelected]);
+        Student[] array = studentsByClasses.get(classSelected).toArray(new Student[0]);
+        String[] namesArray = new String[array.length];
+        for(int i=0;i<array.length;i++){
+            namesArray[i]=array[i].getFirstName()+" "+array[i].getSecondName();
+        }
+        studentList = new JList<>(namesArray);
         studentList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         studentList.setLayoutOrientation(JList.VERTICAL);
         studentList.setVisibleRowCount(5);
@@ -230,7 +236,12 @@ public class AdminPanel extends Page implements ActionListener {
     }
 
     private void refreshStudentsList(){
-        studentList.setListData(studentsByClasses[classSelected]);
+        Student[] array = studentsByClasses.get(classSelected).toArray(new Student[0]);
+        String[] namesArray = new String[array.length];
+        for(int i=0;i<array.length;i++){
+            namesArray[i]=array[i].getFirstName()+" "+array[i].getSecondName();
+        }
+        studentList.setListData(namesArray);
     }
 
 }

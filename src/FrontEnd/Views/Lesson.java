@@ -1,10 +1,6 @@
 package FrontEnd.Views;
 
-import Common.AttendanceValues;
-import Common.MockModel;
-import Common.UserType;
 import FrontEnd.Colors;
-import FrontEnd.Forms.ChangeClassForm;
 import FrontEnd.Forms.NewMarkForm;
 import FrontEnd.Forms.SelectLessonForm;
 import FrontEnd.Page;
@@ -25,7 +21,7 @@ public class Lesson extends Page{
     // funkcja co dostanie id_klasy, id_nauczyciela, date w formacie "" i mi powie czy taka lekcja istnieje
 
     //to już nie
-    private AttendanceValues[] attendances;
+    private int[] attendances;
     private JButton[][] newMarks;
     private int[] numOfMarks;
     private int numOfStudents;
@@ -34,21 +30,22 @@ public class Lesson extends Page{
     //TODO: dopisać okienko pokzywania ocen
     @Override
     public void createGUI() {
-        classNames=model.getClassList();
+        model = createNewModel();
+        classNames=model.getAllGroupsNames().toArray(new String[0]);
         int groupNumber = chooseGroup();
         groupName = classNames[groupNumber];
-        students = model.getMockStudents();
-        numOfStudents = 3;
+        students = model.getNamesOfGroup(groupName).toArray(new String[0]);
+        numOfStudents = students.length;
         newMarks = new JButton[numOfStudents][4];
         numOfMarks = new int[numOfStudents];
-        attendances = new AttendanceValues[numOfStudents];
+        attendances = new int[numOfStudents];
         addTopMenu(numOfStudents + 2);
         this.addSubPanel(GroupNamePanel(),30);
         System.out.println("Dodano nazwe klasy");
         for(int i=0;i<numOfStudents;i++){
             this.addSubPanel(StudentPanel(i),50);
             System.out.println("Dodano studenta");
-            attendances[i]=AttendanceValues.present;
+            attendances[i]=0;
         }
         addEndLessonPanel();
     }
@@ -135,13 +132,13 @@ public class Lesson extends Page{
             if (studentName != null) {
                 switch (studentName){
                     case "obecny":
-                        attendances[number]=AttendanceValues.present;
+                        attendances[number]=0;
                         break;
                     case "nieobecny":
-                        attendances[number]=AttendanceValues.absent;
+                        attendances[number]=1;
                         break;
                     case "usprawiedliwiony":
-                        attendances[number]=AttendanceValues.absentJustified;
+                        attendances[number]=2;
                         break;
                     default:
                         System.out.println("Bledna wartosc");

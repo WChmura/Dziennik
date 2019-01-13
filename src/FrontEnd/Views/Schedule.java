@@ -1,6 +1,5 @@
 package FrontEnd.Views;
 
-import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Forms.DeleteLesson;
 import FrontEnd.Forms.LessonForm;
@@ -12,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Schedule extends Page {
+public class Schedule{}/* extends Page {
     //to potrzebuje
     private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
     //plan moze byc zwracany po id klasy albo id nauczyciela
@@ -27,6 +26,7 @@ public class Schedule extends Page {
     private boolean isAdmin;
     @Override
     public void createGUI() {
+        model = createNewModel();
         subjects = model.schelude();
 
         maxNumOfLesson =7;//usunac z koncowej
@@ -107,7 +107,7 @@ public class Schedule extends Page {
                                 //TODO;dodac edycjelekcji
                             /*reloadGroup(-1);
                             reloadPanels();*/
-                            }
+                           /* }
                         }
                     });
                 } else {
@@ -228,4 +228,4 @@ public class Schedule extends Page {
         return string.split(":");
     }
 
-}
+}*/

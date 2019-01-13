@@ -1,25 +1,31 @@
 package FrontEnd;
 
-import Common.MockModel;
+import Common.UserType;
+import Models.*;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static Common.UserType.student;
 
 public abstract class Page extends JApplet {
     protected JPanel mainContent;
     private JPanel mainPanel;
     private JPanel subPanels[];
     private int numOfSubPanels=0;
-    protected static MockModel model;
+    protected static String userName;
+    protected static UserType userType=UserType.teacher;
+    protected static Model model;
     protected TopPanel topPanel;
 
     public void init() {
         if(model==null) {
-            model = new MockModel();
+            model = new TeacherPanel();
         }
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
+                    System.out.println("Tworzenie GUI");
                     createGUI();
                 }
             });
@@ -28,10 +34,9 @@ public abstract class Page extends JApplet {
         }
     }
     protected void addTopMenu(int numOfPanels){
-        topPanel = new TopPanel(this.getAppletContext(), model);
+        topPanel = new TopPanel(this.getAppletContext(), model,userType);
         this.setJMenuBar(topPanel);
         this.setBackground(Colors.background);
-        //this.setForeground(Colors.background);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());
         mainContent.setOpaque(true);
@@ -75,4 +80,18 @@ public abstract class Page extends JApplet {
         return n != 1;
     }
     public abstract void createGUI();
+
+    protected Model createNewModel(){
+        switch (userType) {
+            case admin:
+                return new AdminPanel();
+            case teacher:
+                return new TeacherPanel();
+            case parent:
+                return new ParentPanel();
+            case student:
+                return new StudentPanel();
+        }
+        return new Authentication();
+    }
 }

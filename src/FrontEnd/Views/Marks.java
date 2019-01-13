@@ -1,6 +1,5 @@
 package FrontEnd.Views;
 
-import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditMarkForm;
@@ -9,7 +8,7 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 
-public class Marks extends Page {
+/*public class Marks extends Page {
     //To potrzebuje
     private int numOfSubjects=5;//ile ten konkrenty uczen ma przedmiotow
     private int subjectsIds[];//idki wszstkich przedmiotów tego konkretnego ucznia
@@ -24,11 +23,12 @@ public class Marks extends Page {
     private int marksId[][];
     @Override
     public void createGUI() {
-        marks = model.getMockMarks();
+        model = createNewModel();
+        marks = model.getMarks();
         marksValues = new int[numOfSubjects][maxNumOfMarks];
         marksId = new int[numOfSubjects][maxNumOfMarks];
         marksButtons = new JButton[numOfSubjects][maxNumOfMarks];
-        if(MockModel.getUserType()==UserType.teacher){
+        if(userType==UserType.teacher){
             addTopMenu(numOfSubjects+2);
             addTeacherPanel();
         }
@@ -47,7 +47,7 @@ public class Marks extends Page {
             button.setText(String.valueOf(value));
             button.setBorderPainted(false);
             button.setBackground(Color.white);
-            if(MockModel.userType==UserType.teacher){
+            if(userType==UserType.teacher){
                 button.setEnabled(true);
                 button.addActionListener(ae -> editMark(i));
             }
@@ -72,13 +72,13 @@ public class Marks extends Page {
 
     private void addTeacherPanel(){
         JPanel teacherPanel = new JPanel();
-        String[] s = model.getStudentsList();
+        String[] s = model.getNamesOfGroup(model.getFormGroup());
         final JComboBox<String> comboBox = new JComboBox<>(s);
         comboBox.addActionListener(e -> {
             //String studentName = (String)comboBox.getSelectedItem();
             System.out.println("Nowy uczeń");
             //TODO:załaduj nowe dane
-            marks = model.getMockMarks();
+            marks = model.getMarks();
             convertMarks();
             updateValues();
         });
@@ -125,4 +125,4 @@ public class Marks extends Page {
             }
         }
     }
-}
+}*/

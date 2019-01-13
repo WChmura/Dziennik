@@ -10,6 +10,7 @@ public class WelcomePage extends Page {
     //tu mi nic nie trzeba
     @Override
     public void createGUI() {
+        model = createNewModel();
         addTopMenu(1);
         mainContent.add(new JLabel("Zaloguj sie aby otrzymac dostep do serwisu"),BorderLayout.NORTH);
     }

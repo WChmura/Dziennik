@@ -1,8 +1,8 @@
 package FrontEnd;
 
-import Common.MockModel;
 import Common.UserType;
 import FrontEnd.Forms.LoginForm;
+import Models.*;
 
 import javax.swing.*;
 
@@ -14,9 +14,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static Common.UserType.*;
+import static FrontEnd.Page.userName;
 
 public class TopPanel extends JMenuBar implements ActionListener {
-    private MockModel mockModel;
+    private Model model;
+    private UserType userType;
     private AppletContext appletContext;
     private final String marksText = "Oceny";
     private final String messagesText = "Wiadomosci";
@@ -28,10 +30,12 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String adminText = "Panel Administratora";
     private final String logInText = "Zaloguj";
     private final String logOutText = "Wyloguj";
-    TopPanel(AppletContext appletContext,MockModel mockModel) {
+
+    TopPanel(AppletContext appletContext, Model model,UserType userType) {
         super();
         this.appletContext = appletContext;
-        this.mockModel = mockModel;
+        this.model = model;
+        this.userType = userType;
         JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
         JButton marksButton = configureButton(marksText);
@@ -49,15 +53,15 @@ public class TopPanel extends JMenuBar implements ActionListener {
         JButton messagesButton = configureButton(messagesText);
         panel.add(messagesButton);
 
-        if(MockModel.userType ==teacher|| MockModel.userType ==admin) {
+        if(userType ==teacher|| userType ==admin) {
             JButton groupButton = configureButton(groupText);
             panel.add(groupButton);
 
-            if(MockModel.userType ==teacher) {
+            if(userType ==teacher) {
                 JButton lessonButton = configureButton(lessonText);
                 panel.add(lessonButton);
             }
-            if(MockModel.userType ==admin) {
+            if(userType ==admin) {
                 JButton adminButton = configureButton(adminText);
                 panel.add(adminButton);
             }
@@ -66,8 +70,8 @@ public class TopPanel extends JMenuBar implements ActionListener {
             for(int i=0;i<2;i++)
                 panel.add(new JLabel());
         }
-        panel.add(new JLabel("    zalogwano jako: "+ mockModel.userName));
-        if(MockModel.userType ==notLogged){
+        panel.add(new JLabel("    zalogwano jako: "/*+ Model.userName*/));
+        if(userType ==notLogged){
             JButton logInButton = configureButton(logInText);
             panel.add(logInButton);
         }
@@ -77,6 +81,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         }
         add(panel);
     }
+
     private JButton configureButton(String text){
         JButton button = new JButton(text);
         button.setActionCommand(text);
@@ -87,9 +92,11 @@ public class TopPanel extends JMenuBar implements ActionListener {
         button.addActionListener(this);
         return button;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(MockModel.userType !=notLogged) {
+
+        if(userType !=notLogged) {
             String command = e.getActionCommand();
             String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
             switch (command) {
@@ -128,27 +135,27 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 case logOutText:
                     if (logOutMessage()) {
                         link += "WelcomePage.html";
-                        setUserType(notLogged);
                         goToPage(link);
                     }
                     break;
             }
         }
+
         else if(e.getActionCommand().equals(logInText)){
             LoginForm sd = new LoginForm(null);
             sd.setVisible(true);
             String[] loginData= sd.getData();
             if(loginData!=null) {
-                if (mockModel.logIn(loginData)) {
-                    String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
-                    //setUserType(student);
-                    goToPage(link);
-                } else {
+                userType = model.logIn(loginData);
+                userName = loginData[0];
+                String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
+                goToPage(link);
+            }else {
                     System.out.println("zle dane");
                 }
             }
-        }
     }
+
     public void goToPage(String link){
         link+="?_ijt=9nrlhq9rllbk5phprk3hm8t6pp";
         try {
@@ -158,9 +165,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             System.out.println(e.getMessage());
         }
     }
-    private void setUserType(UserType userType) {
-        MockModel.userType = userType;
-    }
+
     private boolean logOutMessage(){
         int n = JOptionPane.showConfirmDialog(
                 this,
