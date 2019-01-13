@@ -1,8 +1,6 @@
 package Database.dao;
-
 import Database.C3poDataSource;
 import Database.pojo.*;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,15 +12,17 @@ public class PresenceDAO {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO OBECNOSC"
-                    + "(id_obecnosci, data, typ, id_ucznia, id_nauczyciela, id_przedmiotu) VALUES"
-                    + "(?,?,?,?,?,?)";
+                    + "(id_obecnosci, data, numer_lekcji, typ, id_ucznia, id_nauczyciela, id_przedmiotu) VALUES"
+                    + "(?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, pre.getPresenceId());
             preparedStatement.setDate(2, pre.getDate());
-            preparedStatement.setInt(3, pre.getType());
-            preparedStatement.setInt(4, pre.getStudentId());
-            preparedStatement.setInt(5, pre.getTeacherId());
-            preparedStatement.setInt(6, pre.getSubjectId());
+            preparedStatement.setInt(3, pre.getLesson_number());
+            preparedStatement.setInt(4, pre.getType());
+            preparedStatement.setInt(5, pre.getStudentId());
+            preparedStatement.setInt(6, pre.getTeacherId());
+            preparedStatement.setInt(7, pre.getSubjectId());
+
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -65,7 +65,8 @@ public class PresenceDAO {
                 int studentId = rs.getInt("Id_ucznia");
                 int teacherId = rs.getInt("Id_nauczyciela");
                 int subjectId = rs.getInt("Id_przedmiotu");
-                Presence pres = new Presence(date, type, studentId, teacherId, subjectId);
+                int lesson_numer = rs.getInt("numer_lekcji");
+                Presence pres = new Presence(date,lesson_numer, type, studentId, teacherId, subjectId);
                 pres.setPresenceId(presenceId);
                 ListOfAttendance.add(pres);
             }
@@ -95,7 +96,8 @@ public class PresenceDAO {
                 int studentId = rs.getInt("Id_ucznia");
                 int teacherId = rs.getInt("Id_nauczyciela");
                 int subjectId = rs.getInt("Id_przedmiotu");
-                Presence pres = new Presence(date, type, studentId, teacherId, subjectId);
+                int lesson_numer = rs.getInt("numer_lekcji");
+                Presence pres = new Presence(date, lesson_numer, type, studentId, teacherId, subjectId);
                 pres.setPresenceId(presenceId);
                 ListOfAttendance.add(pres);
             }
@@ -121,7 +123,7 @@ public class PresenceDAO {
             int studentId;
             int teacherId;
             int subjectId;
-
+            int lesson_numer;
             while(rs.next())
             {
                 presenceId = rs.getInt("id_obecnosci");
@@ -130,7 +132,8 @@ public class PresenceDAO {
                 studentId = rs.getInt("id_ucznia");
                 teacherId = rs.getInt("id_nauczyciela");
                 subjectId = rs.getInt("id_przedmiotu");
-                pres = new Presence(date, type, studentId, teacherId, subjectId);
+                lesson_numer = rs.getInt("numer_lekcji");
+                pres = new Presence(date, lesson_numer ,type, studentId, teacherId, subjectId);
                 pres.setPresenceId(presenceId);
                 return pres;
             }

@@ -9,16 +9,18 @@ public class Presence {
 
     private int presenceId;
     private Date date;
-    /** 0-obecnosc, 1-nieobecnosc **/
+    /** 0-obecnosc, 1-nieobecnosc, 2-nieobecnosc **/
+    private int lesson_number;
     private Integer type;
     private int studentId;
     private int teacherId;
     private int subjectId;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
-    public Presence(Date date, Integer type, int studentId, int teacherId, int subjectId) {
+    public Presence(Date date, int lesson_number, Integer type, int studentId, int teacherId, int subjectId) {
         this.presenceId = ID_GENERATOR.getAndIncrement();
         this.date = date;
+        this.lesson_number = lesson_number;
         this.type = type;
         this.studentId = studentId;
         this.teacherId = teacherId;
@@ -39,6 +41,14 @@ public class Presence {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getLesson_number() {
+        return lesson_number;
+    }
+
+    public void setLesson_number(int lesson_number) {
+        this.lesson_number = lesson_number;
     }
 
     public Integer getType() {
@@ -78,6 +88,7 @@ public class Presence {
         return "Presence{" +
                 "presenceId=" + presenceId +
                 ", date=" + date +
+                ", lesson_number=" + lesson_number +
                 ", type=" + type +
                 ", studentId=" + studentId +
                 ", teacherId=" + teacherId +
