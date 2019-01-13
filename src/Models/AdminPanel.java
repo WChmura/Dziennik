@@ -16,10 +16,6 @@ public class AdminPanel extends TeacherPanel {
         return AccountDAO.getAllAccounts();
     }
 
-    public ArrayList<String> getAllGroupsNames() {
-        return GroupDAO.getAllGroups();
-    }
-
     public ArrayList<ArrayList <Student>>  getStudentsFromAllGroups() {
         ArrayList<ArrayList <Student>> ListOfGroups = new ArrayList<ArrayList <Student>>();
         ArrayList<String> groups = getAllGroupsNames();

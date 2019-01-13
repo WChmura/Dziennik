@@ -64,5 +64,33 @@ public class TeacherDAO {
         return tea;
     }
 
+    public static Teacher getTeacherFromAccount(Account account) {
+        Teacher tea = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Nauczyciel where id_konta = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, account.getPersonID());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int teacherID;
+            String firstName;
+            String secondName;
+            String degree;
+            while(rs.next())
+            {
+                teacherID = rs.getInt("id_nauczyciela");
+                firstName = rs.getString("imie");
+                secondName = rs.getString("nazwisko");
+                degree = rs.getString("wyksztalcenie");
+                tea = new Teacher(firstName, secondName, degree);
+                tea.setTeacherID(teacherID);
+                return tea;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tea;
+    }
 
 }

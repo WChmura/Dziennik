@@ -63,6 +63,29 @@ public class TimetableDAO {
         return ListOfStudents;
     }
 
+    /**  zqwraca id grupy ktora ma lekcje danego dnia z danym nauczycielem **/
+    public static int getGroupIdOfLesson(int day, int teacherID)
+    {
+        ArrayList<Student> ListOfStudents = new ArrayList<Student>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "select ID_klasy from \"DZIENNIK3\".\"Plan\" where dzien = ? and id_nuczyciela = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, day);
+            preparedStatement.setInt(2, teacherID);
+            ResultSet rs = preparedStatement.executeQuery();
+            int groupID = -1;
+            while(rs.next())
+            {
+                groupID=rs.getInt("ID_klasy");
+            }
+            return groupID;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     /** Pobieranie planu dla grupy, tu chyba będzie trzeba coc zmienic bo obiekty Timetable przechowuja praktycznie tylko id-iki **/
     public static ArrayList<Timetable> getSchedule(Group grp)
     {

@@ -249,4 +249,47 @@ public class StudentDAO {
         return ListOfStudents;
     }
 
+    /* Zwraca liste wszystkich uczniow danej klasy danego dnia danego nauczyciela */
+    public static ArrayList<Student> getStudentsFromGroup(String groupName, Date date, int teacherID)
+    {
+        ArrayList<Student> ListOfStudents = new ArrayList<Student>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Uczen natural join Klasa where Klasa.nazwa = ? ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, groupName);
+            ResultSet rs = preparedStatement.executeQuery();
+            int id_message;
+            int id_sender;
+            int id_recipient;
+            String topic;
+            String msg;
+            int readed;
+
+
+            int studentID;
+            int groupID;
+            String firstName;
+            String secondName;
+            String adress;
+            String sex;
+            String personal_identity_number;
+            while(rs.next()) {
+                studentID = rs.getInt("ID_ucznia");
+                groupID = rs.getInt("Id_klasy");
+                firstName = rs.getString("Imie");
+                secondName = rs.getString("nazwisko");
+                adress = rs.getString("adres");
+                sex = rs.getString("plec");
+                personal_identity_number = rs.getString("Pesel");
+                Student std = new Student(groupID, firstName, secondName, adress, sex, personal_identity_number);
+                std.setStudentID(studentID);
+                ListOfStudents.add(std);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ListOfStudents;
+    }
+
 }

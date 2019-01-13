@@ -1,10 +1,14 @@
 package Models;
 
 import Database.dao.GroupDAO;
+import Database.dao.TeacherDAO;
+import Database.dao.TimetableDAO;
+import Database.pojo.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static Database.dao.StudentDAO.getAllPersonalData;
 
@@ -26,7 +30,16 @@ public class TeacherPanel extends ParentPanel {
         return null;
     }
 
-    public String getFormGroup(String firstName, String lastName) {
-        return GroupDAO.getGroup(firstName, lastName).getName();
+    public String getFormGroup() {
+        Teacher teacher = TeacherDAO.getTeacherFromAccount(account);
+        return GroupDAO.getGroup(teacher.getFirstName(), teacher.getSecondName()).getName();
+    }
+
+    public ArrayList<String> getStudentsFromLesson(String groupName) {
+        return getNamesOfGroup(groupName);
+    }
+
+    public ArrayList<String> getAllGroupsNames() {
+        return GroupDAO.getAllGroups();
     }
 }
