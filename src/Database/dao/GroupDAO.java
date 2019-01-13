@@ -91,7 +91,7 @@ public class GroupDAO {
         Group grp = null;
         try {
             Connection con = C3poDataSource.getConnection();
-            String insertTableSQL = " select * from Klasa where imie = ? and nazwisko = ?";
+            String insertTableSQL = " select * from Klasa natural join Nauczyciel where imie = ? and nazwisko = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
