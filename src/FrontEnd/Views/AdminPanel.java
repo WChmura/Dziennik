@@ -171,16 +171,19 @@ public class AdminPanel extends Page implements ActionListener {
                     int permission=0;
                     switch (changesInMark[2]){
                         case "Uczen":
+                            permission=0;
                             break;
                         case"Rodzic":
+                            permission=1;
                             break;
                         case "Nauczyciel":
+                            permission=2;
                             break;
                         case"Admin":
+                            permission=3;
                             break;
                     }
                     model.addUser(changesInMark[0],changesInMark[1],permission,changesInMark[3],Integer.parseInt(changesInMark[4]));
-                    //TODO:dopisanie dodawania do bazy
                 }
                 refreshUserList();
                 break;
@@ -191,8 +194,7 @@ public class AdminPanel extends Page implements ActionListener {
                 }
                 break;
             case "personalData":
-                System.out.println("personalData");
-                topPanel.goToPage("http://localhost:63342/Dziennik/out/production/Dziennik/PersonalData.html");
+                topPanel.goToPage("personalData");
                 break;
             case "changePassword":
                 ChangePasswordForm passwordForm = new ChangePasswordForm(null,"password",true);

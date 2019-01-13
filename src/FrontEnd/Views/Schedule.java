@@ -11,7 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Schedule{}/* extends Page {
+public class Schedule extends Page {
+    @Override
+    public void createGUI() {
+
+    }
+}/*{
     //to potrzebuje
     private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
     //plan moze byc zwracany po id klasy albo id nauczyciela

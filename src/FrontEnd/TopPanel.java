@@ -2,6 +2,8 @@ package FrontEnd;
 
 import Common.UserType;
 import FrontEnd.Forms.LoginForm;
+import FrontEnd.Views.*;
+import FrontEnd.Views.AdminPanel;
 import Models.*;
 
 import javax.swing.*;
@@ -10,6 +12,7 @@ import java.applet.AppletContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -19,7 +22,7 @@ import static FrontEnd.Page.userName;
 public class TopPanel extends JMenuBar implements ActionListener {
     private Model model;
     private UserType userType;
-    private AppletContext appletContext;
+    private JFrame frame;
     private final String marksText = "Oceny";
     private final String messagesText = "Wiadomosci";
     private final String scheduleText = "Plan Zajec";
@@ -31,9 +34,10 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String logInText = "Zaloguj";
     private final String logOutText = "Wyloguj";
 
-    TopPanel( Model model,UserType userType) {
+    TopPanel( JFrame frame,Model model,UserType userType) {
         super();
         this.model = model;
+        this.frame = frame;
         this.userType = userType;
         JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
@@ -69,7 +73,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
             for(int i=0;i<2;i++)
                 panel.add(new JLabel());
         }
-        panel.add(new JLabel("    zalogwano jako: "/*+ Model.userName*/));
+        panel.add(new JLabel("    zalogwano jako: "+ userName));
         if(userType ==notLogged){
             JButton logInButton = configureButton(logInText);
             panel.add(logInButton);
@@ -97,47 +101,15 @@ public class TopPanel extends JMenuBar implements ActionListener {
 
         if(userType !=notLogged) {
             String command = e.getActionCommand();
-            String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
-            switch (command) {
-                case marksText:
-                    link += "Marks.html";
-                    goToPage(link);
-                    break;
-                case scheduleText:
-                    link += "Schedule.html";
-                    goToPage(link);
-                    break;
-                case settingsText:
-                    link += "Settings.html";
-                    goToPage(link);
-                    break;
-                case groupText:
-                    link += "Group.html";
-                    goToPage(link);
-                    break;
-                case adminText:
-                    link += "AdminPanel.html";
-                    goToPage(link);
-                    break;
-                case attendanceText:
-                    link += "Attendance.html";
-                    goToPage(link);
-                    break;
-                case lessonText:
-                    link += "Lesson.html";
-                    goToPage(link);
-                    break;
-                case messagesText:
-                    link +="Messages.html";
-                    goToPage(link);
-                    break;
-                case logOutText:
-                    if (logOutMessage()) {
-                        link += "WelcomePage.html";
-                        goToPage(link);
-                    }
-                    break;
+            if(command.equals(logOutText)){
+                if(logOutMessage()) {
+                    userType = notLogged;
+                    userName = null;
+                    goToPage("startowa");
+                }
             }
+            else
+                goToPage(command);
         }
 
         else if(e.getActionCommand().equals(logInText)){
@@ -147,22 +119,52 @@ public class TopPanel extends JMenuBar implements ActionListener {
             if(loginData!=null) {
                 userType = model.logIn(loginData);
                 userName = loginData[0];
-                String link = "http://localhost:63342/Dziennik/out/production/Dziennik/Marks.html";
-                goToPage(link);
+                goToPage("personalData");
             }else {
                     System.out.println("zle dane");
                 }
             }
     }
 
-    public void goToPage(String link){
-        link+="?_ijt=9nrlhq9rllbk5phprk3hm8t6pp";
-        try {
-            URL u = new URL(link);
-            appletContext.showDocument(u,"_self");
-        } catch (MalformedURLException e){
-            System.out.println(e.getMessage());
+    public void goToPage(String sth){
+
+        frame.dispose();//To close the current window
+        Page newWindow;
+        switch(sth){
+            case marksText:
+                newWindow = new Marks();
+                break;
+            case messagesText:
+                newWindow = new Messages();
+                break;
+            case scheduleText:
+                newWindow = new Schedule();
+                break;
+            case attendanceText:
+                newWindow = new Attendance();
+                break;
+            case settingsText:
+                newWindow = new Settings();
+                break;
+            case groupText:
+                newWindow = new Group();
+                break;
+            case lessonText:
+                newWindow = new Lesson();
+                break;
+            case adminText:
+                newWindow = new AdminPanel();
+                break;
+            case "startowa":
+                newWindow = new WelcomePage();
+                break;
+            case "personalData":
+                newWindow = new PersonalData();
+                break;
+                default:
+                    newWindow = new WelcomePage();
         }
+        newWindow.setVisible(true);
     }
 
     private boolean logOutMessage(){

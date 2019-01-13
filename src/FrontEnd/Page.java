@@ -16,34 +16,18 @@ public abstract class Page extends JFrame {
     protected static UserType userType=UserType.teacher;
     //protected static String userName = " ";
     //protected static UserType userType = UserType.notLogged;
-    protected static Model model;
+    protected Model model;
     protected TopPanel topPanel;
-
-    /*public void init() {
-        if(model==null) {
-            model = new TeacherPanel(userName);
-            //model=createNewModel();
-        }
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    System.out.println("Tworzenie GUI");
-
-                }
-            });
-        } catch (Exception e) {
-            System.err.println("createGUI didn't complete successfully");
-        }
-    }*/
 
     public Page(){
         super("Hello World");
+        super.setSize(800,600);
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
     protected void addTopMenu(int numOfPanels){
-        topPanel = new TopPanel(model,userType);
+        topPanel = new TopPanel(this,model,userType);
         this.setJMenuBar(topPanel);
         this.setBackground(Colors.background);
         mainContent = new JPanel();
@@ -92,6 +76,7 @@ public abstract class Page extends JFrame {
 
     protected Model createNewModel(){
         System.out.println("Create new model");
+        //return new TeacherPanel();
         switch (userType) {
             case admin:
                 return new AdminPanel(userName);
