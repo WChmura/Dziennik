@@ -8,7 +8,14 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 
-/*public class Marks extends Page {
+public class Marks extends Page
+{
+    @Override
+    public void createGUI() {
+
+    }
+}
+/*{
     //To potrzebuje
     private int numOfSubjects=5;//ile ten konkrenty uczen ma przedmiotow
     private int subjectsIds[];//idki wszstkich przedmiotów tego konkretnego ucznia

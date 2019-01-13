@@ -1,4 +1,5 @@
 import FrontEnd.Views.Group;
+import FrontEnd.Views.Settings;
 import FrontEnd.Views.WelcomePage;
 
 import java.awt.EventQueue;
@@ -8,7 +9,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Group();
+                new Settings();
             }
         });
     }

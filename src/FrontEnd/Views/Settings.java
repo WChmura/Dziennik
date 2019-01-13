@@ -28,7 +28,7 @@ public class Settings extends Page {
         personalData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: przejdz do strony z danymi
+                topPanel.goToPage("personalData");
             }
         });
         panel.add(personalData);

@@ -36,6 +36,7 @@ public class Group extends Page implements ActionListener {
         }
         this.addSubPanel(GroupNamePanel(),30);
         for(int i=0;i<numOfStudents;i++){
+            System.out.println("Dodawanie panelu");
             addSubPanel(StudentPanel(i),50);
         }
     }
@@ -105,21 +106,18 @@ public class Group extends Page implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
-        switch (command) {
+        /*switch (command) {
             case "marks":
-                link += "Marks.html";
                 topPanel.goToPage(link);
                 break;
             case "attendances":
-                link += "Attendance.html";
                 topPanel.goToPage(link);
                 break;
             case "personal info":
-                link += "PersonalData.html";
                 topPanel.goToPage(link);
                 break;
             default:
-        }
+        }*/
     }
 
 }
