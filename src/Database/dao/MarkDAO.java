@@ -4,6 +4,7 @@ import Database.C3poDataSource;
 import Database.pojo.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MarkDAO {
 
@@ -116,6 +117,43 @@ public class MarkDAO {
         return mar;
     }
 
+    /** zwraca obiekty Ocena z bazy na podstawie id ucznia, moze sie przyda **/
+    public static ArrayList<Mark> getMarks(int studentID)
+    {
+        ArrayList<Mark> marks = new ArrayList<Mark>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Ocena where id_ucznia = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, studentID);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int markID;
+            int subjectID;
+            int teacherID;
+            Date date;
+            int mark;
+            int weight;
+            String description;
+            Mark mark1;
+            while(rs.next()) {
+                markID = rs.getInt("id_oceny");
+                subjectID = rs.getInt("id_przedmiotu");
+                studentID = rs.getInt("id_ucznia");
+                teacherID = rs.getInt("id_nauczyciela");
+                date = rs.getDate("data");
+                mark = rs.getInt("ocena");
+                weight = rs.getInt("waga");
+                description = rs.getString("opis");
+                mark1 = new Mark(subjectID,studentID,teacherID,date,mark,weight,description);
+                mark1.setMarkID(markID);
+                marks.add(mark1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
