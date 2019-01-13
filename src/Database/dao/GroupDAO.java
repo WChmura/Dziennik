@@ -85,6 +85,40 @@ public class GroupDAO {
         return grp;
     }
 
+    /** zwraca obiekt Group z bazy na podstawie nauczyciela, moze sie przyda **/
+    public static Group getGroup(String firstName, String lastName)
+    {
+        Group grp = null;
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Klasa where imie = ? and nazwisko = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int groupID;
+            String name;
+            int teacherID;
+            int classroomID;
+
+
+            while(rs.next())
+            {
+                groupID = rs.getInt("ID_klasy");
+                name = rs.getString("nazwa");
+                teacherID = rs.getInt("id_nauczyciela");
+                classroomID = rs.getInt("id_sali");
+
+                grp = new Group(name, teacherID, classroomID);
+                grp.setGroupID(groupID);
+                return  grp;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return grp;
+    }
     /** zwraca obiekt Group z bazy na podstawie nazwy, moze sie przyda **/
     public static Group getGroup(String groupName)
     {
