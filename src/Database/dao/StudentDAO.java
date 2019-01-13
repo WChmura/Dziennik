@@ -33,6 +33,34 @@ public class StudentDAO {
         }
     }
 
+    public static void changeAddress(Student student, String address) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE uczen set adres = ? where id_ucznia = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, address);
+            preparedStatement.setInt(2, student.getStudentID());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changePersonalIdentityNumber(Student student, String personalIdentityNumber) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE uczen set pesel = ? where id_ucznia = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, personalIdentityNumber);
+            preparedStatement.setInt(2, student.getStudentID());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /** Delete z bazy **/
     public static void deleteStudent(Student std)
     {

@@ -186,6 +186,56 @@ public class StudentPanel extends Model {
         MessageDAO.markAsReaded(msgs.get(numberOfMessage));
     }
 
+    public String getFirstName(String login) {
+        return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getFirstName();
+    }
+
+    public String getFirstName() {
+        return StudentDAO.getStudent(account.getStudentID()).getFirstName();
+    }
+
+    public String getlastName(String login) {
+        return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getSecondName();
+    }
+
+    public String getlastName() {
+        return StudentDAO.getStudent(account.getStudentID()).getSecondName();
+    }
+
+    public String getAddress(String login) {
+        return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getAdress();
+    }
+
+    public String getAddress() {
+        return StudentDAO.getStudent(account.getStudentID()).getAdress();
+    }
+
+    public String getSex(String login) {
+        return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getSex();
+    }
+
+    public String getSex() {
+        return StudentDAO.getStudent(account.getStudentID()).getSex();
+    }
+
+    public String getPersonalIdentityNumber(String login) {
+        return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getPersonal_identity_number();
+    }
+
+    public String getPersonalIdentityNumber() {
+        return StudentDAO.getStudent(account.getStudentID()).getPersonal_identity_number();
+    }
+
+    public void setAddress(String login, String address) {
+        Student student = StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID());
+        StudentDAO.changeAddress(student, address);
+    }
+
+    public void setPersonalIdentityNumber(String login, String personalIdentityNumber) {
+        Student student = StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID());
+        StudentDAO.changeAddress(student, personalIdentityNumber);
+    }
+
     @Override
     public String getFormGroup() { return null; }
 
