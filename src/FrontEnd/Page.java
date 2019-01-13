@@ -86,7 +86,7 @@ public abstract class Page extends JApplet {
             case admin:
                 return new AdminPanel();
             case teacher:
-                return new TeacherPanel();
+                return new TeacherPanel(userName);
             case parent:
                 return new ParentPanel();
             case student:

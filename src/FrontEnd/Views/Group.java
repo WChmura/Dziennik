@@ -22,6 +22,7 @@ public class Group extends Page implements ActionListener {
         model = createNewModel();
         System.out.println("start pobierania");
         groupName = model.getFormGroup();
+        //groupName = "Klasa_1";
         students = model.getNamesOfGroup(groupName).toArray(new String[0]);
         numOfStudents = students.length;
         System.out.println("koniec pobierania");
@@ -48,7 +49,7 @@ public class Group extends Page implements ActionListener {
             for (int i = numOfStudents+1;i>0;i--){
                 this.deletePanel(i);
             }
-            students = model.getNamesOfGroup(groupName).toArray(new String[0]);;//TODO:pobranie nowych danych
+            students = model.getNamesOfGroup(groupName).toArray(new String[0]);
             groupName = className;
             this.addSubPanel(GroupNamePanel(),30,1);
             for(int i =0;i<numOfStudents;i++){

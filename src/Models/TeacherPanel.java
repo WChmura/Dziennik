@@ -14,6 +14,10 @@ import static Database.dao.StudentDAO.getAllPersonalData;
 
 public class TeacherPanel extends ParentPanel {
 
+    public TeacherPanel(String login) {
+        super.Model(login);
+    }
+
     public ArrayList<String> getNamesOfGroup(String groupName) {
         int groupID = GroupDAO.getGroup(groupName).getGroupID();
         ArrayList<String> list = new ArrayList<String>();
