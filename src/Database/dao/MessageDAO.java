@@ -108,4 +108,17 @@ public class MessageDAO {
         return ListOfMesseges;
     }
 
+    public static void markAsReaded(Message msg) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE WIADOMOSC set przeczytana = 1 where id_wiadomosci = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(2, msg.getId_message());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
