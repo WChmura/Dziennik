@@ -1,5 +1,7 @@
 package Models;
 
+import Common.UserType;
+
 public abstract class Model {
     Database.pojo.Account account;
 
@@ -9,9 +11,5 @@ public abstract class Model {
 
     public void Model(String login) {
         account = Database.dao.AccountDAO.getAccount(login);
-    }
-
-    public void showPage(FrontEnd.Page page) {
-        page.init();
     }
 }
