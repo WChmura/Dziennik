@@ -4,12 +4,12 @@ import Common.UserType;
 import Database.pojo.Presence;
 import Database.pojo.Student;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Authentication extends Model {
 
-    public Authentication() {
-    }
+    public Authentication() {}
 
     public Authentication(String login) {
         super(login);
@@ -88,4 +88,14 @@ public class Authentication extends Model {
 
     @Override
     public void changePassword(String accountName, String newPassword) { }
+
+    @Override
+    public void addMark(String firstName, String lastName, Date date, int value, int weight, String desc) {
+
+    }
+
+    @Override
+    public void insertPresences(Date date, String groupName, int[] marks) {
+
+    }
 }

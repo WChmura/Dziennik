@@ -15,8 +15,6 @@ import static Database.dao.StudentDAO.getAllPersonalData;
 
 public class TeacherPanel extends ParentPanel {
 
-    public TeacherPanel() { }
-
     public TeacherPanel(String login) {
         super(login);
     }

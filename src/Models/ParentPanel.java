@@ -4,8 +4,6 @@ import Database.dao.PresenceDAO;
 import Database.dao.StudentDAO;
 
 public class ParentPanel extends  StudentPanel {
-    public ParentPanel() {
-    }
 
     public ParentPanel(String login) {
         super(login);

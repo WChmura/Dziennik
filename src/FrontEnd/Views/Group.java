@@ -22,7 +22,6 @@ public class Group extends Page implements ActionListener {
         model = createNewModel();
         System.out.println("start pobierania");
         groupName = model.getFormGroup();
-        //groupName = "Klasa_1";
         students = model.getNamesOfGroup(groupName).toArray(new String[0]);
         numOfStudents = students.length;
         System.out.println("koniec pobierania");
@@ -106,18 +105,18 @@ public class Group extends Page implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
-        /*switch (command) {
+        switch (command) {
             case "marks":
-                topPanel.goToPage(link);
+                topPanel.goToPage("Oceny");
                 break;
             case "attendances":
-                topPanel.goToPage(link);
+                topPanel.goToPage("Obecnosci");
                 break;
             case "personal info":
-                topPanel.goToPage(link);
+                topPanel.goToPage("personalData");
                 break;
             default:
-        }*/
+        }
     }
 
 }

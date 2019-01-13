@@ -12,16 +12,17 @@ public abstract class Page extends JFrame {
     private JPanel mainPanel;
     private JPanel[] subPanels;
     private int numOfSubPanels=0;
-    protected static String userName = "qazxsw123";
-    protected static UserType userType=UserType.teacher;
-    //protected static String userName = " ";
-    //protected static UserType userType = UserType.notLogged;
+    //protected static String userName = "qazxsw123";
+    //protected static UserType userType=UserType.teacher;
+    protected static String userName = " ";
+    protected static UserType userType = UserType.notLogged;
     protected Model model;
     protected TopPanel topPanel;
 
     public Page(){
         super("Hello World");
-        super.setSize(800,600);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        super.setSize(d.width,2*d.height/3);
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -59,7 +60,6 @@ public abstract class Page extends JFrame {
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel,num);
         System.out.println("Teoretycznie dodano");
-        //TODO:jakis repaint? Bo ma laga
     }
     protected void deletePanel(int num){
         mainPanel.remove(num);
@@ -76,7 +76,7 @@ public abstract class Page extends JFrame {
 
     protected Model createNewModel(){
         System.out.println("Create new model");
-        //return new TeacherPanel();
+        System.out.println(userType);
         switch (userType) {
             case admin:
                 return new AdminPanel(userName);

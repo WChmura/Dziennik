@@ -31,7 +31,6 @@ public class AdminPanel extends Page implements ActionListener {
     private JList<String> classList;
     private JList<String> studentList;
     private int classSelected;
-    private int studentSelected;
     @Override
     public void createGUI() {
         model = createNewModel();
@@ -232,6 +231,7 @@ public class AdminPanel extends Page implements ActionListener {
             default:
         }
     }
+
     private void refreshUserList(){
         userList.setListData(allUsersNames);
     }
@@ -248,5 +248,4 @@ public class AdminPanel extends Page implements ActionListener {
         }
         studentList.setListData(namesArray);
     }
-
 }

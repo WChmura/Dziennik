@@ -8,20 +8,18 @@ import Models.*;
 
 import javax.swing.*;
 
-import java.applet.AppletContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import static Common.UserType.*;
 import static FrontEnd.Page.userName;
+import static FrontEnd.Page.userType;
 
 public class TopPanel extends JMenuBar implements ActionListener {
     private Model model;
-    private UserType userType;
     private JFrame frame;
     private final String marksText = "Oceny";
     private final String messagesText = "Wiadomosci";
@@ -34,11 +32,13 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String logInText = "Zaloguj";
     private final String logOutText = "Wyloguj";
 
-    TopPanel( JFrame frame,Model model,UserType userType) {
+    TopPanel( JFrame frame,Model model,UserType user) {
         super();
         this.model = model;
         this.frame = frame;
-        this.userType = userType;
+
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(d.width, d.height/10);
         JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
         JButton marksButton = configureButton(marksText);
@@ -101,6 +101,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
 
         if(userType !=notLogged) {
             String command = e.getActionCommand();
+            System.out.println(command);
             if(command.equals(logOutText)){
                 if(logOutMessage()) {
                     userType = notLogged;

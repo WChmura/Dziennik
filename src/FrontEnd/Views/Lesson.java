@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+
 
 public class Lesson extends Page{
     //to potrzebuje - tylko dla nauczycieli
@@ -16,8 +18,6 @@ public class Lesson extends Page{
     private String groupName; //nazwa klasy
     private String[] classNames; //list klas
     //+ metodki
-    // na dodawanie nowej ocenki
-    // taka co jest dam tablice czy uczen byl obecny, a ona to wbije do bazy
     // funkcja co dostanie id_klasy, id_nauczyciela, date w formacie "" i mi powie czy taka lekcja istnieje
 
     //to już nie
@@ -25,9 +25,8 @@ public class Lesson extends Page{
     private JButton[][] newMarks;
     private int[] numOfMarks;
     private int numOfStudents;
-    int lessonId;
-    int teacherId;
-    //TODO: dopisać okienko pokzywania ocen
+
+    //TODO:Form ze sprawdzaniem
     @Override
     public void createGUI() {
         model = createNewModel();
@@ -86,6 +85,7 @@ public class Lesson extends Page{
             public void actionPerformed(ActionEvent e) {
                 if(confirmationPane()) {
                     //TODO: dopisanie obecnosci calej klasy
+                    model.insertPresences(new Date(2019,1,21),groupName,attendances);
                 }
             }
         });
@@ -104,8 +104,9 @@ public class Lesson extends Page{
         if(changesInMark!=null) {
             newMarks[studentNum][numOfMarks[studentNum]].setText(changesInMark[1]);
             newMarks[studentNum][numOfMarks[studentNum]++].setBackground(Color.white);
-            //TODO: wysłac do bazy
-            //new DbMark();
+            String[] studentData = students[studentNum].split(" ");
+            model.addMark(studentData[0],studentData[1],new Date(2019,1,21),
+                    Integer.parseInt(changesInMark[0]),Integer.parseInt(changesInMark[1]),changesInMark[2]);
         }
     }
 
@@ -149,7 +150,6 @@ public class Lesson extends Page{
     }
 
     private int chooseGroup(){
-        //TODO:to by mozna przerobic, bo brzydkie i na około
         SelectLessonForm selectClass = new SelectLessonForm(null,classNames);
         selectClass.setVisible(true);
         String[] changesInStudents = selectClass.getData();
