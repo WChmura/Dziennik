@@ -75,9 +75,25 @@ public class StudentPanel extends Model {
     }
 
     @Override
-    public String getFormGroup() {
-        return null;
-    }
+    public String getFormGroup() { return null; }
+
+    @Override
+    public void addUser(String login, String hash, int permission, String mailAddress, int studentID) { }
+
+    @Override
+    public void deleteUser(String accountName) { }
+
+    @Override
+    public void addGroup(String name, int teacherID, int classroomID) { }
+
+    @Override
+    public void deleteGroup(String name) { }
+
+    @Override
+    public void changeStudentGroup(String firstName, String lastName, String groupName) {}
+
+    @Override
+    public void changePassword(String accountName, String newPassword) { }
 
     @Override
     public UserType logIn(String[] loginData) {

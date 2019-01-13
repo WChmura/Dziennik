@@ -11,7 +11,7 @@ public abstract class Model {
 
 
 
-    public void Model () {
+    public Model () {
 
     }
 
@@ -32,5 +32,17 @@ public abstract class Model {
     abstract public ArrayList<Presence> getAttendance(String date);
 
     abstract public String getFormGroup();
+
+    abstract public void addUser(String login, String hash, int permission, String mailAddress, int studentID);
+
+    abstract public void deleteUser(String accountName);
+
+    abstract public void addGroup(String name, int teacherID, int classroomID);
+
+    abstract public void deleteGroup(String name);
+
+    abstract public void changeStudentGroup(String firstName, String lastName, String groupName);
+
+    abstract public void changePassword(String accountName, String newPassword);
 
 }
