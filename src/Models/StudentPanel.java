@@ -6,6 +6,7 @@ import Database.pojo.*;
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +19,10 @@ import java.util.Set;
 public class StudentPanel extends Model {
     public StudentPanel(String login) {
         super(login);
+    }
+
+    public StudentPanel() {
+
     }
 
     /*public String[] showPersonalData(int studentID) {
@@ -259,6 +264,78 @@ public class StudentPanel extends Model {
         MarkDAO.changeDescription(mark, mark.getDescription());
         MarkDAO.changeMark(mark, mark.getMark());
         MarkDAO.changeWeight(mark, mark.getWeight());
+    }
+
+
+    public  String[][] getScheduleOfGroup(String groupName) {
+        Group grp = GroupDAO.getGroup(groupName);
+        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(grp);
+        String[][] schedule = new String[8][5];
+        for (Timetable cell : timetable) {
+            Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
+            Teacher teacher = TeacherDAO.getTeacher(cell.getTeacherID());
+            Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
+            String text = subject.getName() + ":" + teacher.getFirstName() + " " + teacher.getSecondName() + ":" + classroom.getName();
+            schedule[cell.getDay()][cell.getHour()] = text;
+        }
+        return schedule;
+    }
+
+    public String[][] getScheduleOfAccount(String login) {
+        Account acc = AccountDAO.getAccount(login);
+        if (acc.getPermission() < 2) {
+            Student std = StudentDAO.getStudent(acc.getStudentID());
+            Group grp = GroupDAO.getGroup(std.getGroupID());
+            return getScheduleOfGroup(grp.getName());
+        }
+        else if (acc.getPermission() == 3) {
+            Teacher tea = TeacherDAO.getTeacherFromAccount(acc);
+            ArrayList<Timetable> timetable = TimetableDAO.getSchedule(tea);
+            String[][] schedule = new String[8][5];
+            for (Timetable cell : timetable) {
+                Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
+                Group group = GroupDAO.getGroup(cell.getGroupID());
+                Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
+                String text = subject.getName() + ":" + group.getName() + ":" + classroom.getName();
+                schedule[cell.getDay()][cell.getHour()] = text;
+            }
+            return schedule;
+        }
+        else return null;
+    }
+
+    public int getNumberOfLastGroupLesson(String groupName) {
+        Group group = GroupDAO.getGroup(groupName);
+        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(group);
+        int lastLesson = 0;
+        for (Timetable cell : timetable) {
+            if (cell.getHour() > lastLesson) lastLesson = cell.getHour();
+        }
+        return lastLesson;
+    }
+
+    public int getNumberOfLastTeacherLesson(String login) {
+        Teacher teacher = TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login));
+        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(teacher);
+        int lastLesson = 0;
+        for (Timetable cell : timetable) {
+            if (cell.getHour() > lastLesson) lastLesson = cell.getHour();
+        }
+        return lastLesson;
+    }
+
+    public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
+        TimetableDAO.updateTimetable(day, hour, classroomID, teacherID, groupID, subjectID);
+    }
+
+    public boolean doesLessonExistForGroup(int day, int hour, String groupName) {
+        Group group = GroupDAO.getGroup(groupName);
+        return TimetableDAO.checkGroup(day, hour, group.getGroupID());
+    }
+
+    public boolean doesLessonExistForTeacher(int day, int hour, String login) {
+        Teacher teacher = TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login));
+        return TimetableDAO.checkTeacher(day, hour, teacher.getTeacherID());
     }
 
     @Override

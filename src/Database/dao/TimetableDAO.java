@@ -32,6 +32,60 @@ public class TimetableDAO {
         }
     }
 
+    public static void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE \"DZIENNIK3\".\"Plan\" set id_klasy = ? , id_sali = ? , id_nauczyciela = ? , id_przedmiotu = ? where dzien = ? and godzina = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, classroomID);
+            preparedStatement.setInt(2, teacherID);
+            preparedStatement.setInt(3, groupID);
+            preparedStatement.setInt(4, subjectID);
+            preparedStatement.setInt(5, day);
+            preparedStatement.setInt(6, hour);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean checkGroup(int day, int hour, int groupID) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where dzien = ? and godzina = ? and id_klasy = ? ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, hour);
+            preparedStatement.setInt(2, day);
+            preparedStatement.setInt(3, groupID);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean checkTeacher(int day, int hour, int teacherID) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where dzien = ? and godzina = ? and id_nauczyciela = ? ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, hour);
+            preparedStatement.setInt(2, day);
+            preparedStatement.setInt(3, teacherID);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     /**  ma zwracac liste uczniow ktorzy maja w planie lekcje z danym nauczycielem danego dnia o konkretnej godzinie **/
     public static ArrayList<Student> getStudents(int day, int hour, Teacher tea)
     {
@@ -107,6 +161,36 @@ public class TimetableDAO {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    /** Pobieranie planu dla nauczyciela **/
+    public static ArrayList<Timetable> getSchedule(Teacher tea)
+    {
+        ArrayList<Timetable> ListOfSchedule = new ArrayList<Timetable>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where id_nauczyciela = ? ";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, tea.getTeacherID());
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next())
+            {
+                int lessonID = rs.getInt("id_lekcji");
+                int groupID = rs.getInt("id_klasy");
+                int classroomID = rs.getInt("id_sali");
+                int teacherID = rs.getInt("id_nauczyciela");
+                int day = rs.getInt("dzien");
+                int hour = rs.getInt("godzina");
+                int subjectID = rs.getInt("id_przedmiotu");
+
+                Timetable tim = new Timetable(groupID,classroomID,teacherID,day,hour,subjectID);
+                tim.setLessonID(lessonID);
+                ListOfSchedule.add(tim);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ListOfSchedule;
     }
 
     /** Pobieranie planu dla grupy, tu chyba będzie trzeba coc zmienic bo obiekty Timetable przechowuja praktycznie tylko id-iki **/
