@@ -31,15 +31,17 @@ public class PresenceDAO {
         }
     }
 
-    /** Zmienia nieobecnosc na obecnosc(usprawiedliwienie); Czy jest potrzeba zmiany obecnosci na nieobecnosc? **/
-    public static void changeAttendance(Student std, Date date)
+    /** Zmienia typ obecnosci **/
+    public static void changeAttendance(Student std, Date date, int numberOfLesson, int newValue)
     {
         try {
             Connection con = C3poDataSource.getConnection();
-            String insertTableSQL = "UPDATE Obecnosc set typ = 1 where id_ucznia = ? and data = ?";
+            String insertTableSQL = "UPDATE Obecnosc set typ = ? where id_ucznia = ? and data = ? and numer_lekcji = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, std.getStudentID());
-            preparedStatement.setDate(2, date);
+            preparedStatement.setInt(1, newValue);
+            preparedStatement.setInt(2, std.getStudentID());
+            preparedStatement.setDate(3, date);
+            preparedStatement.setInt(4, numberOfLesson);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {

@@ -11,12 +11,13 @@ import static Database.dao.StudentDAO.getAllPersonalData;
 public class TeacherPanel extends ParentPanel {
 
     public ArrayList<String> getNamesOfGroup(String groupName) {
+        int groupID = GroupDAO.getGroup(groupName).getGroupID();
         ArrayList<String> list = new ArrayList<String>();
         try {
             ResultSet rs = getAllPersonalData();
             while(rs.next())
             {
-                list.add(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+                if (rs.getInt("id_klasy") == groupID) list.add(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
             }
             return list;
         } catch (SQLException e) {

@@ -212,7 +212,7 @@ public class StudentDAO {
         ArrayList<Student> ListOfStudents = new ArrayList<Student>();
         try {
             Connection con = C3poDataSource.getConnection();
-            String insertTableSQL = " select * from Uczen natural join Klasa where klasa.nazwa = ? ";
+            String insertTableSQL = " select * from Uczen natural join Klasa where Klasa.nazwa = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, groupName);
             ResultSet rs = preparedStatement.executeQuery();

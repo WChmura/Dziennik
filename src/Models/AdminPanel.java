@@ -5,7 +5,11 @@ import Database.dao.GroupDAO;
 import Database.dao.StudentDAO;
 import Database.pojo.Student;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static Database.dao.StudentDAO.getAllPersonalData;
 
 public class AdminPanel extends TeacherPanel {
     public ArrayList<String> getAllUserNames() {
@@ -48,5 +52,20 @@ public class AdminPanel extends TeacherPanel {
 
     public void changePassword(String accountName, String newPassword) {
         Database.dao.AccountDAO.updatePassword(Database.dao.AccountDAO.getAccount(accountName), newPassword);
+    }
+
+    public ArrayList<String> getAllStudents() {
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            ResultSet rs = getAllPersonalData();
+            while(rs.next())
+            {
+                list.add(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
