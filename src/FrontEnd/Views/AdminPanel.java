@@ -26,7 +26,7 @@ public class AdminPanel extends Page implements ActionListener {
     - usuwania user z bazy = void deleteUser(String accountName)
     - dodawnia klasy = addGroup(String name, int teacherID, int classroomID)
     - usuwania klasy = deleteGroup(String name)
-    - przenoszenia ucznia do innej klasy
+    - przenoszenia ucznia do innej klasy = void changeStudentGroup(String firstName, String lastName, String groupName)
      */
 
     /*+ jeszcze, takie mniej ważne:

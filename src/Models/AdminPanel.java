@@ -42,7 +42,7 @@ public class AdminPanel extends TeacherPanel {
         Database.dao.GroupDAO.deleteGroup(Database.dao.GroupDAO.getGroup(name));
     }
 
-    public void changeStudentGroup() {
-        //TODO: ccmplete
+    public void changeStudentGroup(String firstName, String lastName, String groupName) {
+        Database.dao.StudentDAO.updateGroup(Database.dao.StudentDAO.getStudent(firstName, lastName), Database.dao.GroupDAO.getGroup(groupName));
     }
 }
