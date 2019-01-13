@@ -9,11 +9,13 @@ import java.util.ArrayList;
 public abstract class Model {
     Database.pojo.Account account;
 
+
+
     public void Model () {
 
     }
 
-    public void Model(String login) {
+    public Model(String login) {
         account = Database.dao.AccountDAO.getAccount(login);
     }
 

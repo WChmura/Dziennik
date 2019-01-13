@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class Authentication extends Model {
 
+    public Authentication(String login) {
+        super(login);
+    }
+
     private String hash(String password) {
         // TODO: implement a hashing function
         return password;

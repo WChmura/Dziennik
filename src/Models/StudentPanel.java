@@ -13,6 +13,9 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class StudentPanel extends Model {
+    public StudentPanel(String login) {
+        super(login);
+    }
 
     /*public String[] showPersonalData(int studentID) {
         FrontEnd.Views.PersonalData view = new FrontEnd.Views.PersonalData();

@@ -15,7 +15,7 @@ import static Database.dao.StudentDAO.getAllPersonalData;
 public class TeacherPanel extends ParentPanel {
 
     public TeacherPanel(String login) {
-        super.Model(login);
+        super(login);
     }
 
     public ArrayList<String> getNamesOfGroup(String groupName) {

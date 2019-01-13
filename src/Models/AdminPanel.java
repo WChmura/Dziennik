@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import static Database.dao.StudentDAO.getAllPersonalData;
 
 public class AdminPanel extends TeacherPanel {
+    public AdminPanel(String login) {
+        super(login);
+    }
+
     public ArrayList<String> getAllUserNames() {
         return AccountDAO.getAllAccounts();
     }

@@ -20,7 +20,7 @@ public abstract class Page extends JApplet {
 
     public void init() {
         if(model==null) {
-            model = new TeacherPanel();
+            model = new TeacherPanel(userName);
         }
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
@@ -84,14 +84,14 @@ public abstract class Page extends JApplet {
     protected Model createNewModel(){
         switch (userType) {
             case admin:
-                return new AdminPanel();
+                return new AdminPanel(userName);
             case teacher:
                 return new TeacherPanel(userName);
             case parent:
-                return new ParentPanel();
+                return new ParentPanel(userName);
             case student:
-                return new StudentPanel();
+                return new StudentPanel(userName);
         }
-        return new Authentication();
+        return new Authentication(userName);
     }
 }
