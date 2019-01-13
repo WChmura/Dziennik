@@ -10,13 +10,17 @@ public class Teacher {
     private String firstName;
     private String secondName;
     private String degree;
+    private int account_id;
+    private int subject_id;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
-    public Teacher(String firstName, String secondName, String degree) {
+    public Teacher(String firstName, String secondName, String degree, int account_id, int sub_id) {
         this.teacherID = ID_GENERATOR.getAndIncrement();
         this.firstName = firstName;
         this.secondName = secondName;
         this.degree = degree;
+        this.account_id = account_id;
+        this.subject_id = sub_id;
     }
 
     public int getTeacherID() {
@@ -51,6 +55,22 @@ public class Teacher {
         this.degree = degree;
     }
 
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+
+    public int getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(int subject_id) {
+        this.subject_id = subject_id;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
@@ -58,6 +78,8 @@ public class Teacher {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", degree='" + degree + '\'' +
+                ", account_id=" + account_id +
+                ", subject_id=" + subject_id +
                 '}';
     }
 }

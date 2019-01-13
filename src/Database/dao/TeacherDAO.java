@@ -16,14 +16,15 @@ public class TeacherDAO {
         try {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Nauczyciel"
-                    + "(id_nauczyciela,imie, nazwisko, wyksztalcenie, id_konta) VALUES"
-                    + "(?,?,?,?,?)";
+                    + "(id_nauczyciela,imie, nazwisko, wyksztalcenie, id_konta, id_przedmiotu) VALUES"
+                    + "(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, Tea.getTeacherID());
             preparedStatement.setString(2, Tea.getFirstName());
             preparedStatement.setString(3, Tea.getSecondName());
             preparedStatement.setString(4, Tea.getDegree());
             preparedStatement.setInt(5, Tea.getAccount_id());
+            preparedStatement.setInt(6, Tea.getSubject_id());
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
@@ -50,6 +51,7 @@ public class TeacherDAO {
             String secondName;
             String degree;
             int id_i;
+            int sub_id;
             while(rs.next())
             {
                 teacherID = rs.getInt("id_nauczyciela");
@@ -57,7 +59,8 @@ public class TeacherDAO {
                 secondName = rs.getString("nazwisko");
                 degree = rs.getString("wyksztalcenie");
                 id_i = rs.getInt("id_konta");
-                tea = new Teacher(firstName, secondName, degree, id_i);
+                sub_id = rs.getInt("id_przedmiotu");
+                tea = new Teacher(firstName, secondName, degree, id_i, sub_id);
                 tea.setTeacherID(teacherID);
                 return tea;
             }
@@ -81,6 +84,7 @@ public class TeacherDAO {
             String secondName;
             String degree;
             int id_i;
+            int sub_id;
             while(rs.next())
             {
                 teacherID = rs.getInt("id_nauczyciela");
@@ -88,7 +92,8 @@ public class TeacherDAO {
                 secondName = rs.getString("nazwisko");
                 degree = rs.getString("wyksztalcenie");
                 id_i = rs.getInt("id_konta");
-                tea = new Teacher(firstName, secondName, degree, id_i);
+                sub_id = rs.getInt("id_przedmiotu");
+                tea = new Teacher(firstName, secondName, degree, id_i, sub_id);
                 tea.setTeacherID(teacherID);
                 return tea;
             }
