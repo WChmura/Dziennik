@@ -1,14 +1,8 @@
 package Models;
 
 import Common.UserType;
-import Database.dao.AccountDAO;
-import Database.dao.MessageDAO;
-import Database.dao.StudentDAO;
-import Database.dao.TeacherDAO;
-import Database.pojo.Account;
-import Database.pojo.Message;
-import Database.pojo.Presence;
-import Database.pojo.Student;
+import Database.dao.*;
+import Database.pojo.*;
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
@@ -18,6 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StudentPanel extends Model {
     public StudentPanel(String login) {
@@ -234,6 +230,35 @@ public class StudentPanel extends Model {
     public void setPersonalIdentityNumber(String login, String personalIdentityNumber) {
         Student student = StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID());
         StudentDAO.changeAddress(student, personalIdentityNumber);
+    }
+
+    public int getSubjectCountOfStudent(String firstName, String lastName) {
+        Student student = StudentDAO.getStudent(firstName, lastName);
+        HashSet<Integer> marks = new HashSet<Integer>();
+        for (Mark mark : MarkDAO.getMarks(student.getStudentID())) {
+            marks.add(mark.getStudentID());
+        }
+        return marks.size();
+    }
+
+    public HashSet<Integer> getSubjectsOfStudent(String firstName, String lastName) {
+        Student student = StudentDAO.getStudent(firstName, lastName);
+        HashSet<Integer> marks = new HashSet<Integer>();
+        for (Mark mark : MarkDAO.getMarks(student.getStudentID())) {
+            marks.add(mark.getStudentID());
+        }
+        return marks;
+    }
+
+    public ArrayList<Mark> getMarks(String firstName, String lastName) {
+        Student student = StudentDAO.getStudent(firstName, lastName);
+        return MarkDAO.getMarks(student.getStudentID());
+    }
+
+    public void updateMark(Mark mark) {
+        MarkDAO.changeDescription(mark, mark.getDescription());
+        MarkDAO.changeMark(mark, mark.getMark());
+        MarkDAO.changeWeight(mark, mark.getWeight());
     }
 
     @Override
