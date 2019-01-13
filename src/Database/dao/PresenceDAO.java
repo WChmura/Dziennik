@@ -75,6 +75,36 @@ public class PresenceDAO {
         return ListOfAttendance;
     }
 
+    /** Zwraca liste obecnosci ucznia; Do dorobobienia dla nauczyciela i klasy? **/
+    public static ArrayList<Presence> getAttendance(Student std, String lastMonday, String nextMonday)
+    {
+        ArrayList<Presence> ListOfAttendance = new ArrayList<Presence>();
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = " select * from Obecnosc where id_ucznia = ? and data >= to_date( ? ) and data <S to_date ( ? )";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, std.getStudentID());
+            preparedStatement.setString(2, lastMonday);
+            preparedStatement.setString(3, nextMonday);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next())
+            {
+                int presenceId = rs.getInt("Id_obecnosci");
+                Date date = rs.getDate("data");
+                Integer type = rs.getInt("typ");
+                int studentId = rs.getInt("Id_ucznia");
+                int teacherId = rs.getInt("Id_nauczyciela");
+                int subjectId = rs.getInt("Id_przedmiotu");
+                Presence pres = new Presence(date, type, studentId, teacherId, subjectId);
+                pres.setPresenceId(presenceId);
+                ListOfAttendance.add(pres);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ListOfAttendance;
+    }
+
     /** zwraca obiekt Account z bazy na podstawie id, moze sie przyda **/
     public static Presence getPresence(int id)
     {

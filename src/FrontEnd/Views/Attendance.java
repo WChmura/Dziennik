@@ -16,7 +16,7 @@ import java.sql.Date;
 public class Attendance extends Page {
     //to potrzebuje - wszystko dla wszystkich
     private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
-    private Database.pojo.Presence[][] attendances;//obecności
+    private Database.pojo.Presence[][] attendances;//obecności = ArrayList<Presence> getAttendance(String date)
     private AttendanceValues[][] attendanceValues;//obecności ob/niob/usp ->prztłumaczone na enum, ewt zmiana na int i tylko wyciągnięte
     // + metoda do zmiany typu obecności <- nauczyciele i rodzice
     private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie

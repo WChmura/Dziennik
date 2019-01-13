@@ -1,5 +1,15 @@
 package Models;
 
+import Database.dao.StudentDAO;
+import Database.pojo.Presence;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+
 public class StudentPanel extends Model {
 
     /*public String[] showPersonalData(int studentID) {
@@ -48,7 +58,16 @@ public class StudentPanel extends Model {
         showPage(view);
     }*/
 
-    public void changePassword(String accountName, String newPassword) {
-        Database.dao.AccountDAO.updatePassword(Database.dao.AccountDAO.getAccount(accountName), newPassword);
+    public void changePassword(String newPassword) {
+        Database.dao.AccountDAO.updatePassword(account, newPassword);
     }
+
+    public ArrayList<Presence> getAttendance(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate nextMonday = lastMonday.plusWeeks(2);
+        return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(account.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
+    }
+
+    //public void changeAttendance
 }

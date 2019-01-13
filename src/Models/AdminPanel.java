@@ -45,4 +45,8 @@ public class AdminPanel extends TeacherPanel {
     public void changeStudentGroup(String firstName, String lastName, String groupName) {
         Database.dao.StudentDAO.updateGroup(Database.dao.StudentDAO.getStudent(firstName, lastName), Database.dao.GroupDAO.getGroup(groupName));
     }
+
+    public void changePassword(String accountName, String newPassword) {
+        Database.dao.AccountDAO.updatePassword(Database.dao.AccountDAO.getAccount(accountName), newPassword);
+    }
 }
