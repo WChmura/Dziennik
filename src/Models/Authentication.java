@@ -1,11 +1,14 @@
 package Models;
 
 import Common.UserType;
+import Database.dao.AccountDAO;
+import Database.pojo.Mark;
 import Database.pojo.Presence;
 import Database.pojo.Student;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Authentication extends Model {
 
@@ -25,18 +28,21 @@ public class Authentication extends Model {
     }
 
     //Do zastapienia taka sprawdzajaca w bazie
-    public UserType logIn(String[] loginData){
-        if (loginData[0].equals("admin") && loginData[1].equals("admin")){
+    public UserType logIn(String[] loginData) {
+        account = AccountDAO.getAccount(loginData[0], loginData[1]);
+        if (account.getPermission() == 3) {
             return UserType.admin;
-        }else if(loginData[0].equals("tw") && loginData[1].equals("tw")){
+        }
+        else if (account.getPermission() == 2) {
             return UserType.teacher;
         }
-        else if(loginData[0].equals("s") && loginData[1].equals("s")){
-            return UserType.student;
-        }
-        else if(loginData[0].equals("r") && loginData[1].equals("r")){
+        else if (account.getPermission() == 1) {
             return UserType.parent;
         }
+        else if (account.getPermission() == 0) {
+            return UserType.student;
+        }
+        if (account != null) System.out.println(account.getMailAddress());
         return null;
     }
 
@@ -97,5 +103,80 @@ public class Authentication extends Model {
     @Override
     public void insertPresences(Date date, String groupName, int[] marks) {
 
+    }
+
+    @Override
+    public boolean doesLessonExist(int groupId, int teacherId, String date) {
+        return false;
+    }
+
+    @Override
+    public int getSubjectCountOfStudent(String firstName, String lastName) {
+        return 0;
+    }
+
+    @Override
+    public HashSet<Integer> getSubjectsOfStudent(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Mark> getMarks(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public void updateMark(Mark mark) {
+
+    }
+
+    @Override
+    public String getFirstName(String login) {
+        return null;
+    }
+
+    @Override
+    public String getFirstName() {
+        return null;
+    }
+
+    @Override
+    public String getlastName(String login) {
+        return null;
+    }
+
+    @Override
+    public String getlastName() {
+        return null;
+    }
+
+    @Override
+    public String getAddress(String login) {
+        return null;
+    }
+
+    @Override
+    public String getAddress() {
+        return null;
+    }
+
+    @Override
+    public String getSex(String login) {
+        return null;
+    }
+
+    @Override
+    public String getSex() {
+        return null;
+    }
+
+    @Override
+    public String getPersonalIdentityNumber(String login) {
+        return null;
+    }
+
+    @Override
+    public String getPersonalIdentityNumber() {
+        return null;
     }
 }

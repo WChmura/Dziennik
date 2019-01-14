@@ -6,6 +6,7 @@ import Database.pojo.*;
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -358,6 +359,21 @@ public class StudentPanel extends Model {
 
     @Override
     public void changePassword(String accountName, String newPassword) { }
+
+    @Override
+    public void addMark(String firstName, String lastName, Date date, int value, int weight, String desc) {
+        
+    }
+
+    @Override
+    public void insertPresences(Date date, String groupName, int[] marks) {
+
+    }
+
+    @Override
+    public boolean doesLessonExist(int groupId, int teacherId, String date) {
+        return false;
+    }
 
     @Override
     public UserType logIn(String[] loginData) {

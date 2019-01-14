@@ -24,7 +24,7 @@ public class TeacherDAO {
             preparedStatement.setString(3, Tea.getSecondName());
             preparedStatement.setString(4, Tea.getDegree());
             preparedStatement.setInt(5, Tea.getAccount_id());
-            preparedStatement.setInt(6, Tea.getSubject_id());
+            preparedStatement.setInt(6, Tea.getSubjectId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
 

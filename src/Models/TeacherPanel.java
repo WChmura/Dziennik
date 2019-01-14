@@ -51,7 +51,7 @@ public class TeacherPanel extends ParentPanel {
     public void addMark(String firstName, String lastName, Date date, int value, int weight, String desc) {
         Teacher teacher = TeacherDAO.getTeacherFromAccount(account);
         Student student = StudentDAO.getStudent(firstName, lastName);
-        MarkDAO.insertMark(new Mark(teacher.getSubject_id(), student.getStudentID(), teacher.getTeacherID(), date, value, weight, desc));
+        MarkDAO.insertMark(new Mark(teacher.getSubjectId(), student.getStudentID(), teacher.getTeacherID(), date, value, weight, desc));
     }
 
     public void insertPresences(Date date, String groupName, int[] marks) {
@@ -67,7 +67,7 @@ public class TeacherPanel extends ParentPanel {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             int weekday = cal.get(Calendar.DAY_OF_WEEK);
-            Presence presence = new Presence(date, TimetableDAO.getNumberOfLesson(group.getGroupID(), weekday, teacher.getTeacherID()), marks[index], student.getStudentID(), teacher.getTeacherID(), teacher.getSubject_id());
+            Presence presence = new Presence(date, TimetableDAO.getNumberOfLesson(group.getGroupID(), weekday, teacher.getTeacherID()), marks[index], student.getStudentID(), teacher.getTeacherID(), teacher.getSubjectId());
             PresenceDAO.insertPresence(presence);
             index++;
         }

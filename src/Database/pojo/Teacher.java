@@ -63,7 +63,7 @@ public class Teacher {
         this.account_id = account_id;
     }
 
-    public int getSubject_id() {
+    public int getSubjectId() {
         return subject_id;
     }
 

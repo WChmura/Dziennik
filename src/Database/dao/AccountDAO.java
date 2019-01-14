@@ -104,7 +104,9 @@ public class AccountDAO {
     {
         Account acc = null;
         try {
+            System.out.printf("przed polaczeniem");
             Connection con = C3poDataSource.getConnection();
+            System.out.println("po polaczeniu");
             String insertTableSQL = " select * from Konto where login = ? AND hash = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, login);
@@ -123,6 +125,8 @@ public class AccountDAO {
             int studentIDT;
             while(rs.next())
             {
+                System.out.println("jest rekord");
+                System.out.printf(rs.getString("adres_mail"));
                 personIDT = rs.getInt("ID_KONTA");
                 loginT=rs.getString("LOGIN");
                 hashT=rs.getString("HASH");
