@@ -1,7 +1,6 @@
 package FrontEnd.Views;
 
 import FrontEnd.Colors;
-import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Forms.NewMessageForm;
 import FrontEnd.Page;
 
@@ -11,27 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Messages extends Page {
-    //to potrzebuje - tylko dla nauczycieli i adminów
     private String [] sendMessages;
-    private String [] recivedMessages;
-    private String [] sendMessagesTitles;
-    private String [] recivedMessagesTitles;
-    private String [] sendMessagesRecipient;
-    private String [] recivedMessagesSender;
-    boolean [] recivedMessageIsRead;
+    private String [] receivedMessages;
+    private Boolean[] recivedMessageIsRead;
     //+metodki
     //nowa wiadomosc
     //zmiana statusu na odczytana
 
-    //tego juz nie
     private int numOfSended;
-    private int numOfRecived;
+    private int namOfReceived;
     private String [] sendM;
-    private String [] recivedM;
+    private String [] receivedM;
     private JComboBox<String> sendedComboBox;
-    private JComboBox<String> recivedComboBox;
+    private JComboBox<String> receivedComboBox;
     private JTextField sendTextField;
-    private JTextField recivedTextField;
+    private JTextField receivedTextField;
     @Override
     public void createGUI() {
         model = createNewModel();
@@ -41,22 +34,23 @@ public class Messages extends Page {
     }
 
     private void setMessagesValues(){
-        /*sendMessages=model.messages();
-        recivedMessages=model.messages();
-        sendMessagesTitles=model.messages();
-        recivedMessagesTitles=model.messages();
-        sendMessagesRecipient=model.messages();
-        recivedMessagesSender=model.messages();
-        numOfRecived=recivedMessages.length;
+        sendMessages=model.getSentMessages().toArray(new String[0]);
+        receivedMessages =model.getReceivedMessages().toArray(new String[0]);
+        String[] sendMessagesTitles = model.getSentMessagesTitles().toArray(new String[0]);
+        String[] receivedMessagesTitles = model.getReceivedMessagesTitles().toArray(new String[0]);
+        String[] sendMessagesRecipient = model.getSentMessagesRecipents().toArray(new String[0]);
+        String[] receivedMessagesSender = model.getReceivedMessagesSenders().toArray(new String[0]);
+        recivedMessageIsRead = model.areReceivedMessagesRead().toArray(new Boolean[0]);
+        namOfReceived = receivedMessages.length;
         numOfSended=sendMessages.length;
         sendM = new String[numOfSended];
         for(int i=0;i<numOfSended;i++){
-            sendM[i]="'"+sendMessagesTitles[i]+"' do "+ sendMessagesRecipient[i];
+            sendM[i]="'"+ sendMessagesTitles[i]+"' do "+ sendMessagesRecipient[i];
         }
-        recivedM = new String[numOfRecived];
-        for(int i=0;i<numOfRecived;i++){
-            recivedM[i]="'"+recivedMessagesTitles[i]+"' od "+ recivedMessagesSender[i];
-        }*/
+        receivedM = new String[namOfReceived];
+        for(int i = 0; i< namOfReceived; i++){
+            receivedM[i]="'"+ receivedMessagesTitles[i]+"' od "+ receivedMessagesSender[i];
+        }
     }
 
     private void addMessagesPanel(){
@@ -73,7 +67,7 @@ public class Messages extends Page {
                 edit.setVisible(true);
                 String[] changes = edit.getData();
                 if(changes!=null) {
-                    //TODO:dodac wysłanie
+                    model.sendMessage(changes[1],changes[2],changes[0]);
                 }
             }
         });
@@ -111,20 +105,20 @@ public class Messages extends Page {
     private JPanel addRecivedPanel(){
         JPanel recivedPanel= new JPanel(new BorderLayout());
         recivedPanel.setBackground(Colors.main);
-        recivedComboBox = new JComboBox<>(recivedM);
-        recivedComboBox.addActionListener(e -> {
-            recivedTextField.setText(recivedMessages[recivedComboBox.getSelectedIndex()]);
+        receivedComboBox = new JComboBox<>(receivedM);
+        receivedComboBox.addActionListener(e -> {
+            receivedTextField.setText(receivedMessages[receivedComboBox.getSelectedIndex()]);
         });
         JLabel recivedLabel = new JLabel("Odebrane");
         recivedLabel.setBackground(Colors.main);
         recivedLabel.setHorizontalAlignment(JLabel.CENTER);
-        recivedTextField = new JTextField();
+        receivedTextField = new JTextField();
         JPanel recivedSubPanel = new JPanel(new GridLayout(2,1));
         recivedSubPanel.setBackground(Colors.main);
         recivedSubPanel.add(recivedLabel);
-        recivedSubPanel.add(recivedComboBox);
+        recivedSubPanel.add(receivedComboBox);
         recivedPanel.add(recivedSubPanel,BorderLayout.NORTH);
-        recivedPanel.add(recivedTextField,BorderLayout.CENTER);
+        recivedPanel.add(receivedTextField,BorderLayout.CENTER);
         return recivedPanel;
     }
 }

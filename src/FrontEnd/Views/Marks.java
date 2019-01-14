@@ -1,6 +1,7 @@
 package FrontEnd.Views;
 
 import Common.UserType;
+import Database.pojo.Mark;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditMarkForm;
 import FrontEnd.Page;
@@ -10,28 +11,39 @@ import java.awt.*;
 
 public class Marks extends Page
 {
-    @Override
-    public void createGUI() {
-
-    }
-}
-/*{
     //To potrzebuje
-    private int numOfSubjects=5;//ile ten konkrenty uczen ma przedmiotow
+    private int numOfSubjects;
     private int subjectsIds[];//idki wszstkich przedmiotów tego konkretnego ucznia
     private int maxNumOfMarks = 25;
-    private Database.pojo.Mark[] marks; // wszystkie jego ocenki
-    // + metoda do zmiany oceny, ja podaje cale pojo.Mark <- tylko dla nauczycieli
-    private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
+    private Database.pojo.Mark[] marks;
+    private String[] studentNames;
 
     //to już nie
-    private JButton marksButtons[][];
-    private int marksValues[][];
-    private int marksId[][];
+    private JButton[][] marksButtons;
+    private int[][] marksValues;
+    private int[][] marksId;
+    private String firstName;
+    private String secondName;
     @Override
     public void createGUI() {
         model = createNewModel();
-        marks = model.getMarks();
+        if(userType==UserType.student||userType==UserType.parent){
+            firstName = model.getFirstName();
+            secondName = model.getlastName();
+            marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
+        }
+
+        else {
+            if(userType==UserType.teacher)
+                studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
+            else
+                studentNames = model.getAllStudents().toArray(new String[0]);
+            String[] studentData = studentNames[0].split(" ");
+            firstName = studentData[0];
+            secondName = studentData[1];
+            marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
+        }
+        numOfSubjects=model.getSubjectCountOfStudent(firstName,secondName);
         marksValues = new int[numOfSubjects][maxNumOfMarks];
         marksId = new int[numOfSubjects][maxNumOfMarks];
         marksButtons = new JButton[numOfSubjects][maxNumOfMarks];
@@ -47,8 +59,7 @@ public class Marks extends Page
         }
 
     }
-    //dodac myszke po najechaniu ->klasa wewnetrzna?
-    //abo bardziej jakiś mouse listener
+
     private JButton configureMarkButton(JButton button,int value,int i){
         if(value!=0){
             button.setText(String.valueOf(value));
@@ -73,19 +84,22 @@ public class Marks extends Page
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
-            //TODO;dodac zmiane oceny
+            marks[i].setMark(Integer.valueOf(changesInMark[1]));
+            marks[i].setWeight(Integer.valueOf(changesInMark[2]));
+            marks[i].setDescription(changesInMark[3]);
+            model.updateMark(marks[i]);
         }
     }
 
     private void addTeacherPanel(){
         JPanel teacherPanel = new JPanel();
-        String[] s = model.getNamesOfGroup(model.getFormGroup());
-        final JComboBox<String> comboBox = new JComboBox<>(s);
+        final JComboBox<String> comboBox = new JComboBox<>(studentNames);
         comboBox.addActionListener(e -> {
-            //String studentName = (String)comboBox.getSelectedItem();
             System.out.println("Nowy uczeń");
-            //TODO:załaduj nowe dane
-            marks = model.getMarks();
+            String[] studentData = studentNames[comboBox.getSelectedIndex()].split(" ");
+            firstName = studentData[0];
+            secondName = studentData[1];
+            marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
             convertMarks();
             updateValues();
         });
@@ -108,10 +122,11 @@ public class Marks extends Page
         subjectPanel.add(marksPanel);
         this.addSubPanel(subjectPanel,50);
     }
+
     private void convertMarks(){
         for(int i=0;i<numOfSubjects;i++) {
             int numOfMarks=0;
-            int subjectId = i;
+            int subjectId = subjectsIds[i];
             for (int j = 0; j < marks.length; j++) {
                 if (marks[j].getSubjectID() == subjectId) {
                     marksValues[i][numOfMarks]=marks[j].getMark();
@@ -124,6 +139,7 @@ public class Marks extends Page
             }
         }
     }
+
     private void updateValues(){
         for(int i=0;i<numOfSubjects;i++){
             for(int j=0;j<maxNumOfMarks;j++){
@@ -132,4 +148,4 @@ public class Marks extends Page
             }
         }
     }
-}*/
+}

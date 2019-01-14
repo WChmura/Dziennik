@@ -179,4 +179,54 @@ public class Authentication extends Model {
     public String getPersonalIdentityNumber() {
         return null;
     }
+
+    @Override
+    public ArrayList<String> getAllStudents() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getSentMessages() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getSentMessagesTitles() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getSentMessagesRecipents() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getReceivedMessages() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getReceivedMessagesTitles() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getReceivedMessagesSenders() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Boolean> areReceivedMessagesRead() {
+        return null;
+    }
+
+    @Override
+    public void sendMessage(String messageTitle, String messageContent, String login) {
+
+    }
+
+    @Override
+    public void markAsReaded(int numberOfMessage) {
+
+    }
 }

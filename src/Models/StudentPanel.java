@@ -228,6 +228,11 @@ public class StudentPanel extends Model {
         return StudentDAO.getStudent(account.getStudentID()).getPersonal_identity_number();
     }
 
+    @Override
+    public ArrayList<String> getAllStudents() {
+        return null;
+    }
+
     public void setAddress(String login, String address) {
         Student student = StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID());
         StudentDAO.changeAddress(student, address);
@@ -362,7 +367,7 @@ public class StudentPanel extends Model {
 
     @Override
     public void addMark(String firstName, String lastName, Date date, int value, int weight, String desc) {
-        
+
     }
 
     @Override

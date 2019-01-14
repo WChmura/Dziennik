@@ -10,18 +10,21 @@ import java.awt.event.ActionListener;
 
 public class Group extends Page implements ActionListener {
     //to potrzebuje - tylko dla nauczycieli i adminów
-    private String students[];//imiona i nazwiska studentów
-    private String groupName; //nazwa klasy
-    private String allGroupsNames[]; //nazwy wszystkich kls - tylko dla adminów
-
-    //tego juz nie
-    int numOfStudents;
+    private String[] students;
+    private String groupName;
+    private String[] allGroupsNames;
+    private int numOfStudents;
 
     @Override
     public void createGUI() {
         model = createNewModel();
         System.out.println("start pobierania");
-        groupName = model.getFormGroup();
+        if(userType==UserType.student)
+            groupName = model.getFormGroup();
+        else if(userType==UserType.admin) {
+            allGroupsNames = model.getAllGroupsNames().toArray(new String[0]);
+            groupName = allGroupsNames[0];
+        }
         students = model.getNamesOfGroup(groupName).toArray(new String[0]);
         numOfStudents = students.length;
         System.out.println("koniec pobierania");
@@ -41,8 +44,8 @@ public class Group extends Page implements ActionListener {
     }
     private void addChooseGroupPanel(){
         JPanel chooseGroupPanel = new JPanel();
-        String[] s = model.getAllGroupsNames().toArray(new String[0]);
-        final JComboBox<String> comboBox = new JComboBox<>(s);
+
+        final JComboBox<String> comboBox = new JComboBox<>(allGroupsNames);
         comboBox.addActionListener(e -> {
             String className = (String)comboBox.getSelectedItem();
             System.out.println(className);

@@ -3,8 +3,7 @@ package FrontEnd;
 import Common.UserType;
 import FrontEnd.Forms.LoginForm;
 import FrontEnd.Views.*;
-import FrontEnd.Views.AdminPanel;
-import Models.*;
+import Models.Model;
 
 import javax.swing.*;
 

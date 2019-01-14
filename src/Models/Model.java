@@ -1,13 +1,8 @@
 package Models;
 
 import Common.UserType;
-import Database.dao.MarkDAO;
-import Database.dao.StudentDAO;
-import Database.dao.TeacherDAO;
-import Database.pojo.Mark;
-import Database.pojo.Presence;
-import Database.pojo.Student;
-import Database.pojo.Teacher;
+import Database.dao.*;
+import Database.pojo.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -85,5 +80,25 @@ public abstract class Model {
     abstract public String getPersonalIdentityNumber(String login);
 
     abstract public String getPersonalIdentityNumber();
+
+    abstract public ArrayList<String> getAllStudents();
+
+    abstract public ArrayList<String> getSentMessages();
+
+    abstract public ArrayList<String> getSentMessagesTitles();
+
+    abstract public ArrayList<String> getSentMessagesRecipents();
+
+    abstract public ArrayList<String> getReceivedMessages();
+
+    abstract public ArrayList<String> getReceivedMessagesTitles();
+
+    abstract public ArrayList<String> getReceivedMessagesSenders();
+
+    abstract public ArrayList<Boolean> areReceivedMessagesRead();
+
+    abstract public void sendMessage(String messageTitle, String messageContent, String login);
+
+    abstract public void markAsReaded(int numberOfMessage);
 
 }
