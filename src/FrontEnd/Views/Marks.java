@@ -11,14 +11,11 @@ import java.awt.*;
 
 public class Marks extends Page
 {
-    //To potrzebuje
     private int numOfSubjects;
-    private int subjectsIds[];//idki wszstkich przedmiotów tego konkretnego ucznia
+    private Integer[] subjectsIds;
     private int maxNumOfMarks = 25;
     private Database.pojo.Mark[] marks;
     private String[] studentNames;
-
-    //to już nie
     private JButton[][] marksButtons;
     private int[][] marksValues;
     private int[][] marksId;
@@ -30,6 +27,9 @@ public class Marks extends Page
 
     public Marks(String value) {
         super(value);
+        String[] studentData = value.split(" ");
+        firstName=studentData[0];
+        secondName=studentData[1];
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Marks extends Page
             marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
         }
 
-        else {
+        else if(firstName==null) {
             if(userType==UserType.teacher)
                 studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
             else
@@ -51,6 +51,7 @@ public class Marks extends Page
             secondName = studentData[1];
             marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
         }
+        subjectsIds = model.getSubjectsOfStudent(firstName,secondName).toArray(new Integer[0]);
         numOfSubjects=model.getSubjectCountOfStudent(firstName,secondName);
         marksValues = new int[numOfSubjects][maxNumOfMarks];
         marksId = new int[numOfSubjects][maxNumOfMarks];

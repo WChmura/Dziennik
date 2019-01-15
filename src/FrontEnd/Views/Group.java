@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Group extends Page implements ActionListener {
+public class Group extends Page{
     //to potrzebuje - tylko dla nauczycieli i adminów
     private String[] students;
     private String groupName;
@@ -69,19 +69,38 @@ public class Group extends Page implements ActionListener {
         studentPanel.add(new JLabel(students[number]));
 
         JButton marksButton = new JButton("Pokaz oceny");
-        marksButton.addActionListener(this);
+        marksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                topPanel.goToPage("Oceny",students[number]);
+            }
+        });
         marksButton.setActionCommand("marks");
         marksButton.setBorderPainted(false);
         marksButton.setMargin(new Insets(0,0,0,0));
 
         JButton attendanceButton = new JButton("Pokaz obecnosci");
-        attendanceButton.addActionListener(this);
+        attendanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] studentData = students[number].split(" ");
+                String login = model.getStudentLogin(studentData[0],studentData[1]);
+                topPanel.goToPage("Obecnosci",login);
+            }
+        });
         attendanceButton.setActionCommand("attendances");
         attendanceButton.setBorderPainted(false);
         attendanceButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalButton = new JButton("Pokaz dane");
-        personalButton.addActionListener(this);
+        personalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] studentData = students[number].split(" ");
+                String login = model.getStudentLogin(studentData[0],studentData[1]);
+                topPanel.goToPage("personalData",login);
+            }
+        });
         personalButton.setActionCommand("personal info");
         personalButton.setBorderPainted(false);
         personalButton.setMargin(new Insets(0,0,0,0));
@@ -103,23 +122,6 @@ public class Group extends Page implements ActionListener {
         }
         return classPanel;
 
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        String link = "http://localhost:63342/Dziennik/out/production/Dziennik/";
-        switch (command) {
-            case "marks":
-                topPanel.goToPage("Oceny");
-                break;
-            case "attendances":
-                topPanel.goToPage("Obecnosci");
-                break;
-            case "personal info":
-                topPanel.goToPage("personalData");
-                break;
-            default:
-        }
     }
 
 }
