@@ -14,7 +14,7 @@ public abstract class Page extends JFrame {
     private int numOfSubPanels=0;
     //protected static String userName = "qazxsw123";
     //protected static UserType userType=UserType.teacher;
-    protected static String userName = " ";
+    static String userName = " ";
     protected static UserType userType = UserType.notLogged;
     protected Model model;
     protected TopPanel topPanel;
@@ -27,8 +27,18 @@ public abstract class Page extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
+    public Page(String value){
+        super("Hello World");
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        super.setSize(d.width,2*d.height/3);
+        createGUI();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
     protected void addTopMenu(int numOfPanels){
-        topPanel = new TopPanel(this,model,userType);
+        topPanel = new TopPanel(this,model);
         this.setJMenuBar(topPanel);
         this.setBackground(Colors.background);
         mainContent = new JPanel();

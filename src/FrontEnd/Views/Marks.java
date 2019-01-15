@@ -24,6 +24,14 @@ public class Marks extends Page
     private int[][] marksId;
     private String firstName;
     private String secondName;
+
+    public Marks() {
+    }
+
+    public Marks(String value) {
+        super(value);
+    }
+
     @Override
     public void createGUI() {
         model = createNewModel();

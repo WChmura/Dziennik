@@ -101,4 +101,9 @@ public abstract class Model {
 
     abstract public void markAsReaded(int numberOfMessage);
 
+    abstract public void setAddress(String login, String address);
+
+    abstract public void setPersonalIdentityNumber(String login, String personalIdentityNumber);
+
+    abstract public String getStudentLogin(String firstName, String lastName);
 }

@@ -84,7 +84,6 @@ public class Lesson extends Page{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(confirmationPane()) {
-                    //TODO: dopisanie obecnosci calej klasy
                     model.insertPresences(new Date(2019,1,21),groupName,attendances);
                 }
             }

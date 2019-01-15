@@ -13,6 +13,13 @@ import java.sql.Date;
 
 //TODO: Stringi z data musi uzywac
 public class Attendance extends Page {
+    public Attendance() {
+    }
+
+    public Attendance(String value) {
+        super(value);
+    }
+
     @Override
     public void createGUI() {
         addTopMenu(2);

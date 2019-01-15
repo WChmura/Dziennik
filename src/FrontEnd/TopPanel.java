@@ -31,7 +31,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
     private final String logInText = "Zaloguj";
     private final String logOutText = "Wyloguj";
 
-    TopPanel( JFrame frame,Model model,UserType user) {
+    TopPanel( JFrame frame,Model model) {
         super();
         this.model = model;
         this.frame = frame;
@@ -163,6 +163,26 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 break;
                 default:
                     newWindow = new WelcomePage();
+        }
+        newWindow.setVisible(true);
+    }
+
+    public void goToPage(String sth,String login){
+
+        frame.dispose();//To close the current window
+        Page newWindow;
+        switch(sth){
+            case marksText:
+                newWindow = new Marks(login);
+                break;
+            case attendanceText:
+                newWindow = new Attendance(login);
+                break;
+            case "personalData":
+                newWindow = new PersonalData(login);
+                break;
+            default:
+                newWindow = new WelcomePage();
         }
         newWindow.setVisible(true);
     }

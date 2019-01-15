@@ -16,27 +16,18 @@ public class PersonalData extends Page {
     private String adress;
     private String sex;
     private String personal_identity_number;
+    private String login;
     //+metodki do zmiany tego
+    private JTextField[] dataFields = new JTextField[5];
 
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public PersonalData() {
+        super();
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public void setPersonal_identity_number(String personal_identity_number) {
-        this.personal_identity_number = personal_identity_number;
+    public PersonalData(String value)
+    {
+        super(value);
+        login = value;
     }
 
     @Override
@@ -45,92 +36,36 @@ public class PersonalData extends Page {
         System.out.println("Utworzono model");
         this.addTopMenu(7);
         System.out.println("Dodano pasek");
+        getData();
         if(userType!= UserType.student)
             canEdit = true;
         else
             canEdit = false;
-        this.addSubPanel( firstNamePanel(),50);
-        this.addSubPanel( secondNamePanel(),50);
-        this.addSubPanel( adressPanel(),50);
-        this.addSubPanel( genderPanel(),50);
-        this.addSubPanel( personalNumberPanel(),50);
+        newSubPanel( "Imie",firstName,0,false);
+        newSubPanel( "Nazwisko",secondName,1,false);
+        newSubPanel( "Adres",adress,2,true);
+        newSubPanel( "Płec",sex,3,false);
+        newSubPanel( "PESEL",personal_identity_number,4,true);
         if(canEdit)
             this.addSubPanel(buttonPanel(),50);
     }
 
-    private JPanel firstNamePanel(){
-        JPanel score = new JPanel(new GridLayout(1,5,10,10));
-        JTextField textField = new JTextField(firstName);
-        if(!canEdit)
-            textField.setEnabled(false);
-        JLabel label = new JLabel("Imie:");
-        label.setHorizontalAlignment(JLabel.RIGHT);
-        score.add(label);
-        score.add(textField);
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        return score;
-    }
 
-    private JPanel secondNamePanel(){
+    private void newSubPanel(String title,String value,int number,boolean editable){
         JPanel score = new JPanel(new GridLayout(1,5,10,10));
-        JTextField textField = new JTextField(firstName);
-        if(!canEdit)
+        JTextField textField = new JTextField(value);
+        if(!canEdit||!editable)
             textField.setEnabled(false);
-        JLabel label = new JLabel("Nazwisko:");
+        dataFields[number]=textField;
+        JLabel label = new JLabel(title);
         label.setHorizontalAlignment(JLabel.RIGHT);
         score.add(label);
         score.add(textField);
         score.add(emptyLabel());
         score.add(emptyLabel());
         score.add(emptyLabel());
-        return score;
-    }
+        this.addSubPanel(score,50);
 
-    private JPanel adressPanel(){
-        JPanel score = new JPanel(new GridLayout(1,5,10,10));
-        JTextField textField = new JTextField(firstName);
-        if(!canEdit)
-            textField.setEnabled(false);
-        JLabel label = new JLabel("Adres:");
-        label.setHorizontalAlignment(JLabel.RIGHT);
-        score.add(label);
-        score.add(textField);
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        return score;
-    }
-
-    private JPanel genderPanel(){
-        JPanel score = new JPanel(new GridLayout(1,5,10,10));
-        JTextField textField = new JTextField(firstName);
-        if(!canEdit)
-            textField.setEnabled(false);
-        JLabel label = new JLabel("Płeć:");
-        label.setHorizontalAlignment(JLabel.RIGHT);
-        score.add(label);
-        score.add(textField);
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        return score;
-    }
-
-    private JPanel personalNumberPanel(){
-        JPanel score = new JPanel(new GridLayout(1,5,10,10));
-        JTextField textField = new JTextField(firstName);
-        if(!canEdit)
-            textField.setEnabled(false);
-        JLabel label = new JLabel("PESEL:");
-        label.setHorizontalAlignment(JLabel.RIGHT);
-        score.add(label);
-        score.add(textField);
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        score.add(emptyLabel());
-        return score;
     }
 
     private JPanel buttonPanel(){
@@ -139,7 +74,11 @@ public class PersonalData extends Page {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: wyslij zmiany
+                if(userType==UserType.student||userType==UserType.parent){
+                    login = model.getStudentLogin(firstName,secondName);
+                }
+                model.setAddress(login,dataFields[2].getText());
+                model.setPersonalIdentityNumber(login,dataFields[4].getText());
             }
         });
         score.add(emptyLabel());
@@ -150,6 +89,22 @@ public class PersonalData extends Page {
         return score;
     }
 
+    private void getData(){
+        if(userType==UserType.student||userType==UserType.parent){
+            firstName=model.getFirstName();
+            secondName=model.getlastName();
+            adress = model.getAddress();
+            sex = model.getSex();
+            personal_identity_number = model.getPersonalIdentityNumber();
+        }
+        else{
+            firstName = model.getFirstName(login);
+            secondName = model.getlastName(login);
+            adress = model.getAddress(login);
+            sex = model.getSex(login);
+            personal_identity_number = model.getPersonalIdentityNumber(login);
+        }
+    }
     private JLabel emptyLabel(){
         return new JLabel("");
     }
