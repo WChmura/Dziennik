@@ -13,10 +13,11 @@ public class PersonalData extends Page {
     //To potrzebuje
     private String firstName;
     private String secondName;
-    private String adress;
+    private String address;
     private String sex;
+    private String degree;
     private String personal_identity_number;
-    private String login;
+    private String studentLogin;
     //+metodki do zmiany tego
     private JTextField[] dataFields = new JTextField[5];
 
@@ -27,7 +28,7 @@ public class PersonalData extends Page {
     public PersonalData(String value)
     {
         super(value);
-        login = value;
+        studentLogin = value;
     }
 
     @Override
@@ -41,11 +42,19 @@ public class PersonalData extends Page {
             canEdit = true;
         else
             canEdit = false;
-        newSubPanel( "Imie",firstName,0,false);
-        newSubPanel( "Nazwisko",secondName,1,false);
-        newSubPanel( "Adres",adress,2,true);
-        newSubPanel( "Płec",sex,3,false);
-        newSubPanel( "PESEL",personal_identity_number,4,true);
+        if((userType==UserType.teacher||userType==UserType.admin)&&studentLogin==null){
+            newSubPanel( "Imie","puste",0,false);
+            newSubPanel( "Nazwisko","puste",1,false);
+            newSubPanel( "Stopien","puste",2,false);
+        }
+        else{
+            newSubPanel( "Imie",firstName,0,false);
+            newSubPanel( "Nazwisko",secondName,1,false);
+            newSubPanel( "Adres", address,2,true);
+            newSubPanel( "Płec",sex,3,false);
+            newSubPanel( "PESEL",personal_identity_number,4,true);
+        }
+
         if(canEdit)
             this.addSubPanel(buttonPanel(),50);
     }
@@ -74,11 +83,15 @@ public class PersonalData extends Page {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(userType==UserType.student||userType==UserType.parent){
-                    login = model.getStudentLogin(firstName,secondName);
+                if(userType==UserType.teacher&&studentLogin==null){
+                    //TODO:wysłanie danych nauczyciela
+                }else {
+                    if (userType == UserType.student || userType == UserType.parent) {
+                        studentLogin = model.getStudentLogin(firstName, secondName);
+                    }
+                    model.setAddress(studentLogin, dataFields[2].getText());
+                    model.setPersonalIdentityNumber(studentLogin, dataFields[4].getText());
                 }
-                model.setAddress(login,dataFields[2].getText());
-                model.setPersonalIdentityNumber(login,dataFields[4].getText());
             }
         });
         score.add(emptyLabel());
@@ -93,16 +106,21 @@ public class PersonalData extends Page {
         if(userType==UserType.student||userType==UserType.parent){
             firstName=model.getFirstName();
             secondName=model.getlastName();
-            adress = model.getAddress();
+            address = model.getAddress();
             sex = model.getSex();
             personal_identity_number = model.getPersonalIdentityNumber();
         }
         else{
-            firstName = model.getFirstName(login);
-            secondName = model.getlastName(login);
-            adress = model.getAddress(login);
-            sex = model.getSex(login);
-            personal_identity_number = model.getPersonalIdentityNumber(login);
+            if(studentLogin!=null) {
+                firstName = model.getFirstName(studentLogin);
+                secondName = model.getlastName(studentLogin);
+                address = model.getAddress(studentLogin);
+                sex = model.getSex(studentLogin);
+                personal_identity_number = model.getPersonalIdentityNumber(studentLogin);
+            }
+            else{
+                //TODO:pobieranie danych nauczyciela
+            }
         }
     }
     private JLabel emptyLabel(){
