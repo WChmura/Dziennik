@@ -116,7 +116,7 @@ public class Authentication extends Model {
     }
 
     @Override
-    public HashSet<Integer> getSubjectsOfStudent(String firstName, String lastName) {
+    public ArrayList<Integer> getSubjectsOfStudent(String firstName, String lastName) {
         return null;
     }
 

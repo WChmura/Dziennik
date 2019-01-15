@@ -3,6 +3,7 @@ package Models;
 import Common.UserType;
 import Database.dao.*;
 import Database.pojo.*;
+import com.sun.javafx.image.IntPixelGetter;
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
@@ -252,13 +253,14 @@ public class StudentPanel extends Model {
         return marks.size();
     }
 
-    public HashSet<Integer> getSubjectsOfStudent(String firstName, String lastName) {
+    public ArrayList<Integer> getSubjectsOfStudent(String firstName, String lastName) {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();
         for (Mark mark : MarkDAO.getMarks(student.getStudentID())) {
             marks.add(mark.getStudentID());
         }
-        return marks;
+        ArrayList<Integer> marksList = new ArrayList<Integer>(marks);
+        return marksList;
     }
 
     public ArrayList<Mark> getMarks(String firstName, String lastName) {
@@ -342,6 +344,10 @@ public class StudentPanel extends Model {
     public boolean doesLessonExistForTeacher(int day, int hour, String login) {
         Teacher teacher = TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login));
         return TimetableDAO.checkTeacher(day, hour, teacher.getTeacherID());
+    }
+
+    public String getStudentLogin(String firstName, String lastName) {
+        return AccountDAO.getStudentAccount(firstName, lastName).getLogin();
     }
 
     @Override

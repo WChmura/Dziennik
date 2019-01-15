@@ -55,7 +55,7 @@ public abstract class Model {
 
     abstract public int getSubjectCountOfStudent(String firstName, String lastName);
 
-    abstract public HashSet<Integer> getSubjectsOfStudent(String firstName, String lastName);
+    abstract public ArrayList<Integer> getSubjectsOfStudent(String firstName, String lastName);
 
     abstract public ArrayList<Mark> getMarks(String firstName, String lastName);
 
