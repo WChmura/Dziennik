@@ -106,4 +106,22 @@ public abstract class Model {
     abstract public void setPersonalIdentityNumber(String login, String personalIdentityNumber);
 
     abstract public String getStudentLogin(String firstName, String lastName);
+
+    abstract public String[][] getScheduleOfAccount(String login);
+
+    abstract public int getNumberOfLastGroupLesson(String groupName);
+
+    abstract public int getNumberOfLastTeacherLesson(String login);
+
+    abstract public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID);
+
+    abstract public boolean doesLessonExistForGroup(int day, int hour, String groupName);
+
+    abstract public boolean doesLessonExistForTeacher(int day, int hour, String login);
+
+    abstract public String getLastName();
+
+    abstract public String getDegreee();
+
+    abstract public String getLastName(String login);
 }

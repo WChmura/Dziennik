@@ -49,8 +49,10 @@ public class TopPanel extends JMenuBar implements ActionListener {
         JButton attendanceButton = configureButton(attendanceText);
         panel.add(attendanceButton);
 
-        JButton settingsButton = configureButton(settingsText);
-        panel.add(settingsButton);
+        if(userType!=admin) {
+            JButton settingsButton = configureButton(settingsText);
+            panel.add(settingsButton);
+        }
 
         JButton messagesButton = configureButton(messagesText);
         panel.add(messagesButton);
@@ -119,7 +121,13 @@ public class TopPanel extends JMenuBar implements ActionListener {
             if(loginData!=null) {
                 userType = model.logIn(loginData);
                 userName = loginData[0];
-                goToPage("personalData");
+                if(userType!=admin){
+                    goToPage("personalData");
+                }
+                else{
+                    goToPage(adminText);
+                }
+
             }else {
                     System.out.println("zle dane");
                 }

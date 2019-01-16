@@ -43,9 +43,9 @@ public class PersonalData extends Page {
         else
             canEdit = false;
         if((userType==UserType.teacher||userType==UserType.admin)&&studentLogin==null){
-            newSubPanel( "Imie","puste",0,false);
-            newSubPanel( "Nazwisko","puste",1,false);
-            newSubPanel( "Stopien","puste",2,false);
+            newSubPanel( "Imie",firstName,0,false);
+            newSubPanel( "Nazwisko",secondName,1,false);
+            newSubPanel( "Stopien",degree,2,false);
         }
         else{
             newSubPanel( "Imie",firstName,0,false);
@@ -65,7 +65,6 @@ public class PersonalData extends Page {
         JTextField textField = new JTextField(value);
         if(!canEdit||!editable)
             textField.setEnabled(false);
-        dataFields[number]=textField;
         JLabel label = new JLabel(title);
         label.setHorizontalAlignment(JLabel.RIGHT);
         score.add(label);
@@ -120,6 +119,9 @@ public class PersonalData extends Page {
             }
             else{
                 //TODO:pobieranie danych nauczyciela
+                firstName=model.getFirstName();
+                secondName=model.getLastName();
+                degree=model.getDegreee();
             }
         }
     }

@@ -244,4 +244,49 @@ public class Authentication extends Model {
     public String getStudentLogin(String firstName, String lastName) {
         return null;
     }
+
+    @Override
+    public String[][] getScheduleOfAccount(String login) {
+        return new String[0][];
+    }
+
+    @Override
+    public int getNumberOfLastGroupLesson(String groupName) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfLastTeacherLesson(String login) {
+        return 0;
+    }
+
+    @Override
+    public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
+
+    }
+
+    @Override
+    public boolean doesLessonExistForGroup(int day, int hour, String groupName) {
+        return false;
+    }
+
+    @Override
+    public boolean doesLessonExistForTeacher(int day, int hour, String login) {
+        return false;
+    }
+
+    @Override
+    public String getLastName() {
+        return null;
+    }
+
+    @Override
+    public String getDegreee() {
+        return null;
+    }
+
+    @Override
+    public String getLastName(String login) {
+        return null;
+    }
 }

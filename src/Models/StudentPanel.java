@@ -341,6 +341,21 @@ public class StudentPanel extends Model {
         return TimetableDAO.checkTeacher(day, hour, teacher.getTeacherID());
     }
 
+    @Override
+    public String getLastName() {
+        return null;
+    }
+
+    @Override
+    public String getDegreee() {
+        return null;
+    }
+
+    @Override
+    public String getLastName(String login) {
+        return null;
+    }
+
     public String getStudentLogin(String firstName, String lastName) {
         Account acc = AccountDAO.getStudentAccount(firstName, lastName);
         if (acc == null) return null;
