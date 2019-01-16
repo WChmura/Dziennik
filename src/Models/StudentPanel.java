@@ -3,20 +3,14 @@ package Models;
 import Common.UserType;
 import Database.dao.*;
 import Database.pojo.*;
-import com.sun.javafx.image.IntPixelGetter;
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public class StudentPanel extends Model {
     public StudentPanel(String login) {
@@ -197,6 +191,7 @@ public class StudentPanel extends Model {
         return StudentDAO.getStudent(account.getStudentID()).getFirstName();
     }
 
+    @Override
     public String getlastName(String login) {
         return StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID()).getSecondName();
     }
@@ -277,7 +272,7 @@ public class StudentPanel extends Model {
 
     public  String[][] getScheduleOfGroup(String groupName) {
         Group grp = GroupDAO.getGroup(groupName);
-        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(grp);
+        ArrayList<Timetable> timetable = TimetableDAO.getScheduleForGroup(grp);
         String[][] schedule = new String[8][5];
         for (Timetable cell : timetable) {
             Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
@@ -298,7 +293,7 @@ public class StudentPanel extends Model {
         }
         else if (acc.getPermission() == 3) {
             Teacher tea = TeacherDAO.getTeacherFromAccount(acc);
-            ArrayList<Timetable> timetable = TimetableDAO.getSchedule(tea);
+            ArrayList<Timetable> timetable = TimetableDAO.getScheduleForTeacher(tea);
             String[][] schedule = new String[8][5];
             for (Timetable cell : timetable) {
                 Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
@@ -314,7 +309,7 @@ public class StudentPanel extends Model {
 
     public int getNumberOfLastGroupLesson(String groupName) {
         Group group = GroupDAO.getGroup(groupName);
-        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(group);
+        ArrayList<Timetable> timetable = TimetableDAO.getScheduleForGroup(group);
         int lastLesson = 0;
         for (Timetable cell : timetable) {
             if (cell.getHour() > lastLesson) lastLesson = cell.getHour();
@@ -324,7 +319,7 @@ public class StudentPanel extends Model {
 
     public int getNumberOfLastTeacherLesson(String login) {
         Teacher teacher = TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login));
-        ArrayList<Timetable> timetable = TimetableDAO.getSchedule(teacher);
+        ArrayList<Timetable> timetable = TimetableDAO.getScheduleForTeacher(teacher);
         int lastLesson = 0;
         for (Timetable cell : timetable) {
             if (cell.getHour() > lastLesson) lastLesson = cell.getHour();
@@ -347,6 +342,8 @@ public class StudentPanel extends Model {
     }
 
     public String getStudentLogin(String firstName, String lastName) {
+        Account acc = AccountDAO.getStudentAccount(firstName, lastName);
+        if (acc == null) return null;
         return AccountDAO.getStudentAccount(firstName, lastName).getLogin();
     }
 

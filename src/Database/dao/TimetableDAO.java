@@ -164,7 +164,7 @@ public class TimetableDAO {
     }
 
     /** Pobieranie planu dla nauczyciela **/
-    public static ArrayList<Timetable> getSchedule(Teacher tea)
+    public static ArrayList<Timetable> getScheduleForTeacher(Teacher tea)
     {
         ArrayList<Timetable> ListOfSchedule = new ArrayList<Timetable>();
         try {
@@ -194,7 +194,7 @@ public class TimetableDAO {
     }
 
     /** Pobieranie planu dla grupy, tu chyba będzie trzeba coc zmienic bo obiekty Timetable przechowuja praktycznie tylko id-iki **/
-    public static ArrayList<Timetable> getSchedule(Group grp)
+    public static ArrayList<Timetable> getScheduleForGroup(Group grp)
     {
         ArrayList<Timetable> ListOfSchedule = new ArrayList<Timetable>();
         try {

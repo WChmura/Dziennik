@@ -76,6 +76,7 @@ public class TeacherDAO {
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Nauczyciel where id_konta = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            System.out.println(account);
             preparedStatement.setInt(1, account.getPersonID());
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -102,5 +103,7 @@ public class TeacherDAO {
         }
         return tea;
     }
+
+
 
 }

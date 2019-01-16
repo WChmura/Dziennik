@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 public class Authentication extends Model {
 
-    public Authentication() {}
+    public Authentication() { super(); }
 
     public Authentication(String login) {
         super(login);
@@ -228,5 +228,20 @@ public class Authentication extends Model {
     @Override
     public void markAsReaded(int numberOfMessage) {
 
+    }
+
+    @Override
+    public void setAddress(String login, String address) {
+        
+    }
+
+    @Override
+    public void setPersonalIdentityNumber(String login, String personalIdentityNumber) {
+
+    }
+
+    @Override
+    public String getStudentLogin(String firstName, String lastName) {
+        return null;
     }
 }

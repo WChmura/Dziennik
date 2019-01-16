@@ -184,6 +184,7 @@ public class AccountDAO {
     {
         Account acc = null;
         try {
+            System.out.println("getAccount(" + login + ")");
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Konto where login = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
