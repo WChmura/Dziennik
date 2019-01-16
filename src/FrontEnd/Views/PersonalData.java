@@ -17,7 +17,7 @@ public class PersonalData extends Page {
     private String sex;
     private String degree;
     private String personal_identity_number;
-    private String studentLogin;
+
     //+metodki do zmiany tego
     private JTextField[] dataFields = new JTextField[5];
 
@@ -28,7 +28,6 @@ public class PersonalData extends Page {
     public PersonalData(String value)
     {
         super(value);
-        studentLogin = value;
     }
 
     @Override
@@ -119,9 +118,9 @@ public class PersonalData extends Page {
             }
             else{
                 //TODO:pobieranie danych nauczyciela
-                firstName=model.getFirstName();
-                secondName=model.getLastName();
-                degree=model.getDegreee();
+                firstName=model.getTeacherFirstName();
+                secondName=model.getTeacherLastName();
+                degree=model.getDegree();
             }
         }
     }

@@ -54,25 +54,27 @@ public class TeacherPanel extends ParentPanel {
         MarkDAO.insertMark(new Mark(teacher.getSubjectId(), student.getStudentID(), teacher.getTeacherID(), date, value, weight, desc));
     }
 
-    @Override
-    public String getFirstName(String login) {
+    public String getTeacherFirstName(String login) {
         return TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getFirstName();
     }
 
-    public String getFirstName() {
+    public String getTeacherFirstName() {
         return TeacherDAO.getTeacherFromAccount(account).getFirstName();
     }
 
-    public String getLastName() {
+    public String getTeacherLastName() {
         return TeacherDAO.getTeacherFromAccount(account).getSecondName();
     }
 
-    public String getDegreee() {
+    public String getDegree() {
         return TeacherDAO.getTeacherFromAccount(account).getDegree();
     }
 
+    public String getDegree(String login) {
+        return TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getDegree();
+    }
 
-    public String getLastName(String login) {
+    public String getTeacherLastName(String login) {
         return TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getSecondName();
     }
 

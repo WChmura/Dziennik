@@ -190,7 +190,7 @@ public class AccountDAO {
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, login);
             ResultSet rs = preparedStatement.executeQuery();
-
+            System.out.println("get2Account(" + login + ")");
             int personIDT;
             String loginT;
             String hashT;
@@ -207,6 +207,7 @@ public class AccountDAO {
                 studentIDT=rs.getInt("ID_ucznia");
                 acc = new Account(loginT,hashT,permissionT,mailAddressT,studentIDT);
                 acc.setPersonID(personIDT);
+                System.out.println("get3Account(" + login + ")");
                 return acc;
             }
         } catch (SQLException e) {

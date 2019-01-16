@@ -135,8 +135,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
     }
 
     public void goToPage(String sth){
-
-        frame.dispose();//To close the current window
+        //To close the current window
         Page newWindow;
         switch(sth){
             case marksText:
@@ -173,6 +172,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
                     newWindow = new WelcomePage();
         }
         newWindow.setVisible(true);
+        frame.dispose();
     }
 
     public void goToPage(String sth,String login){

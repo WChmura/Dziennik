@@ -84,6 +84,7 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             messages.add(msg.getMsg());
         }
+        System.out.println("pobrano");
         return  messages;
     }
 
@@ -93,6 +94,7 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             messages.add(msg.getTopic());
         }
+        System.out.println("pobrano");
         return messages;
     }
 
@@ -117,6 +119,7 @@ public class StudentPanel extends Model {
             }
             messages.add(recipentName);
         }
+        System.out.println("pobrano");
         return messages;
     }
 
@@ -126,6 +129,7 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             messages.add(msg.getMsg());
         }
+        System.out.println("pobrano");
         return  messages;
     }
 
@@ -135,6 +139,7 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             messages.add(msg.getTopic());
         }
+        System.out.println("pobrano");
         return messages;
     }
 
@@ -159,6 +164,7 @@ public class StudentPanel extends Model {
             }
             messages.add(senderName);
         }
+        System.out.println("pobrano");
         return messages;
     }
 
@@ -169,6 +175,7 @@ public class StudentPanel extends Model {
             if(msg.getReaded() == 0) messages.add(false);
             else messages.add(true);
         }
+        System.out.println("pobrano");
         return messages;
     }
 
@@ -347,12 +354,37 @@ public class StudentPanel extends Model {
     }
 
     @Override
-    public String getDegreee() {
+    public String getLastName(String login) {
         return null;
     }
 
     @Override
-    public String getLastName(String login) {
+    public String getTeacherFirstName(String login) {
+        return null;
+    }
+
+    @Override
+    public String getTeacherFirstName() {
+        return null;
+    }
+
+    @Override
+    public String getTeacherLastName() {
+        return null;
+    }
+
+    @Override
+    public String getDegree() {
+        return null;
+    }
+
+    @Override
+    public String getDegree(String login) {
+        return null;
+    }
+
+    @Override
+    public String getTeacherLastName(String login) {
         return null;
     }
 

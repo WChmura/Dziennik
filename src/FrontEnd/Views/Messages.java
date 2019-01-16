@@ -28,7 +28,9 @@ public class Messages extends Page {
     @Override
     public void createGUI() {
         model = createNewModel();
+        System.out.println("Dodano nowy model");
         addTopMenu(1);
+        System.out.println("Dodano topka");
         setMessagesValues();
         addMessagesPanel();
     }
@@ -36,11 +38,13 @@ public class Messages extends Page {
     private void setMessagesValues(){
         sendMessages=model.getSentMessages().toArray(new String[0]);
         receivedMessages =model.getReceivedMessages().toArray(new String[0]);
+        System.out.println("pobierz3");
         String[] sendMessagesTitles = model.getSentMessagesTitles().toArray(new String[0]);
         String[] receivedMessagesTitles = model.getReceivedMessagesTitles().toArray(new String[0]);
         String[] sendMessagesRecipient = model.getSentMessagesRecipents().toArray(new String[0]);
         String[] receivedMessagesSender = model.getReceivedMessagesSenders().toArray(new String[0]);
         recivedMessageIsRead = model.areReceivedMessagesRead().toArray(new Boolean[0]);
+        System.out.println("Pobrnao wiadomosci z bazy");
         namOfReceived = receivedMessages.length;
         numOfSended=sendMessages.length;
         sendM = new String[numOfSended];

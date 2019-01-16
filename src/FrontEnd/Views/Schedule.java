@@ -16,9 +16,11 @@ public class Schedule extends Page {
     public void createGUI() {
 
     }
-}/*{
+}
+
+
     //to potrzebuje
-    private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
+    /*private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
     //plan moze byc zwracany po id klasy albo id nauczyciela
     // w tym drugim przypadku powinno byc "nazwaPrzedmiotu:klasa:sala"
     private String allGroupsNames[]; //nazwy wszystkich klas - tylko dla adminów
@@ -32,6 +34,9 @@ public class Schedule extends Page {
     @Override
     public void createGUI() {
         model = createNewModel();
+        if(userType==UserType.teacher){
+
+        }
         subjects = model.schelude();
 
         maxNumOfLesson =7;//usunac z koncowej
@@ -233,4 +238,5 @@ public class Schedule extends Page {
         return string.split(":");
     }
 
-}*/
+}
+*/

@@ -121,7 +121,17 @@ public abstract class Model {
 
     abstract public String getLastName();
 
-    abstract public String getDegreee();
-
     abstract public String getLastName(String login);
+
+    abstract public String getTeacherFirstName(String login);
+
+    abstract public String getTeacherFirstName();
+
+    abstract public String getTeacherLastName();
+
+    abstract public String getDegree();
+
+    abstract public String getDegree(String login);
+
+    abstract public String getTeacherLastName(String login);
 }

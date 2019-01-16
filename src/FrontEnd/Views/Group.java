@@ -19,7 +19,7 @@ public class Group extends Page{
     public void createGUI() {
         model = createNewModel();
         System.out.println("start pobierania");
-        if(userType==UserType.student)
+        if(userType==UserType.teacher)
             groupName = model.getFormGroup();
         else if(userType==UserType.admin) {
             allGroupsNames = model.getAllGroupsNames().toArray(new String[0]);

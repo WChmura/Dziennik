@@ -66,8 +66,12 @@ public class AdminPanel extends Page implements ActionListener {
         changePasswordButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalDataButton = new JButton("Pokaz/edytuj dane osobowe");
-        personalDataButton.addActionListener(this);
-        personalDataButton.setActionCommand("personalData");
+        personalDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                topPanel.goToPage("personalData",userList.getSelectedValue());
+            }
+        });
         personalDataButton.setBorderPainted(false);
         personalDataButton.setMargin(new Insets(0,0,0,0));
 
@@ -191,9 +195,6 @@ public class AdminPanel extends Page implements ActionListener {
                     model.deleteUser(userList.getSelectedValue());
                     refreshUserList();
                 }
-                break;
-            case "personalData":
-                topPanel.goToPage("personalData");
                 break;
             case "changePassword":
                 ChangePasswordForm passwordForm = new ChangePasswordForm(null,"password",true);

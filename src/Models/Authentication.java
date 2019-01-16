@@ -280,13 +280,39 @@ public class Authentication extends Model {
         return null;
     }
 
+
     @Override
-    public String getDegreee() {
+    public String getLastName(String login) {
         return null;
     }
 
     @Override
-    public String getLastName(String login) {
+    public String getTeacherFirstName(String login) {
+        return null;
+    }
+
+    @Override
+    public String getTeacherFirstName() {
+        return null;
+    }
+
+    @Override
+    public String getTeacherLastName() {
+        return null;
+    }
+
+    @Override
+    public String getDegree() {
+        return null;
+    }
+
+    @Override
+    public String getDegree(String login) {
+        return null;
+    }
+
+    @Override
+    public String getTeacherLastName(String login) {
         return null;
     }
 }
