@@ -1,7 +1,6 @@
 package Models;
 
 import Database.dao.AccountDAO;
-import Database.dao.GroupDAO;
 import Database.dao.StudentDAO;
 import Database.pojo.Student;
 
@@ -30,11 +29,17 @@ public class AdminPanel extends TeacherPanel {
     }
 
     public void addUser(String login, String hash, int permission, String mailAddress, int studentID) {
+        System.out.println(login);
+        System.out.println(hash);
+        System.out.println(permission);
+        System.out.println(mailAddress);
+        System.out.println(studentID);
         Database.pojo.Account acc = new Database.pojo.Account(login, hash, permission, mailAddress, studentID);
         Database.dao.AccountDAO.insertAccount(acc);
     }
 
     public void deleteUser(String accountName) {
+        System.out.println(accountName);
         Database.dao.AccountDAO.deleteAccount(Database.dao.AccountDAO.getAccount(accountName));
     }
 

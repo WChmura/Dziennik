@@ -75,7 +75,7 @@ public class AdminPanel extends Page implements ActionListener {
         personalDataButton.setBorderPainted(false);
         personalDataButton.setMargin(new Insets(0,0,0,0));
 
-        userList = new JList<String>(allUsersNames);
+        userList = new JList<>(allUsersNames);
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setVisibleRowCount(5);
@@ -171,8 +171,9 @@ public class AdminPanel extends Page implements ActionListener {
                 newUser.setVisible(true);
                 String[] changesInMark = newUser.getData();
                 if(changesInMark!=null) {
+
                     int permission=0;
-                    switch (changesInMark[2]){
+                    switch (changesInMark[4]){
                         case "Uczen":
                             permission=0;
                             break;
@@ -186,13 +187,14 @@ public class AdminPanel extends Page implements ActionListener {
                             permission=3;
                             break;
                     }
-                    model.addUser(changesInMark[0],changesInMark[1],permission,changesInMark[3],Integer.parseInt(changesInMark[4]));
+                    model.addUser(changesInMark[0],changesInMark[1],permission,changesInMark[2],Integer.parseInt(changesInMark[3]));
                 }
                 refreshUserList();
                 break;
             case "deleteUser":
                 if(confirmationPane()) {
                     model.deleteUser(userList.getSelectedValue());
+                    allUsersNames = model.getAllUserNames().toArray(new String[0]);
                     refreshUserList();
                 }
                 break;
@@ -211,7 +213,7 @@ public class AdminPanel extends Page implements ActionListener {
                 if(changesInClass!=null) {
                     model.addGroup(changesInClass[0],Integer.parseInt(changesInClass[1]),Integer.parseInt(changesInClass[2]));
                 }
-                refreshUserList();
+                refreshClassList();
                 break;
             case "deleteClass":
                 if(confirmationPane()) {
@@ -225,8 +227,11 @@ public class AdminPanel extends Page implements ActionListener {
                 String[] changesInStudents = changeClass.getData();
                 if(changesInStudents!=null) {
                     String[] studentData = studentList.getSelectedValue().split(" ");
-                    model.changeStudentGroup(studentData[0],studentData[1],classList.getSelectedValue());
+                    System.out.print(studentData[1]);
+                    System.out.println(" do "+ changesInStudents[0]);
+                    model.changeStudentGroup(studentData[0],studentData[1],changesInStudents[0]);
                 }
+                studentsByClasses = model.getStudentsFromAllGroups();
                 refreshStudentsList();
                 break;
             default:
@@ -238,10 +243,16 @@ public class AdminPanel extends Page implements ActionListener {
     }
 
     private void refreshClassList(){
+        classNames = model.getAllGroupsNames().toArray(new String[0]);
         classList.setListData(classNames);
+        refreshStudentsList();
+        classSelected = 0;
+        studentsByClasses = model.getStudentsFromAllGroups();
     }
 
     private void refreshStudentsList(){
+        //TODO:dodac kilka pustyc klas
+        System.out.println();
         Student[] array = studentsByClasses.get(classSelected).toArray(new Student[0]);
         String[] namesArray = new String[array.length];
         for(int i=0;i<array.length;i++){

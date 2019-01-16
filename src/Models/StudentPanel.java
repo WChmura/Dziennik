@@ -90,7 +90,9 @@ public class StudentPanel extends Model {
 
     public ArrayList<String> getSentMessagesTitles() {
         ArrayList<Message> msgs = MessageDAO.getAllSended(account);
+        System.out.println("p");
         ArrayList<String> messages = new ArrayList<String>();
+        System.out.println("pp");
         for (Message msg : msgs) {
             messages.add(msg.getTopic());
         }

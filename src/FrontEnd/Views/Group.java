@@ -27,6 +27,9 @@ public class Group extends Page{
         }
         students = model.getNamesOfGroup(groupName).toArray(new String[0]);
         numOfStudents = students.length;
+        for(int i=0;i<numOfStudents;i++){
+            System.out.println("Pobrano ucznia:" +students[i]);
+        }
         System.out.println("koniec pobierania");
         if(userType== UserType.admin){
             System.out.println("admin");
