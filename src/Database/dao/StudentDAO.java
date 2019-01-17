@@ -115,7 +115,7 @@ public class StudentDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             /**test**/
-            while(rs.next())
+            /*while(rs.next())
             {
                 System.out.println(rs.getInt("ID_ucznia")+" "+
                         rs.getString("Nazwisko")+" "+
@@ -124,7 +124,7 @@ public class StudentDAO {
                         rs.getString("Adres")+" "+
                         rs.getString("Plec")
                 );
-            }
+            }*/
             return rs;
         } catch (SQLException e) {
             e.printStackTrace();
