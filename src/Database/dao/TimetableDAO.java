@@ -145,7 +145,7 @@ public class TimetableDAO {
     {
         try {
             Connection con = C3poDataSource.getConnection();
-            String insertTableSQL = "select godzina from \"DZIENNIK3\".\"Plan\" where dzien = ? and id_nuczyciela = ? and id_klasy = ?";
+            String insertTableSQL = "select godzina from \"DZIENNIK3\".\"Plan\" where dzien = ? and id_nauczyciela = ? and id_klasy = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, day);
             preparedStatement.setInt(2, teacherID);

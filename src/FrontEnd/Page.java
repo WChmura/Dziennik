@@ -18,7 +18,7 @@ public abstract class Page extends JFrame {
     protected static UserType userType = UserType.notLogged;
     protected Model model;
     protected TopPanel topPanel;
-    protected String studentLogin;
+    protected String login;
 
     public Page(){
         super("Hello World");
@@ -33,7 +33,7 @@ public abstract class Page extends JFrame {
         super("Hello World");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         super.setSize(d.width,2*d.height/3);
-        studentLogin=value;
+        login=value;
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

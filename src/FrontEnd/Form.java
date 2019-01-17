@@ -44,6 +44,19 @@ public class Form extends JDialog {
         this.repaint();
     }
 
+    protected void addNonEditableTextField(String title,String initialValue){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1,2));
+        JLabel label = new JLabel(title);
+        JTextField textField = new JTextField(initialValue);
+        textField.setEnabled(false);
+        panel.add(label);
+        panel.add(textField);
+        getContentPane().add(panel);
+        input.add(textField);
+        this.repaint();
+    }
+
     protected void addBigTextField(String initialValue,boolean editable){
         JPanel panel = new JPanel(new GridLayout(1,1));
         JTextField textField = new JTextField(initialValue);

@@ -17,4 +17,9 @@ public class SelectLessonForm extends Form {
         addTextField("Data", date.toString());
         addButtons();
     }
+
+    @Override
+    protected boolean checkDataValues() {
+        return true;
+    }
 }

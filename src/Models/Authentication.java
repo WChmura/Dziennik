@@ -315,4 +315,19 @@ public class Authentication extends Model {
     public String getTeacherLastName(String login) {
         return null;
     }
+
+    @Override
+    public int getPermission(String login) {
+        return 0;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getPassword(String login) {
+        return null;
+    }
 }

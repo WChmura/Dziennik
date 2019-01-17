@@ -26,7 +26,7 @@ public class Lesson extends Page{
     private int[] numOfMarks;
     private int numOfStudents;
 
-    //TODO:Form ze sprawdzaniem
+    //TODO:Sprawdzanie czy lekcja istnieje
     @Override
     public void createGUI() {
         model = createNewModel();
@@ -56,7 +56,6 @@ public class Lesson extends Page{
         for(int i=0;i<8;i++){
             classPanel.add(new JLabel(" "));
         }
-        System.out.println("Dodawanie nazey klasy");
         return classPanel;
 
     }
@@ -97,13 +96,13 @@ public class Lesson extends Page{
     }
 
     private void addMark(int studentNum){
-        NewMarkForm edit = new NewMarkForm(null,String.valueOf(studentNum));
+        String[] studentData = students[studentNum].split(" ");
+        NewMarkForm edit = new NewMarkForm(null,model.getStudentLogin(studentData[0],studentData[1]));
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
             newMarks[studentNum][numOfMarks[studentNum]].setText(changesInMark[1]);
             newMarks[studentNum][numOfMarks[studentNum]++].setBackground(Color.white);
-            String[] studentData = students[studentNum].split(" ");
             model.addMark(studentData[0],studentData[1],new Date(2019,1,21),
                     Integer.parseInt(changesInMark[0]),Integer.parseInt(changesInMark[1]),changesInMark[2]);
         }

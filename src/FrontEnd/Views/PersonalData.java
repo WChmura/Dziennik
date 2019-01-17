@@ -17,7 +17,8 @@ public class PersonalData extends Page {
     private String sex;
     private String degree;
     private String personal_identity_number;
-
+    private String studentLogin;
+    private String teacherLogin;
     //+metodki do zmiany tego
     private JTextField[] dataFields = new JTextField[5];
 
@@ -32,16 +33,25 @@ public class PersonalData extends Page {
 
     @Override
     public void createGUI() {
+        if(login!=null){
+            System.out.println(login);
+            if(model.getPermission(login)<2){
+                studentLogin=login;
+            }
+            else if( model.getPermission(login)==2){
+                teacherLogin = login;
+            }
+            else{
+                System.out.println("Przekazano bledny login");
+            }
+        }
         model = createNewModel();
         System.out.println("Utworzono model");
         this.addTopMenu(7);
         System.out.println("Dodano pasek");
         getData();
-        if(userType!= UserType.student)
-            canEdit = true;
-        else
-            canEdit = false;
-        if((userType==UserType.teacher||userType==UserType.admin)&&studentLogin==null){
+        canEdit = userType != UserType.student;
+        if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
             newSubPanel( "Imie",firstName,0,false);
             newSubPanel( "Nazwisko",secondName,1,false);
             newSubPanel( "Stopien",degree,2,false);
@@ -117,10 +127,16 @@ public class PersonalData extends Page {
                 personal_identity_number = model.getPersonalIdentityNumber(studentLogin);
             }
             else{
-                //TODO:pobieranie danych nauczyciela
-                firstName=model.getTeacherFirstName();
-                secondName=model.getTeacherLastName();
-                degree=model.getDegree();
+                if(userType==UserType.teacher) {
+                    firstName = model.getTeacherFirstName();
+                    secondName = model.getTeacherLastName();
+                    degree = model.getDegree();
+                }
+                else{
+                    firstName = model.getTeacherFirstName(teacherLogin);
+                    secondName = model.getTeacherLastName(teacherLogin);
+                    degree = model.getDegree(teacherLogin);
+                }
             }
         }
     }

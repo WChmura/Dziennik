@@ -134,4 +134,10 @@ public abstract class Model {
     abstract public String getDegree(String login);
 
     abstract public String getTeacherLastName(String login);
+
+    abstract public int getPermission(String login);
+
+    abstract public String getPassword();
+
+    abstract public String getPassword(String login);
 }
