@@ -245,7 +245,7 @@ public class StudentPanel extends Model {
 
     public void setPersonalIdentityNumber(String login, String personalIdentityNumber) {
         Student student = StudentDAO.getStudent(AccountDAO.getAccount(login).getStudentID());
-        StudentDAO.changeAddress(student, personalIdentityNumber);
+        StudentDAO.changePersonalIdentityNumber(student, personalIdentityNumber);
     }
 
     public int getSubjectCountOfStudent(String firstName, String lastName) {
@@ -269,6 +269,7 @@ public class StudentPanel extends Model {
 
     public ArrayList<Mark> getMarks(String firstName, String lastName) {
         Student student = StudentDAO.getStudent(firstName, lastName);
+        System.out.println(student.getStudentID());
         return MarkDAO.getMarks(student.getStudentID());
     }
 
@@ -293,14 +294,14 @@ public class StudentPanel extends Model {
         return schedule;
     }
 
-    public String[][] getScheduleOfAccount(String login) {
-        Account acc = AccountDAO.getAccount(login);
+    public String[][] getScheduleOfAccount() {
+        Account acc = account;
         if (acc.getPermission() < 2) {
             Student std = StudentDAO.getStudent(acc.getStudentID());
             Group grp = GroupDAO.getGroup(std.getGroupID());
             return getScheduleOfGroup(grp.getName());
         }
-        else if (acc.getPermission() == 3) {
+        else if (acc.getPermission() == 2) {
             Teacher tea = TeacherDAO.getTeacherFromAccount(acc);
             ArrayList<Timetable> timetable = TimetableDAO.getScheduleForTeacher(tea);
             String[][] schedule = new String[8][5];

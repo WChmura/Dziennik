@@ -107,7 +107,7 @@ public abstract class Model {
 
     abstract public String getStudentLogin(String firstName, String lastName);
 
-    abstract public String[][] getScheduleOfAccount(String login);
+    abstract public String[][] getScheduleOfAccount();
 
     abstract public int getNumberOfLastGroupLesson(String groupName);
 
@@ -140,4 +140,8 @@ public abstract class Model {
     abstract public String getPassword();
 
     abstract public String getPassword(String login);
+
+    abstract public void changePassword(String newPassword);
+
+    abstract public  String[][] getScheduleOfGroup(String groupName);
 }

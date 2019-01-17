@@ -20,7 +20,7 @@ public class PersonalData extends Page {
     private String studentLogin;
     private String teacherLogin;
     //+metodki do zmiany tego
-    private JTextField[] dataFields = new JTextField[5];
+    private JTextField[] dataFields;
 
     public PersonalData() {
         super();
@@ -45,6 +45,7 @@ public class PersonalData extends Page {
                 System.out.println("Przekazano bledny login");
             }
         }
+        dataFields = new JTextField[5];
         model = createNewModel();
         System.out.println("Utworzono model");
         this.addTopMenu(7);
@@ -72,6 +73,7 @@ public class PersonalData extends Page {
     private void newSubPanel(String title,String value,int number,boolean editable){
         JPanel score = new JPanel(new GridLayout(1,5,10,10));
         JTextField textField = new JTextField(value);
+        dataFields[number]=textField;
         if(!canEdit||!editable)
             textField.setEnabled(false);
         JLabel label = new JLabel(title);
@@ -91,12 +93,13 @@ public class PersonalData extends Page {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(userType==UserType.teacher&&studentLogin==null){
+                if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
                     //TODO:wysłanie danych nauczyciela
                 }else {
                     if (userType == UserType.student || userType == UserType.parent) {
                         studentLogin = model.getStudentLogin(firstName, secondName);
                     }
+                    System.out.println("wysylanie danych");
                     model.setAddress(studentLogin, dataFields[2].getText());
                     model.setPersonalIdentityNumber(studentLogin, dataFields[4].getText());
                 }

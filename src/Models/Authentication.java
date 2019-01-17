@@ -246,7 +246,7 @@ public class Authentication extends Model {
     }
 
     @Override
-    public String[][] getScheduleOfAccount(String login) {
+    public String[][] getScheduleOfAccount() {
         return new String[0][];
     }
 
@@ -329,5 +329,15 @@ public class Authentication extends Model {
     @Override
     public String getPassword(String login) {
         return null;
+    }
+
+    @Override
+    public void changePassword(String newPassword) {
+
+    }
+
+    @Override
+    public String[][] getScheduleOfGroup(String groupName) {
+        return new String[0][];
     }
 }

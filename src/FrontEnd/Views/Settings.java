@@ -25,23 +25,18 @@ public class Settings extends Page {
 
         panel.add(new JLabel(""));
         JButton personalData = new JButton("Pokaz dane osobowe");
-        personalData.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                topPanel.goToPage("personalData");
-            }
-        });
+        personalData.addActionListener(e -> topPanel.goToPage("personalData"));
         panel.add(personalData);
 
         JButton changePassword = new JButton("Zmien haslo");
         changePassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangePasswordForm edit = new ChangePasswordForm(null,null,false);
+                ChangePasswordForm edit = new ChangePasswordForm(null,model.getPassword(),false);
                 edit.setVisible(true);
                 String[] changes = edit.getData();
                 if(changes!=null) {
-                    //TODO;zmiana hasla
+                    model.changePassword(changes[1]);
                 }
             }
         });

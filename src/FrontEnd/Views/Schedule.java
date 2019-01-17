@@ -12,15 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Schedule extends Page {
-    @Override
-    public void createGUI() {
-
-    }
-}
-
 
     //to potrzebuje
-    /*private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
+    private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
     //plan moze byc zwracany po id klasy albo id nauczyciela
     // w tym drugim przypadku powinno byc "nazwaPrzedmiotu:klasa:sala"
     private String allGroupsNames[]; //nazwy wszystkich klas - tylko dla adminów
@@ -34,22 +28,19 @@ public class Schedule extends Page {
     @Override
     public void createGUI() {
         model = createNewModel();
-        if(userType==UserType.teacher){
-
+        if(userType!=UserType.admin){
+            subjects = model.getScheduleOfAccount();
+            addTopMenu(maxNumOfLesson + 2);
+            isAdmin = false;
         }
-        subjects = model.schelude();
-
-        maxNumOfLesson =7;//usunac z koncowej
-        if(MockModel.getUserType()==UserType.admin) {
-            allGroupsNames = model.getClassList();
+        else {
+            allGroupsNames = model.getAllGroupsNames().toArray(new String[0]);
+            subjects = model.getScheduleOfGroup(allGroupsNames[0]);
             addTopMenu(maxNumOfLesson + 3);
             isAdmin=true;
             addAdminOptionsPanel();
         }
-        else {
-            addTopMenu(maxNumOfLesson + 2);
-            isAdmin = false;
-        }
+        maxNumOfLesson =8;//usunac z koncowej
         addWeekLabels();
         for(int i=0;i<maxNumOfLesson;i++){
             this.addSubPanel(addLessonPanel(i),50);
@@ -117,7 +108,7 @@ public class Schedule extends Page {
                                 //TODO;dodac edycjelekcji
                             /*reloadGroup(-1);
                             reloadPanels();*/
-                           /* }
+                            }
                         }
                     });
                 } else {
@@ -161,13 +152,12 @@ public class Schedule extends Page {
     private void reloadGroup(int classNumber){
         if(classNumber<0){
             //TODO:załduj zmieniony plan lekcji
-            subjects = model.schelude();
+            subjects = model.getScheduleOfAccount();
         }
         else{
         //TODO: zaladuj nowy plan lekcji
-        subjects = model.schelude2();
+        subjects = model.getScheduleOfGroup(allGroupsNames[classNumber]);
         }
-
     }
 
     private void reloadPanels(){
@@ -239,4 +229,3 @@ public class Schedule extends Page {
     }
 
 }
-*/
