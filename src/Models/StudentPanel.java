@@ -340,6 +340,10 @@ public class StudentPanel extends Model {
         return AccountDAO.getAccount(login).getPermission();
     }
 
+    public String getPassword() {
+        return account.getHash();
+    }
+
     public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
         TimetableDAO.updateTimetable(day, hour, classroomID, teacherID, groupID, subjectID);
     }
