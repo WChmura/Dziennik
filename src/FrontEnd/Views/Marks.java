@@ -27,21 +27,23 @@ public class Marks extends Page
 
     public Marks(String value) {
         super(value);
-        String[] studentData = value.split(" ");
-        firstName=studentData[0];
-        secondName=studentData[1];
     }
 
     @Override
     public void createGUI() {
         model = createNewModel();
-        if(userType==UserType.student||userType==UserType.parent){
+        if(login!=null){
+            String[] studentData = login.split(" ");
+            firstName=studentData[0];
+            secondName=studentData[1];
+        }
+        else if(userType==UserType.student||userType==UserType.parent){
             firstName = model.getFirstName();
             secondName = model.getlastName();
+            System.out.println(firstName+" "+secondName);
             marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
         }
-
-        else if(firstName==null) {
+        else{
             if(userType==UserType.teacher)
                 studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
             else
