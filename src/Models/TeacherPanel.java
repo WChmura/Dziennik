@@ -91,7 +91,8 @@ public class TeacherPanel extends ParentPanel {
             Student student = StudentDAO.getStudent(firstName, lastName);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            int weekday = cal.get(Calendar.DAY_OF_WEEK);
+            cal.add(Calendar.YEAR, -1900);
+            int weekday = cal.get(Calendar.DAY_OF_WEEK) - 1;
             Presence presence = new Presence(date, TimetableDAO.getNumberOfLesson(group.getGroupID(), weekday, teacher.getTeacherID()), marks[index], student.getStudentID(), teacher.getTeacherID(), teacher.getSubjectId());
             PresenceDAO.insertPresence(presence);
             index++;

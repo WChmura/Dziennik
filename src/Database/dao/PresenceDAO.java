@@ -3,6 +3,7 @@ import Database.C3poDataSource;
 import Database.pojo.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PresenceDAO {
 
@@ -10,6 +11,10 @@ public class PresenceDAO {
     public static void insertPresence(Presence pre)
     {
         try {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(pre.getDate());
+            cal.add(Calendar.YEAR, -1900);
+            pre.setDate(new java.sql.Date(cal.getTime().getTime()));
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO OBECNOSC"
                     + "(id_obecnosci, data, numer_lekcji, typ, id_ucznia, id_nauczyciela, id_przedmiotu) VALUES"
