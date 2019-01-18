@@ -216,13 +216,13 @@ public class AccountDAO {
         return acc;
     }
 
-    /** zwraca obiekt Account z bazy na podstawie imienia i nazwiska ucznia **/
+    /** zwraca obiekt Account ucznia z bazy na podstawie imienia i nazwiska **/
     public static Account getStudentAccount(String firstName, String lastName)
     {
         Account acc = null;
         try {
             Connection con = C3poDataSource.getConnection();
-            String insertTableSQL = " select * from Konto natural join uczen where imie = ? and nazwisko = ?";
+            String insertTableSQL = " select * from Konto natural join uczen where imie = ? and nazwisko = ? and uprawnienia = 0";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
