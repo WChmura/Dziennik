@@ -13,7 +13,7 @@ public class PresenceDAO {
         try {
             Calendar cal = Calendar.getInstance();
             cal.setTime(pre.getDate());
-            cal.add(Calendar.YEAR, -1900);
+            //cal.add(Calendar.YEAR, -1900);
             pre.setDate(new java.sql.Date(cal.getTime().getTime()));
             Connection con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO OBECNOSC"
