@@ -63,17 +63,11 @@ public class AdminPanel extends Page implements ActionListener {
         changePasswordButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalDataButton = new JButton("Pokaz/edytuj dane osobowe");
-        personalDataButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int per = model.getPermission(userList.getSelectedValue());
-                if(per==3){
-                    JOptionPane.showMessageDialog(mainContent, "Podany uzytkownik jest adminem i nie posiada danych osobowych");
-                }
-                else
-                    topPanel.goToPage("personalData",userList.getSelectedValue());
-            }
+        personalDataButton.addActionListener(e -> {
+            if(model.getPermission(userList.getSelectedValue())==3)
+                JOptionPane.showMessageDialog(mainContent, "Podany uzytkownik jest adminem i nie posiada danych osobowych");
+            else
+                topPanel.goToPage("personalData",userList.getSelectedValue());
         });
         personalDataButton.setBorderPainted(false);
         personalDataButton.setMargin(new Insets(0,0,0,0));
