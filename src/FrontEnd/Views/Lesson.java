@@ -14,13 +14,9 @@ import java.sql.Date;
 
 public class Lesson extends Page{
     //to potrzebuje - tylko dla nauczycieli
-    private String[] students;//imiona i nazwiska studentów
-    private String groupName; //nazwa klasy
-    private String[] classNames; //list klas
-    //+ metodki
-    // funkcja co dostanie id_klasy, id_nauczyciela, date w formacie "" i mi powie czy taka lekcja istnieje
-
-    //to już nie
+    private String[] students;
+    private String groupName;
+    private String[] classNames;
     private int[] attendances;
     private JButton[][] newMarks;
     private int[] numOfMarks;
@@ -33,28 +29,26 @@ public class Lesson extends Page{
         model = createNewModel();
         classNames=model.getAllGroupsNames().toArray(new String[0]);
         int groupNumber = chooseGroup();
-
         if(groupNumber<0){
-            addTopMenu(2);
-            topPanel.goToPage("Klasa");
+            addTopMenu(0);
         }
         else{
             groupName = classNames[groupNumber];
             students = model.getNamesOfGroup(groupName).toArray(new String[0]);
             numOfStudents = students.length;
             addTopMenu(numOfStudents + 2);
+            newMarks = new JButton[numOfStudents][4];
+            numOfMarks = new int[numOfStudents];
+            attendances = new int[numOfStudents];
+            this.addSubPanel(GroupNamePanel(),30);
+            System.out.println("Dodano nazwe klasy");
+            for(int i=0;i<numOfStudents;i++){
+                this.addSubPanel(StudentPanel(i),50);
+                System.out.println("Dodano studenta");
+                attendances[i]=0;
+            }
+            addEndLessonPanel();
         }
-        newMarks = new JButton[numOfStudents][4];
-        numOfMarks = new int[numOfStudents];
-        attendances = new int[numOfStudents];
-        this.addSubPanel(GroupNamePanel(),30);
-        System.out.println("Dodano nazwe klasy");
-        for(int i=0;i<numOfStudents;i++){
-            this.addSubPanel(StudentPanel(i),50);
-            System.out.println("Dodano studenta");
-            attendances[i]=0;
-        }
-        addEndLessonPanel();
     }
 
     private JPanel GroupNamePanel(){
@@ -163,6 +157,7 @@ public class Lesson extends Page{
             for(int i=0;i<classNames.length;i++){
                 if(classNames[i].equals(changesInStudents[1])){
                     date = Date.valueOf(changesInStudents[0]);
+                    System.out.println(date);
                     return i;
                 }
             }

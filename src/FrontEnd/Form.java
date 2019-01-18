@@ -74,6 +74,7 @@ public class Form extends JDialog {
         panel.setLayout(new GridLayout(1,2));
         JLabel label = new JLabel(title);
         final JComboBox<String> comboBox = new JComboBox<>(answers);
+        comboBoxScores=answers[0];
         comboBox.addActionListener(e -> {
             comboBoxScores = (String)comboBox.getSelectedItem();
         });

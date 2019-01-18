@@ -33,6 +33,7 @@ public class PersonalData extends Page {
 
     @Override
     public void createGUI() {
+        model = createNewModel();
         if(login!=null){
             System.out.println(login);
             if(model.getPermission(login)<2){
@@ -53,9 +54,9 @@ public class PersonalData extends Page {
         getData();
         canEdit = userType != UserType.student;
         if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
-            newSubPanel( "Imie",firstName,0,false);
-            newSubPanel( "Nazwisko",secondName,1,false);
-            newSubPanel( "Stopien",degree,2,false);
+            newSubPanel( "Imie",firstName,0,true);
+            newSubPanel( "Nazwisko",secondName,1,true);
+            newSubPanel( "Stopien",degree,2,true);
         }
         else{
             newSubPanel( "Imie",firstName,0,false);
@@ -94,7 +95,7 @@ public class PersonalData extends Page {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
-                    //TODO:wysłanie danych nauczyciela
+                    //TODO:
                 }else {
                     if (userType == UserType.student || userType == UserType.parent) {
                         studentLogin = model.getStudentLogin(firstName, secondName);

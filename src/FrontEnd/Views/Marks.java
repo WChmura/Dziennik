@@ -32,12 +32,7 @@ public class Marks extends Page
     @Override
     public void createGUI() {
         model = createNewModel();
-        if(login!=null){
-            String[] studentData = login.split(" ");
-            firstName=studentData[0];
-            secondName=studentData[1];
-        }
-        else if(userType==UserType.student||userType==UserType.parent){
+        if(userType==UserType.student||userType==UserType.parent){
             firstName = model.getFirstName();
             secondName = model.getlastName();
             System.out.println(firstName+" "+secondName);
@@ -48,7 +43,13 @@ public class Marks extends Page
                 studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
             else
                 studentNames = model.getAllStudents().toArray(new String[0]);
-            String[] studentData = studentNames[0].split(" ");
+            String[] studentData;
+            if(login!=null){
+                studentData = login.split(" ");
+            }
+            else {
+                studentData = studentNames[0].split(" ");
+            }
             firstName = studentData[0];
             secondName = studentData[1];
             marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
