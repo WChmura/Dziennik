@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
 public class Messages extends Page {
     private String [] sendMessages;
     private String [] receivedMessages;
+    private String[] sendMessagesTitles;
+    private String[] receivedMessagesTitles;
+    private String[] sendMessagesRecipient;
+    private String[] receivedMessagesSender;
     private Boolean[] recivedMessageIsRead;
     //+metodki
     //nowa wiadomosc
@@ -39,10 +43,10 @@ public class Messages extends Page {
         sendMessages=model.getSentMessages().toArray(new String[0]);
         receivedMessages =model.getReceivedMessages().toArray(new String[0]);
         System.out.println("pobierz3");
-        String[] sendMessagesTitles = model.getSentMessagesTitles().toArray(new String[0]);
-        String[] receivedMessagesTitles = model.getReceivedMessagesTitles().toArray(new String[0]);
-        String[] sendMessagesRecipient = model.getSentMessagesRecipents().toArray(new String[0]);
-        String[] receivedMessagesSender = model.getReceivedMessagesSenders().toArray(new String[0]);
+        sendMessagesTitles = model.getSentMessagesTitles().toArray(new String[0]);
+        receivedMessagesTitles = model.getReceivedMessagesTitles().toArray(new String[0]);
+        sendMessagesRecipient = model.getSentMessagesRecipents().toArray(new String[0]);
+        receivedMessagesSender = model.getReceivedMessagesSenders().toArray(new String[0]);
         recivedMessageIsRead = model.areReceivedMessagesRead().toArray(new Boolean[0]);
         System.out.println("Pobrnao wiadomosci z bazy");
         namOfReceived = receivedMessages.length;
@@ -59,7 +63,6 @@ public class Messages extends Page {
 
     private void addMessagesPanel(){
         JPanel messagePanel = new JPanel(new GridLayout(1,3,10,10));
-
         JPanel buttonPanel= new JPanel(new GridLayout(5,1,5,5));
         buttonPanel.setBackground(Colors.main);
         buttonPanel.add(new JLabel(""));
@@ -97,6 +100,7 @@ public class Messages extends Page {
         sendLabel.setBackground(Colors.main);
         sendLabel.setHorizontalAlignment(JLabel.CENTER);
         sendTextField = new JTextField();
+        sendTextField.setEditable(false);
         JPanel sendedSubPanel = new JPanel(new GridLayout(2,1));
         sendedSubPanel.setBackground(Colors.main);
         sendedSubPanel.add(sendLabel);
@@ -117,6 +121,7 @@ public class Messages extends Page {
         recivedLabel.setBackground(Colors.main);
         recivedLabel.setHorizontalAlignment(JLabel.CENTER);
         receivedTextField = new JTextField();
+        receivedTextField.setEditable(false);
         JPanel recivedSubPanel = new JPanel(new GridLayout(2,1));
         recivedSubPanel.setBackground(Colors.main);
         recivedSubPanel.add(recivedLabel);

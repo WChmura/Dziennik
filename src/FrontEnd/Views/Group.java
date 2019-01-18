@@ -25,6 +25,8 @@ public class Group extends Page{
             allGroupsNames = model.getAllGroupsNames().toArray(new String[0]);
             groupName = allGroupsNames[0];
         }
+        if(groupName==null)
+            this.dispose();
         students = model.getNamesOfGroup(groupName).toArray(new String[0]);
         numOfStudents = students.length;
         for(int i=0;i<numOfStudents;i++){
