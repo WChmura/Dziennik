@@ -348,4 +348,13 @@ public class Authentication extends Model {
     public String getSubjectName(int subjectId) {
         return null;
     }
+
+    @Override
+    public void setTeacherFirstName(String login, String firstName) { }
+
+    @Override
+    public void setTeacherLastName(String login, String lastName) { }
+
+    @Override
+    public void setTeacherDegree(String login, String degree) { }
 }

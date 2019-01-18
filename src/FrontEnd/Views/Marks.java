@@ -100,17 +100,21 @@ public class Marks extends Page
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
-            marks[i].setMark(Integer.valueOf(changesInMark[1]));
-            marks[i].setWeight(Integer.valueOf(changesInMark[2]));
-            marks[i].setDescription(changesInMark[3]);
+            marks[i].setMark(Integer.valueOf(changesInMark[0]));
+            marks[i].setWeight(Integer.valueOf(changesInMark[1]));
+            marks[i].setDescription(changesInMark[2]);
             model.updateMark(marks[i]);
+            marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
+            convertMarks();
+            updateValues();
         }
     }
 
     private void addTeacherPanel(){
         JPanel teacherPanel = new JPanel();
         final JComboBox<String> comboBox = new JComboBox<>(studentNames);
-        comboBox.setSelectedItem(login);
+        if(login!=null)
+            comboBox.setSelectedItem(login);
         comboBox.addActionListener(e -> {
             System.out.println("Nowy uczeń");
             String[] studentData = studentNames[comboBox.getSelectedIndex()].split(" ");
@@ -135,7 +139,7 @@ public class Marks extends Page
             marksButtons[num][i]=configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]);
             marksPanel.add(marksButtons[num][i]);
         }
-        
+
         subjectPanel.add(new JLabel(model.getSubjectName(subjectsIds[num])),BorderLayout.EAST);
         subjectPanel.add(marksPanel);
         this.addSubPanel(subjectPanel,50);

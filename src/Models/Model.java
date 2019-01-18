@@ -148,4 +148,10 @@ public abstract class Model {
     abstract public int getTeacherId();
 
     abstract public String getSubjectName(int subjectId);
+
+    abstract public void setTeacherFirstName(String login, String firstName);
+
+    abstract public void setTeacherLastName(String login, String lastName);
+
+    abstract public void setTeacherDegree(String login, String degree);
 }

@@ -108,7 +108,7 @@ public class TeacherPanel extends ParentPanel {
     }
 
     public void setTeacherDegree(String login, String degree) {
-        TeacherDAO.setLastName(TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getTeacherID(), degree);
+        TeacherDAO.setDegree(TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getTeacherID(), degree);
     }
 
     public boolean doesLessonExist(String groupName, int teacherId, String date) {

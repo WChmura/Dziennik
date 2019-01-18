@@ -252,6 +252,21 @@ public class StudentPanel extends Model {
         return SubjectDAO.getSubject(subjectId).getName();
     }
 
+    @Override
+    public void setTeacherFirstName(String login, String firstName) {
+
+    }
+
+    @Override
+    public void setTeacherLastName(String login, String lastName) {
+
+    }
+
+    @Override
+    public void setTeacherDegree(String login, String degree) {
+
+    }
+
     public int getSubjectCountOfStudent(String firstName, String lastName) {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();

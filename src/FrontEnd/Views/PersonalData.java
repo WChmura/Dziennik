@@ -54,6 +54,8 @@ public class PersonalData extends Page {
         getData();
         canEdit = userType != UserType.student;
         if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
+            if(userType==UserType.teacher)
+                canEdit=false;
             newSubPanel( "Imie",firstName,0,true);
             newSubPanel( "Nazwisko",secondName,1,true);
             newSubPanel( "Stopien",degree,2,true);
@@ -76,7 +78,7 @@ public class PersonalData extends Page {
         JTextField textField = new JTextField(value);
         dataFields[number]=textField;
         if(!canEdit||!editable)
-            textField.setEnabled(false);
+            textField.setEditable(false);
         JLabel label = new JLabel(title);
         label.setHorizontalAlignment(JLabel.RIGHT);
         score.add(label);
@@ -94,8 +96,10 @@ public class PersonalData extends Page {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if((userType==UserType.teacher&&studentLogin==null)||teacherLogin!=null){
-                    //TODO:
+                if(teacherLogin!=null){
+                    model.setTeacherFirstName(teacherLogin,dataFields[0].getText());
+                    model.setTeacherLastName(teacherLogin,dataFields[1].getText());
+                    model.setTeacherDegree(teacherLogin,dataFields[2].getText());
                 }else {
                     if (userType == UserType.student || userType == UserType.parent) {
                         studentLogin = model.getStudentLogin(firstName, secondName);

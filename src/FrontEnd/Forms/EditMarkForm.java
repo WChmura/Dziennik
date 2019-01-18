@@ -17,7 +17,7 @@ public class EditMarkForm extends Form {
 
     @Override
     protected boolean checkDataValues() {
-        if(isNumeric(input.get(0).getText(),6)&&isNumeric(input.get(1).getText())){
+        if(isNumeric(input.get(0).getText(),7)&&isNumeric(input.get(1).getText())){
             return true;
         }
         else{
