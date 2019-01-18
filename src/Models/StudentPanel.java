@@ -272,7 +272,8 @@ public class StudentPanel extends Model {
             Teacher teacher = TeacherDAO.getTeacher(cell.getTeacherID());
             Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
             String text = subject.getName() + ":" + teacher.getFirstName() + " " + teacher.getSecondName() + ":" + classroom.getName();
-            schedule[cell.getDay()][cell.getHour()-1] = text;
+            //System.out.println("proba wpisania '" + text + "' do schedule[" + (cell.getDay()-1) + "][" + (cell.getHour()-1) + "]");
+            schedule[cell.getDay()-1][cell.getHour()-1] = text;
         }
         return schedule;
     }
