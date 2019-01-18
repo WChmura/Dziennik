@@ -224,8 +224,8 @@ public class StudentPanel extends Model {
     }
 
     @Override
-    public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
-
+    public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
+        return -1;
     }
 
     @Override

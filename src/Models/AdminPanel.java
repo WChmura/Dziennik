@@ -1,10 +1,8 @@
 package Models;
 
-import Database.dao.AccountDAO;
-import Database.dao.GroupDAO;
-import Database.dao.StudentDAO;
-import Database.dao.TimetableDAO;
+import Database.dao.*;
 import Database.pojo.Student;
+import Database.pojo.Teacher;
 import Database.pojo.Timetable;
 
 import java.sql.ResultSet;
@@ -35,6 +33,18 @@ public class AdminPanel extends TeacherPanel {
         deleteTimetable(groupId, hour, day);
         addTimetable(groupId, classromId, teacherId, day, hour, subjectId);
     }
+
+    public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
+        Student std = new Student(GroupDAO.getGroup(groupName).getGroupID(), firstName, lastName, address, sex, personalIdentityNumber);
+        StudentDAO.insertStudent(std);
+        return std.getStudentID();
+    }
+
+    public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId) {
+        Teacher tea = new Teacher(firstName, lastName, degree, AccountDAO.getAccount(login).getPersonID(), subjectId);
+        TeacherDAO.insertTeacher(tea);
+    }
+
 
     public ArrayList<ArrayList <Student>>  getStudentsFromAllGroups() {
         ArrayList<ArrayList <Student>> ListOfGroups = new ArrayList<ArrayList <Student>>();

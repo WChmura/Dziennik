@@ -155,7 +155,7 @@ public abstract class Model {
 
     abstract public void setTeacherDegree(String login, String degree);
 
-    abstract public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName);
+    abstract public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName);
 
     abstract public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId);
 }
