@@ -23,7 +23,7 @@ public abstract class Page extends JFrame {
     public Page(){
         super("Hello World");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        super.setSize(d.width,2*d.height/3);
+        super.setSize(8*d.width/9,8*d.height/9);
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -32,7 +32,7 @@ public abstract class Page extends JFrame {
     public Page(String value){
         super("Hello World");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        super.setSize(d.width,2*d.height/3);
+        super.setSize(8*d.width/9,8*d.height/9);
         login=value;
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

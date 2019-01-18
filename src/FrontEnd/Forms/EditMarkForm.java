@@ -21,7 +21,7 @@ public class EditMarkForm extends Form {
             return true;
         }
         else{
-            return wrongValuesMessage();
+            return false;
         }
     }
 }

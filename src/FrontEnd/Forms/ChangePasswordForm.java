@@ -24,7 +24,7 @@ public class ChangePasswordForm extends Form {
             return true;
         }
         else{
-            return wrongValuesMessage();
+            return false;
         }
     }
 }

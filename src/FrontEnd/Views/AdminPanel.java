@@ -2,10 +2,7 @@ package FrontEnd.Views;
 
 import Database.pojo.Student;
 import FrontEnd.Colors;
-import FrontEnd.Forms.ChangeClassForm;
-import FrontEnd.Forms.ChangePasswordForm;
-import FrontEnd.Forms.NewClassForm;
-import FrontEnd.Forms.NewUserForm;
+import FrontEnd.Forms.*;
 import FrontEnd.Page;
 
 import javax.swing.*;
@@ -72,8 +69,7 @@ public class AdminPanel extends Page implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 int per = model.getPermission(userList.getSelectedValue());
                 if(per==3){
-                    System.out.println("Podany uzytkownik jest adminem i nie posiada danych osobowych");
-                    //TODO:pkienko z informacja
+                    JOptionPane.showMessageDialog(mainContent, "Podany uzytkownik jest adminem i nie posiada danych osobowych");
                 }
                 else
                     topPanel.goToPage("personalData",userList.getSelectedValue());
@@ -178,23 +174,25 @@ public class AdminPanel extends Page implements ActionListener {
                 newUser.setVisible(true);
                 String[] changesInMark = newUser.getData();
                 if(changesInMark!=null) {
-
-                    int permission=0;
                     switch (changesInMark[4]){
                         case "Uczen":
-                            permission=0;
+                            NewStudentForm newStudent = new NewStudentForm(null);
+                            newStudent.setVisible(true);
+                            String[] changesInStudent = newUser.getData();
+                            if(changesInStudent!=null) {
+                                model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                            }
                             break;
                         case"Rodzic":
-                            permission=1;
+                            model.addUser(changesInMark[0],changesInMark[1],1,changesInMark[2],Integer.parseInt(changesInMark[3]));
                             break;
                         case "Nauczyciel":
-                            permission=2;
+                            model.addUser(changesInMark[0],changesInMark[1],2,changesInMark[2],Integer.parseInt(changesInMark[3]));
                             break;
                         case"Admin":
-                            permission=3;
+                            model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],Integer.parseInt(changesInMark[3]));
                             break;
                     }
-                    model.addUser(changesInMark[0],changesInMark[1],permission,changesInMark[2],Integer.parseInt(changesInMark[3]));
                 }
                 refreshUserList();
                 break;
@@ -259,7 +257,6 @@ public class AdminPanel extends Page implements ActionListener {
     }
 
     private void refreshStudentsList(){
-        //TODO:dodac kilka pustyc klas
         System.out.println();
         Student[] array = studentsByClasses.get(classSelected).toArray(new Student[0]);
         String[] namesArray = new String[array.length];

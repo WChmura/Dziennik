@@ -37,7 +37,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         this.frame = frame;
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(d.width, d.height/10);
+        setSize(8*d.width/9, d.height/10);
         JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
         JButton marksButton = configureButton(marksText);
@@ -115,7 +115,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
         }
 
         else if(e.getActionCommand().equals(logInText)){
-            LoginForm sd = new LoginForm(null);
+            LoginForm sd = new LoginForm(null,model);
             sd.setVisible(true);
             String[] loginData= sd.getData();
             if(loginData!=null) {
@@ -129,7 +129,7 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 }
 
             }else {
-                    System.out.println("zle dane");
+                JOptionPane.showMessageDialog(frame, "Zle haslo lub login");
                 }
             }
     }

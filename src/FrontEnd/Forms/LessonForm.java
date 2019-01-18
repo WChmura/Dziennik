@@ -40,7 +40,7 @@ public class LessonForm extends Form {
             return true;
         }
         else{
-            return wrongValuesMessage();
+            return false;
         }
     }
 }

@@ -100,9 +100,7 @@ public class Form extends JDialog {
 
     private void okButton() {
         if(!checkDataValues()){
-            if(wrongValuesMessage()){
-                getDataValues();
-            }
+            wrongValuesMessage();
         }
         else {
             getDataValues();
@@ -129,14 +127,8 @@ public class Form extends JDialog {
         return true;
     }
 
-    protected boolean wrongValuesMessage(){
-        int n = JOptionPane.showConfirmDialog(
-                this,
-                "Wprowadziles bledne dane./n" +
-                        "Na pewno chcesz kontynuować?",
-                "",
-                JOptionPane.YES_NO_OPTION);
-        return n != 1;
+    protected void wrongValuesMessage(){
+            JOptionPane.showMessageDialog(null, "Podano bledne dane");
     }
 
     protected boolean isNumeric(String str) {

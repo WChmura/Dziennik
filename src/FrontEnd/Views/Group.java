@@ -57,8 +57,9 @@ public class Group extends Page{
             for (int i = numOfStudents+1;i>0;i--){
                 this.deletePanel(i);
             }
-            students = model.getNamesOfGroup(groupName).toArray(new String[0]);
             groupName = className;
+            students = model.getNamesOfGroup(groupName).toArray(new String[0]);
+            numOfStudents = students.length;
             this.addSubPanel(GroupNamePanel(),30,1);
             for(int i =0;i<numOfStudents;i++){
                 this.addSubPanel(StudentPanel(i),50,i+2);

@@ -18,7 +18,7 @@ public class DeleteLesson extends Form {
             return true;
         }
         else{
-            return wrongValuesMessage();
+            return false;
         }
     }
 }

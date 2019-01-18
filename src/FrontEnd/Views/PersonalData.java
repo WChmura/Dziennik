@@ -72,7 +72,6 @@ public class PersonalData extends Page {
             this.addSubPanel(buttonPanel(),50);
     }
 
-
     private void newSubPanel(String title,String value,int number,boolean editable){
         JPanel score = new JPanel(new GridLayout(1,5,10,10));
         JTextField textField = new JTextField(value);
@@ -148,6 +147,7 @@ public class PersonalData extends Page {
             }
         }
     }
+
     private JLabel emptyLabel(){
         return new JLabel("");
     }
