@@ -248,6 +248,10 @@ public class StudentPanel extends Model {
         StudentDAO.changePersonalIdentityNumber(student, personalIdentityNumber);
     }
 
+    public String getSubjectName(int subjectId) {
+        return SubjectDAO.getSubject(subjectId).getName();
+    }
+
     public int getSubjectCountOfStudent(String firstName, String lastName) {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();
