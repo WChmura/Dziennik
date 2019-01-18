@@ -302,13 +302,13 @@ public class StudentPanel extends Model {
     public  String[][] getScheduleOfGroup(String groupName) {
         Group grp = GroupDAO.getGroup(groupName);
         ArrayList<Timetable> timetable = TimetableDAO.getScheduleForGroup(grp);
-        String[][] schedule = new String[8][5];
+        String[][] schedule = new String[5][8];
         for (Timetable cell : timetable) {
             Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
             Teacher teacher = TeacherDAO.getTeacher(cell.getTeacherID());
             Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
             String text = subject.getName() + ":" + teacher.getFirstName() + " " + teacher.getSecondName() + ":" + classroom.getName();
-            schedule[cell.getDay()][cell.getHour()] = text;
+            schedule[cell.getDay()][cell.getHour()-1] = text;
         }
         return schedule;
     }
