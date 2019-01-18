@@ -146,4 +146,6 @@ public abstract class Model {
     abstract public  String[][] getScheduleOfGroup(String groupName);
 
     abstract public int getTeacherId();
+
+    abstract public String getSubjectName(int subjectId);
 }

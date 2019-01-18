@@ -13,7 +13,7 @@ public class Marks extends Page
 {
     private int numOfSubjects;
     private Integer[] subjectsIds;
-    private int maxNumOfMarks = 25;
+    private int maxNumOfMarks;
     private Database.pojo.Mark[] marks;
     private String[] studentNames;
     private JButton[][] marksButtons;
@@ -31,6 +31,7 @@ public class Marks extends Page
 
     @Override
     public void createGUI() {
+        maxNumOfMarks=25;
         model = createNewModel();
         if(userType==UserType.student||userType==UserType.parent){
             firstName = model.getFirstName();
@@ -55,8 +56,11 @@ public class Marks extends Page
             marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
         }
         subjectsIds = model.getSubjectsOfStudent(firstName,secondName).toArray(new Integer[0]);
+        for(int i=0;i<subjectsIds.length;i++){
+            System.out.println(subjectsIds[i]);
+        }
         numOfSubjects=model.getSubjectCountOfStudent(firstName,secondName);
-        marksValues = new int[numOfSubjects][maxNumOfMarks];
+        System.out.println("ilosc przemiotow"+numOfSubjects);
         marksId = new int[numOfSubjects][maxNumOfMarks];
         marksButtons = new JButton[numOfSubjects][maxNumOfMarks];
         if(userType==UserType.teacher){
@@ -106,6 +110,7 @@ public class Marks extends Page
     private void addTeacherPanel(){
         JPanel teacherPanel = new JPanel();
         final JComboBox<String> comboBox = new JComboBox<>(studentNames);
+        comboBox.setSelectedItem(login);
         comboBox.addActionListener(e -> {
             System.out.println("Nowy uczeń");
             String[] studentData = studentNames[comboBox.getSelectedIndex()].split(" ");
@@ -130,12 +135,14 @@ public class Marks extends Page
             marksButtons[num][i]=configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]);
             marksPanel.add(marksButtons[num][i]);
         }
-        subjectPanel.add(new JLabel("Przedmiot: "+ num),BorderLayout.EAST);
+        
+        subjectPanel.add(new JLabel(model.getSubjectName(subjectsIds[num])),BorderLayout.EAST);
         subjectPanel.add(marksPanel);
         this.addSubPanel(subjectPanel,50);
     }
 
     private void convertMarks(){
+        marksValues = new int[numOfSubjects][maxNumOfMarks];
         for(int i=0;i<numOfSubjects;i++) {
             int numOfMarks=0;
             int subjectId = subjectsIds[i];

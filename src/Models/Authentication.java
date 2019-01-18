@@ -343,4 +343,9 @@ public class Authentication extends Model {
     public int getTeacherId() {
         return 0;
     }
+
+    @Override
+    public String getSubjectName(int subjectId) {
+        return null;
+    }
 }
