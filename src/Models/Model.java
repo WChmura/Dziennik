@@ -51,7 +51,7 @@ public abstract class Model {
 
     abstract public void insertPresences(Date date, String groupName, int[] marks);
 
-    abstract public boolean doesLessonExist(int groupId, int teacherId, String date);
+    abstract public boolean doesLessonExist(String groupName, int teacherId, String date);
 
     abstract public int getSubjectCountOfStudent(String firstName, String lastName);
 
@@ -144,4 +144,6 @@ public abstract class Model {
     abstract public void changePassword(String newPassword);
 
     abstract public  String[][] getScheduleOfGroup(String groupName);
+
+    abstract public int getTeacherId();
 }

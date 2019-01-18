@@ -9,7 +9,7 @@ import javax.swing.*;
 public class Form extends JDialog {
     private String[] data;
     protected ArrayList<JTextField> input = new ArrayList<>();
-    private String comboBoxScores = null;
+    protected String comboBoxScores = null;
     public Form(Frame owner, String title) {
         super(owner, title, true);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));

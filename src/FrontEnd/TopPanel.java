@@ -135,7 +135,6 @@ public class TopPanel extends JMenuBar implements ActionListener {
     }
 
     public void goToPage(String sth){
-        //To close the current window
         Page newWindow;
         switch(sth){
             case marksText:

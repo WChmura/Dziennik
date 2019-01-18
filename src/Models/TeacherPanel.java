@@ -98,11 +98,17 @@ public class TeacherPanel extends ParentPanel {
         }
     }
 
-    public boolean doesLessonExist(int groupId, int teacherId, String date) {
+    public boolean doesLessonExist(String groupName, int teacherId, String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
         int weekday = LocalDate.parse(date, formatter).getDayOfWeek().getValue();
+        int groupId = GroupDAO.getGroup(groupName).getGroupID();
         int numberOfLesson = TimetableDAO.getNumberOfLesson(groupId, weekday, teacherId);
         if (numberOfLesson >= 0) return true;
         else return false;
+    }
+
+    @Override
+    public int getTeacherId() {
+        return TeacherDAO.getTeacherFromAccount(account).getTeacherID();
     }
 }

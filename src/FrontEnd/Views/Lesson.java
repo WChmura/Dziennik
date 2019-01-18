@@ -24,7 +24,8 @@ public class Lesson extends Page{
     private int[] attendances;
     private JButton[][] newMarks;
     private int[] numOfMarks;
-    private int numOfStudents;
+    private int numOfStudents=0;
+    private Date date;
 
     //TODO:Sprawdzanie czy lekcja istnieje
     @Override
@@ -32,13 +33,20 @@ public class Lesson extends Page{
         model = createNewModel();
         classNames=model.getAllGroupsNames().toArray(new String[0]);
         int groupNumber = chooseGroup();
-        groupName = classNames[groupNumber];
-        students = model.getNamesOfGroup(groupName).toArray(new String[0]);
-        numOfStudents = students.length;
+
+        if(groupNumber<0){
+            addTopMenu(2);
+            topPanel.goToPage("Klasa");
+        }
+        else{
+            groupName = classNames[groupNumber];
+            students = model.getNamesOfGroup(groupName).toArray(new String[0]);
+            numOfStudents = students.length;
+            addTopMenu(numOfStudents + 2);
+        }
         newMarks = new JButton[numOfStudents][4];
         numOfMarks = new int[numOfStudents];
         attendances = new int[numOfStudents];
-        addTopMenu(numOfStudents + 2);
         this.addSubPanel(GroupNamePanel(),30);
         System.out.println("Dodano nazwe klasy");
         for(int i=0;i<numOfStudents;i++){
@@ -83,7 +91,7 @@ public class Lesson extends Page{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(confirmationPane()) {
-                    model.insertPresences(new Date(2019,1,21),groupName,attendances);
+                    model.insertPresences(date,groupName,attendances);
                 }
             }
         });
@@ -104,7 +112,7 @@ public class Lesson extends Page{
             newMarks[studentNum][numOfMarks[studentNum]].setText(changesInMark[1]);
             newMarks[studentNum][numOfMarks[studentNum]++].setBackground(Color.white);
             model.addMark(studentData[0],studentData[1],new Date(2019,1,21),
-                    Integer.parseInt(changesInMark[0]),Integer.parseInt(changesInMark[1]),changesInMark[2]);
+                    Integer.parseInt(changesInMark[1]),Integer.parseInt(changesInMark[2]),changesInMark[3]);
         }
     }
 
@@ -148,16 +156,17 @@ public class Lesson extends Page{
     }
 
     private int chooseGroup(){
-        SelectLessonForm selectClass = new SelectLessonForm(null,classNames);
+        SelectLessonForm selectClass = new SelectLessonForm(null,classNames,model);
         selectClass.setVisible(true);
         String[] changesInStudents = selectClass.getData();
         if(changesInStudents!=null) {
             for(int i=0;i<classNames.length;i++){
-                if(classNames[i].equals(changesInStudents[0])){
+                if(classNames[i].equals(changesInStudents[1])){
+                    date = Date.valueOf(changesInStudents[0]);
                     return i;
                 }
             }
         }
-        return 0;
+        return -1;
     }
 }

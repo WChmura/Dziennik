@@ -106,7 +106,7 @@ public class Authentication extends Model {
     }
 
     @Override
-    public boolean doesLessonExist(int groupId, int teacherId, String date) {
+    public boolean doesLessonExist(String groupName, int teacherId, String date) {
         return false;
     }
 
@@ -332,12 +332,15 @@ public class Authentication extends Model {
     }
 
     @Override
-    public void changePassword(String newPassword) {
-
-    }
+    public void changePassword(String newPassword) { }
 
     @Override
     public String[][] getScheduleOfGroup(String groupName) {
         return new String[0][];
+    }
+
+    @Override
+    public int getTeacherId() {
+        return 0;
     }
 }
