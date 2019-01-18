@@ -122,6 +122,30 @@ public class TimetableDAO {
         return false;
     }
 
+    public static void deleteTimetable(int groupId, int hour, int day)
+    {
+        Connection con = null;
+        try {
+            con = C3poDataSource.getConnection();
+            String insertTableSQL = "Delete from \"DZIENNIK3\".\"Plan\" WHERE id_klasy =  ? and godzina = ? and dzien = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setInt(2, hour);
+            preparedStatement.setInt(3, day);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**  ma zwracac liste uczniow ktorzy maja w planie lekcje z danym nauczycielem danego dnia o konkretnej godzinie **/
     public static ArrayList<Student> getStudents(int day, int hour, Teacher tea)
     {
