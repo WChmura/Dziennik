@@ -118,7 +118,7 @@ public class PresenceDAO {
         Connection con=null;
         try {
             con = C3poDataSource.getConnection();
-            String insertTableSQL = " select * from Obecnosc where id_ucznia = ? and data >= to_date( ? ) and data <S to_date ( ? )";
+            String insertTableSQL = " select * from Obecnosc where id_ucznia = ? and data >= to_date( ? ) and data < to_date ( ? )";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, std.getStudentID());
             preparedStatement.setString(2, lastMonday);
