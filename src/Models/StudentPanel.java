@@ -106,7 +106,7 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             Account recipentAcc = AccountDAO.getAccount(msg.getId_recipient());
             String recipentName = recipentAcc.getLogin();
-            switch(account.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
+            switch(recipentAcc.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
                 case 0:
                     recipentName = StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getSecondName();
                     break;
@@ -114,7 +114,7 @@ public class StudentPanel extends Model {
                     recipentName = "Opiekun " + StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getSecondName();
                     break;
                 case 2:
-                    recipentName = TeacherDAO.getTeacherFromAccount(account).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(account).getSecondName();
+                    recipentName = TeacherDAO.getTeacherFromAccount(recipentAcc).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(recipentAcc).getSecondName();
                     break;
                 case 3:
                     recipentName = "Administrator";
@@ -151,18 +151,18 @@ public class StudentPanel extends Model {
         for (Message msg : msgs) {
             Account senderAcc = AccountDAO.getAccount(msg.getId_sender());
             String senderName = senderAcc.getLogin();
-            switch(account.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
+            switch(senderAcc.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
                 case 0:
-                    senderName = account.getLogin() + " (" + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
+                    senderName = senderAcc.getLogin() + " (" + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
                     break;
                 case 1:
-                    senderName = account.getLogin() + " (" + "opiekun " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
+                    senderName = senderAcc.getLogin() + " (" + "opiekun " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
                     break;
                 case 2:
-                    senderName = account.getLogin() + " (" + TeacherDAO.getTeacherFromAccount(account).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(account).getSecondName() + ")";
+                    senderName = senderAcc.getLogin() + " (" + TeacherDAO.getTeacherFromAccount(senderAcc).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(senderAcc).getSecondName() + ")";
                     break;
                 case 3:
-                    senderName = account.getLogin() + " (" + "administrator" + ")";
+                    senderName = senderAcc.getLogin() + " (" + "administrator" + ")";
             }
             messages.add(senderName);
         }
