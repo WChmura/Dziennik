@@ -1,8 +1,11 @@
 package Models;
 
 import Database.dao.AccountDAO;
+import Database.dao.GroupDAO;
 import Database.dao.StudentDAO;
+import Database.dao.TeacherDAO;
 import Database.pojo.Student;
+import Database.pojo.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +39,16 @@ public class AdminPanel extends TeacherPanel {
         System.out.println(studentID);
         Database.pojo.Account acc = new Database.pojo.Account(login, hash, permission, mailAddress, studentID);
         Database.dao.AccountDAO.insertAccount(acc);
+    }
+
+    public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
+        Student std = new Student(GroupDAO.getGroup(groupName).getGroupID(), firstName, lastName, address, sex, personalIdentityNumber);
+        StudentDAO.insertStudent(std);
+    }
+
+    public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId) {
+        Teacher tea = new Teacher(firstName, lastName, degree, AccountDAO.getAccount(login).getPersonID(), subjectId);
+        TeacherDAO.insertTeacher(tea);
     }
 
     public void deleteUser(String accountName) {
