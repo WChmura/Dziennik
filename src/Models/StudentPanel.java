@@ -25,14 +25,20 @@ public class StudentPanel extends Model {
         Database.dao.AccountDAO.updatePassword(account, newPassword);
     }
 
-    public ArrayList<Presence> getAttendance(String date) {
+    public ArrayList<Presence> getAttendance(String date, String login) {
         System.out.println(date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
         System.out.println(formatter);
         LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate nextMonday = lastMonday.plusWeeks(2);
-        return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(account.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
+        Account acc = AccountDAO.getAccount(login);
+        return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(acc.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
     }
+
+    public ArrayList<Presence> getAttendance(String date) {
+        return getAttendance(date, account.getLogin());
+    }
+
 
     public ArrayList<String> getSentMessages() {
         ArrayList<Message> msgs = MessageDAO.getAllSended(account);
