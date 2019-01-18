@@ -108,10 +108,10 @@ public class StudentPanel extends Model {
             String recipentName = recipentAcc.getLogin();
             switch(account.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
                 case 0:
-                    recipentName = StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName();
+                    recipentName = StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getSecondName();
                     break;
                 case 1:
-                    recipentName = "Opiekun " + StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName();
+                    recipentName = "Opiekun " + StudentDAO.getStudent(recipentAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(recipentAcc.getStudentID()).getSecondName();
                     break;
                 case 2:
                     recipentName = TeacherDAO.getTeacherFromAccount(account).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(account).getSecondName();
@@ -153,10 +153,10 @@ public class StudentPanel extends Model {
             String senderName = senderAcc.getLogin();
             switch(account.getPermission()) { // 0 uczen, 1 rodzic, 2 nauczyciel, 3 admin
                 case 0:
-                    senderName = account.getLogin() + " (" + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + ")";
+                    senderName = account.getLogin() + " (" + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
                     break;
                 case 1:
-                    senderName = account.getLogin() + " (" + "opiekun " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + ")";
+                    senderName = account.getLogin() + " (" + "opiekun " + StudentDAO.getStudent(senderAcc.getStudentID()).getFirstName() + " " + StudentDAO.getStudent(senderAcc.getStudentID()).getSecondName() + ")";
                     break;
                 case 2:
                     senderName = account.getLogin() + " (" + TeacherDAO.getTeacherFromAccount(account).getFirstName() + " " + TeacherDAO.getTeacherFromAccount(account).getSecondName() + ")";
