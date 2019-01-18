@@ -252,7 +252,7 @@ public class StudentPanel extends Model {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();
         for (Mark mark : MarkDAO.getMarks(student.getStudentID())) {
-            marks.add(mark.getStudentID());
+            marks.add(mark.getSubjectID());
         }
         return marks.size();
     }
@@ -261,7 +261,7 @@ public class StudentPanel extends Model {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();
         for (Mark mark : MarkDAO.getMarks(student.getStudentID())) {
-            marks.add(mark.getStudentID());
+            marks.add(mark.getSubjectID());
         }
         ArrayList<Integer> marksList = new ArrayList<Integer>(marks);
         return marksList;
