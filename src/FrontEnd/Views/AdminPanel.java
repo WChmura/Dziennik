@@ -176,10 +176,11 @@ public class AdminPanel extends Page implements ActionListener {
                 if(changesInMark!=null) {
                     switch (changesInMark[4]){
                         case "Uczen":
-                            NewStudentForm newStudent = new NewStudentForm(null);
+                            NewStudentForm newStudent = new NewStudentForm(null,classNames);
                             newStudent.setVisible(true);
-                            String[] changesInStudent = newUser.getData();
+                            String[] changesInStudent = newStudent.getData();
                             if(changesInStudent!=null) {
+                                model.addStudent(changesInStudent[0],changesInStudent[1],changesInStudent[4],changesInStudent[2],changesInStudent[3],changesInStudent[5]);
                                 model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],Integer.parseInt(changesInMark[3]));
                             }
                             break;
@@ -187,7 +188,13 @@ public class AdminPanel extends Page implements ActionListener {
                             model.addUser(changesInMark[0],changesInMark[1],1,changesInMark[2],Integer.parseInt(changesInMark[3]));
                             break;
                         case "Nauczyciel":
-                            model.addUser(changesInMark[0],changesInMark[1],2,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                            NewTeacherForm newTeacher = new NewTeacherForm(null);
+                            newTeacher.setVisible(true);
+                            String[] changesInTeacher = newTeacher.getData();
+                            if(changesInTeacher!=null) {
+                                model.addUser(changesInMark[0], changesInMark[1], 2, changesInMark[2], Integer.parseInt(changesInMark[3]));
+                                model.addTeacher(changesInTeacher[0],changesInTeacher[1],changesInTeacher[2],changesInMark[0],Integer.parseInt(changesInTeacher[3]));
+                            }
                             break;
                         case"Admin":
                             model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],Integer.parseInt(changesInMark[3]));

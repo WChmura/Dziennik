@@ -2,6 +2,7 @@ package FrontEnd.Views;
 
 import Common.DaysOfWeek;
 import Common.UserType;
+import Database.pojo.Presence;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditAttendanceForm;
 import FrontEnd.Page;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.util.ArrayList;
 
 //TODO: Stringi z data musi uzywac
 public class Attendance extends Page {
@@ -20,24 +22,6 @@ public class Attendance extends Page {
         super(value);
     }
 
-    @Override
-    public void createGUI() {
-        addTopMenu(2);
-        addTeacherPanel();
-    }
-    private void addTeacherPanel(){
-        JPanel teacherPanel = new JPanel();
-        String[] s = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
-        final JComboBox<String> comboBox = new JComboBox<>(s);
-        comboBox.addActionListener(e -> {
-            String studentName = (String)comboBox.getSelectedItem();
-            //TODO:załaduj nowe dane
-            //updateValues();
-        });
-        teacherPanel.add(comboBox,BorderLayout.EAST);
-        this.addSubPanel(teacherPanel,30);
-    }
-    /*
     //to potrzebuje - wszystko dla wszystkich
     private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
     private Database.pojo.Presence[][] attendances;//obecności
@@ -47,11 +31,12 @@ public class Attendance extends Page {
     //tego juz nie
     private int numOfLessons;
     private int[][] attendanceValues;//obecności ob/niob/usp
+    private ArrayList<Presence> attendancesList;
     //TODO:pobieranie dat z otrzymanych obecnosci
     private Date startDate = new Date(100,5,1);
     private Date endDate = new Date(100,5,15);
-    JButton attendanceButtons[][];
-    private int startWeek =0;
+    private JButton attendanceButtons[][];
+
     @Override
     public void createGUI() {
         model = createNewModel();
@@ -62,8 +47,8 @@ public class Attendance extends Page {
         else{
             addTopMenu(numOfWeeksShowed+2);
         }
-        attendances = model.getAttendance(startWeek,numOfWeeksShowed);
-        attendances = model.getAttendance("2019-04-04");
+        int startWeek = 0;
+        attendancesList = model.getAttendance("2019-01-14");
         //numOfLessons = model.getNumOfLessons();
         attendanceButtons= new JButton[numOfWeeksShowed][numOfLessons];
         setAttendanceValues();
@@ -227,5 +212,5 @@ public class Attendance extends Page {
             attendanceValues[0][i]=attendances[0][i].getType();
             attendanceValues[1][i]=attendances[1][i].getType();
         }
-    }*/
+    }
 }

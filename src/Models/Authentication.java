@@ -27,7 +27,6 @@ public class Authentication extends Model {
         this.account = null;
     }
 
-    //Do zastapienia taka sprawdzajaca w bazie
     public UserType logIn(String[] loginData) {
         account = AccountDAO.getAccount(loginData[0], loginData[1]);
         if(account!=null) {
@@ -355,4 +354,14 @@ public class Authentication extends Model {
 
     @Override
     public void setTeacherDegree(String login, String degree) { }
+
+    @Override
+    public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
+
+    }
+
+    @Override
+    public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId) {
+
+    }
 }

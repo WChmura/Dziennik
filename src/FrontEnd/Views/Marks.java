@@ -42,8 +42,10 @@ public class Marks extends Page
         else{
             if(userType==UserType.teacher)
                 studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
-            else
+            else {
                 studentNames = model.getAllStudents().toArray(new String[0]);
+
+            }
             String[] studentData;
             if(login!=null){
                 studentData = login.split(" ");
@@ -56,14 +58,11 @@ public class Marks extends Page
             marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
         }
         subjectsIds = model.getSubjectsOfStudent(firstName,secondName).toArray(new Integer[0]);
-        for(int i=0;i<subjectsIds.length;i++){
-            System.out.println(subjectsIds[i]);
-        }
         numOfSubjects=model.getSubjectCountOfStudent(firstName,secondName);
         System.out.println("ilosc przemiotow"+numOfSubjects);
         marksId = new int[numOfSubjects][maxNumOfMarks];
         marksButtons = new JButton[numOfSubjects][maxNumOfMarks];
-        if(userType==UserType.teacher){
+        if(userType==UserType.teacher||userType==UserType.admin){
             addTopMenu(numOfSubjects+2);
             addTeacherPanel();
         }
@@ -116,7 +115,6 @@ public class Marks extends Page
         if(login!=null)
             comboBox.setSelectedItem(login);
         comboBox.addActionListener(e -> {
-            System.out.println("Nowy uczeń");
             String[] studentData = studentNames[comboBox.getSelectedIndex()].split(" ");
             firstName = studentData[0];
             secondName = studentData[1];
