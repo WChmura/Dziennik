@@ -134,14 +134,26 @@ public class Marks extends Page
         subjectPanel.setBackground(Colors.main);
         marksPanel.setBackground(Colors.main);
         convertMarks();
+        subjectPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
         marksPanel.setLayout(new GridLayout(1,25,5,0));
         for(int i=0;i<maxNumOfMarks;i++){
             marksButtons[num][i]=configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]);
             marksPanel.add(marksButtons[num][i]);
         }
 
-        subjectPanel.add(new JLabel(model.getSubjectName(subjectsIds[num])),BorderLayout.EAST);
-        subjectPanel.add(marksPanel);
+        String subjectName =  model.getSubjectName(subjectsIds[num]);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 5;
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0;
+        c.insets = new Insets(5,0,0,5);
+        subjectPanel.add(new JLabel(subjectName), c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.EAST;
+        c.gridwidth = 25;
+        c.gridx = 1;
+        subjectPanel.add(marksPanel, c);
         this.addSubPanel(subjectPanel,50);
     }
 
