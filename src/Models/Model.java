@@ -113,7 +113,11 @@ public abstract class Model {
 
     abstract public int getNumberOfLastTeacherLesson(String login);
 
-    abstract public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID);
+    abstract public void addTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
+
+    abstract public void deleteTimetable(int groupId, int day, int hour);
+
+    abstract public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
 
     abstract public boolean doesLessonExistForGroup(int day, int hour, String groupName);
 
@@ -158,4 +162,8 @@ public abstract class Model {
     abstract public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName);
 
     abstract public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId);
+
+    abstract public void changeAttendance(String firstName, String lastName, java.sql.Date date, int numberOfLesson, int newValue);
+
+    abstract public ArrayList<Presence> getAttendance(String date, String firstName,String lastName);
 }

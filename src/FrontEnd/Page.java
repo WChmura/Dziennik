@@ -21,7 +21,7 @@ public abstract class Page extends JFrame {
     protected String login;
 
     public Page(){
-        super("Hello World");
+        super("Dziennik elektroniczny");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         super.setSize(8*d.width/9,8*d.height/9);
         createGUI();
@@ -30,7 +30,7 @@ public abstract class Page extends JFrame {
     }
 
     public Page(String value){
-        super("Hello World");
+        super("Dziennik elektroniczny");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         super.setSize(8*d.width/9,8*d.height/9);
         login=value;

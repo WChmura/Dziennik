@@ -25,6 +25,15 @@ public class StudentPanel extends Model {
         Database.dao.AccountDAO.updatePassword(account, newPassword);
     }
 
+    public ArrayList<Presence> getAttendance(String date, String firstName,String lastName) {
+        System.out.println(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        System.out.println(formatter);
+        Student student = StudentDAO.getStudent(firstName, lastName);
+        LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate nextMonday = lastMonday.plusWeeks(2);
+        return Database.dao.PresenceDAO.getAttendance(student, lastMonday.format(formatter), nextMonday.format(formatter));
+    }
     public ArrayList<Presence> getAttendance(String date, String login) {
         System.out.println(date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
@@ -34,7 +43,6 @@ public class StudentPanel extends Model {
         Account acc = AccountDAO.getAccount(login);
         return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(acc.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
     }
-
     public ArrayList<Presence> getAttendance(String date) {
         return getAttendance(date, account.getLogin());
     }
@@ -239,6 +247,11 @@ public class StudentPanel extends Model {
 
     }
 
+    @Override
+    public void changeAttendance(String firstName, String lastName, Date date, int numberOfLesson, int newValue) {
+
+    }
+
     public int getSubjectCountOfStudent(String firstName, String lastName) {
         Student student = StudentDAO.getStudent(firstName, lastName);
         HashSet<Integer> marks = new HashSet<Integer>();
@@ -332,6 +345,21 @@ public class StudentPanel extends Model {
             if (cell.getHour() > lastLesson) lastLesson = cell.getHour();
         }
         return lastLesson;
+    }
+
+    @Override
+    public void addTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId) {
+
+    }
+
+    @Override
+    public void deleteTimetable(int groupId, int day, int hour) {
+
+    }
+
+    @Override
+    public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId) {
+
     }
 
     public int getPermission(String login) {

@@ -38,7 +38,6 @@ public class Schedule extends Page {
         for(int i=0;i<maxNumOfLesson;i++){
             this.addSubPanel(addLessonPanel(i),50);
         }
-
     }
 
     private void addAdminOptionsPanel(){
@@ -61,9 +60,7 @@ public class Schedule extends Page {
             reloadPanels();
         });
         adminPanel.add(comboBox);
-
         adminPanel.add(new JLabel(""));
-
         this.addSubPanel(adminPanel,50);
     }
 
@@ -134,11 +131,9 @@ public class Schedule extends Page {
 
     private void reloadGroup(int classNumber){
         if(classNumber<0){
-            //TODO:załduj zmieniony plan lekcji
             subjects = model.getScheduleOfAccount();
         }
         else{
-        //TODO: zaladuj nowy plan lekcji
         subjects = model.getScheduleOfGroup(allGroupsNames[classNumber]);
         }
     }

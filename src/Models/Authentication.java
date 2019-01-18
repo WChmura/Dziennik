@@ -258,7 +258,17 @@ public class Authentication extends Model {
     }
 
     @Override
-    public void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
+    public void addTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId) {
+
+    }
+
+    @Override
+    public void deleteTimetable(int groupId, int day, int hour) {
+
+    }
+
+    @Override
+    public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId) {
 
     }
 
@@ -356,12 +366,22 @@ public class Authentication extends Model {
     public void setTeacherDegree(String login, String degree) { }
 
     @Override
-    public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
-
+    public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
+        return 0;
     }
 
     @Override
     public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId) {
 
+    }
+
+    @Override
+    public void changeAttendance(String firstName, String lastName, Date date, int numberOfLesson, int newValue) {
+
+    }
+
+    @Override
+    public ArrayList<Presence> getAttendance(String date, String firstName, String lastName) {
+        return null;
     }
 }
