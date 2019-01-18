@@ -70,6 +70,48 @@ public class TeacherDAO {
         return tea;
     }
 
+    public static void setFirstName(int teacherId, String firstName) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE nauczyciel set imie = ? where id_nauczyciela = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setInt(2, teacherId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setLastName(int teacherId, String lastName) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE nauczyciel set nazwisko = ? where id_nauczyciela = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, lastName);
+            preparedStatement.setInt(2, teacherId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setDegree(int teacherId, String degree) {
+        try {
+            Connection con = C3poDataSource.getConnection();
+            String insertTableSQL = "UPDATE nauczyciel set wyksztalcenie = ? where id_nauczyciela = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, degree);
+            preparedStatement.setInt(2, teacherId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Teacher getTeacherFromAccount(Account account) {
         Teacher tea = null;
         try {

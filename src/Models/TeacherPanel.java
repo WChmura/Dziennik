@@ -99,6 +99,18 @@ public class TeacherPanel extends ParentPanel {
         }
     }
 
+    public void setTeacherFirstName(String login, String firstName) {
+        TeacherDAO.setFirstName(TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getTeacherID(), firstName);
+    }
+
+    public void setTeacherLastName(String login, String lastName) {
+        TeacherDAO.setLastName(TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getTeacherID(), lastName);
+    }
+
+    public void setTeacherDegree(String login, String degree) {
+        TeacherDAO.setLastName(TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login)).getTeacherID(), degree);
+    }
+
     public boolean doesLessonExist(String groupName, int teacherId, String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
         int weekday = LocalDate.parse(date, formatter).getDayOfWeek().getValue();
