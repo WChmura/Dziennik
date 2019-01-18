@@ -294,6 +294,11 @@ public class StudentPanel extends Model {
         return schedule;
     }
 
+    @Override
+    public int getTeacherId() {
+        return 0;
+    }
+
     public String[][] getScheduleOfAccount() {
         Account acc = account;
         if (acc.getPermission() < 2) {
@@ -441,10 +446,9 @@ public class StudentPanel extends Model {
     }
 
     @Override
-    public boolean doesLessonExist(int groupId, int teacherId, String date) {
+    public boolean doesLessonExist(String groupName, int teacherId, String date) {
         return false;
     }
-
     @Override
     public UserType logIn(String[] loginData) {
         return null;
