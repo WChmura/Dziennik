@@ -80,7 +80,7 @@ public class Marks extends Page
             button.setText(String.valueOf(value));
             button.setBorderPainted(false);
             button.setBackground(Color.white);
-            if(userType==UserType.teacher){
+            if(userType==UserType.teacher||userType==UserType.admin){
                 button.setEnabled(true);
                 button.addActionListener(ae -> editMark(i));
             }

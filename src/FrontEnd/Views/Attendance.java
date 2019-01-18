@@ -203,7 +203,7 @@ public class Attendance extends Page {
         attendanceValues = new int[numOfLessons];
         int valueIterator = 1;
         attendanceValues[0]=-3;
-        for(int i=1;i<numOfLessons;i++){
+        for(int i=1;i<numOfLessons-10;i++){
             if(attendancesList.get(i-1).getDate().equals(attendancesList.get(1).getDate()))
                 attendanceValues[valueIterator++]=attendancesList.get(i-1).getType();
             else{

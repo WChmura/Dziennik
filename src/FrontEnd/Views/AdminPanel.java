@@ -44,23 +44,15 @@ public class AdminPanel extends Page implements ActionListener {
         JPanel usersPanel = new JPanel(new GridLayout(1,6,15,0));
         JPanel buttonPanel = new JPanel(new GridLayout(4,1,0,5));
         buttonPanel.setBackground(Colors.main);
-        JButton newUserbutton = new JButton("Dodaj nowego użytkownika");
-        newUserbutton.addActionListener(this);
+
+        JButton newUserbutton = configureButton("Dodaj nowego użytkownika");
         newUserbutton.setActionCommand("addNewUser");
-        newUserbutton.setBorderPainted(false);
-        newUserbutton.setMargin(new Insets(0,0,0,0));
 
-        JButton deleteUserButton = new JButton("Usuń użytkownika");
-        deleteUserButton.addActionListener(this);
+        JButton deleteUserButton = configureButton("Usuń użytkownika");
         deleteUserButton.setActionCommand("deleteUser");
-        deleteUserButton.setBorderPainted(false);
-        deleteUserButton.setMargin(new Insets(0,0,0,0));
 
-        JButton changePasswordButton = new JButton("Zmien haslo");
-        changePasswordButton.addActionListener(this);
+        JButton changePasswordButton = configureButton("Zmien haslo");
         changePasswordButton.setActionCommand("changePassword");
-        changePasswordButton.setBorderPainted(false);
-        changePasswordButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalDataButton = new JButton("Pokaz/edytuj dane osobowe");
         personalDataButton.addActionListener(e -> {
@@ -83,12 +75,13 @@ public class AdminPanel extends Page implements ActionListener {
         buttonPanel.add(personalDataButton);
         buttonPanel.add(changePasswordButton);
         buttonPanel.add(deleteUserButton);
-        JLabel label = new JLabel("Lista uczniow w klasie");
-        label.setHorizontalAlignment(JLabel.RIGHT);
 
         usersPanel.add(new JLabel("Lista użytkowników"));
         usersPanel.add(listScroller);
         usersPanel.add(buttonPanel);
+
+        JLabel label = new JLabel("Lista uczniow w klasie");
+        label.setHorizontalAlignment(JLabel.RIGHT);
         usersPanel.add(label);
         for(int i=0;i<2;i++)
             usersPanel.add(new JLabel(""));
@@ -100,39 +93,26 @@ public class AdminPanel extends Page implements ActionListener {
         JPanel buttonPanel = new JPanel(new GridLayout(3,1,0,5));
         buttonPanel.setBackground(Colors.main);
 
-        JButton newClassbutton = new JButton("Dodaj nową klasę");
-        newClassbutton.addActionListener(this);
+        JButton newClassbutton = configureButton("Dodaj nową klasę");
         newClassbutton.setActionCommand("newClass");
-        newClassbutton.setBorderPainted(false);
-        newClassbutton.setMargin(new Insets(0,0,0,0));
         buttonPanel.add(newClassbutton);
 
-        JButton deleteClassButton = new JButton("Usuń klasę");
-        deleteClassButton.addActionListener(this);
+        JButton deleteClassButton = configureButton("Usuń klasę");
         deleteClassButton.setActionCommand("deleteClass");
-        deleteClassButton.setBorderPainted(false);
-        deleteClassButton.setMargin(new Insets(0,0,0,0));
         buttonPanel.add(deleteClassButton);
 
-        JButton personalDataButton = new JButton("Przenieś ucznia");
-        personalDataButton.addActionListener(this);
+        JButton personalDataButton = configureButton("Przenieś ucznia");
         personalDataButton.setActionCommand("changeClass");
-        personalDataButton.setBorderPainted(false);
-        personalDataButton.setMargin(new Insets(0,0,0,0));
         buttonPanel.add(personalDataButton);
 
         classList = new JList<>(classNames);
         classList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         classList.setLayoutOrientation(JList.VERTICAL);
         classList.setVisibleRowCount(5);
-        classList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    System.out.println("Zmiana klasy");
-                    classSelected = classList.getSelectedIndex();
-                    refreshStudentsList();
-                }
+        classList.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                classSelected = classList.getSelectedIndex();
+                refreshStudentsList();
             }
         });
         JScrollPane classScroller = new JScrollPane(classList);
@@ -164,38 +144,7 @@ public class AdminPanel extends Page implements ActionListener {
         String command = e.getActionCommand();
         switch (command) {
             case "addNewUser":
-                NewUserForm newUser = new NewUserForm(null);
-                newUser.setVisible(true);
-                String[] changesInMark = newUser.getData();
-                if(changesInMark!=null) {
-                    switch (changesInMark[4]){
-                        case "Uczen":
-                            NewStudentForm newStudent = new NewStudentForm(null,classNames);
-                            newStudent.setVisible(true);
-                            String[] changesInStudent = newStudent.getData();
-                            if(changesInStudent!=null) {
-                                model.addStudent(changesInStudent[0],changesInStudent[1],changesInStudent[4],changesInStudent[2],changesInStudent[3],changesInStudent[5]);
-                                model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],Integer.parseInt(changesInMark[3]));
-                            }
-                            break;
-                        case"Rodzic":
-                            model.addUser(changesInMark[0],changesInMark[1],1,changesInMark[2],Integer.parseInt(changesInMark[3]));
-                            break;
-                        case "Nauczyciel":
-                            NewTeacherForm newTeacher = new NewTeacherForm(null);
-                            newTeacher.setVisible(true);
-                            String[] changesInTeacher = newTeacher.getData();
-                            if(changesInTeacher!=null) {
-                                model.addUser(changesInMark[0], changesInMark[1], 2, changesInMark[2], Integer.parseInt(changesInMark[3]));
-                                model.addTeacher(changesInTeacher[0],changesInTeacher[1],changesInTeacher[2],changesInMark[0],Integer.parseInt(changesInTeacher[3]));
-                            }
-                            break;
-                        case"Admin":
-                            model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],Integer.parseInt(changesInMark[3]));
-                            break;
-                    }
-                }
-                refreshUserList();
+                addNewUser();
                 break;
             case "deleteUser":
                 if(confirmationPane()) {
@@ -265,5 +214,48 @@ public class AdminPanel extends Page implements ActionListener {
             namesArray[i]=array[i].getFirstName()+" "+array[i].getSecondName();
         }
         studentList.setListData(namesArray);
+    }
+
+    private JButton configureButton(String name){
+        JButton button = new JButton(name);
+        button.addActionListener(this);
+        button.setBorderPainted(false);
+        button.setMargin(new Insets(0,0,0,0));
+        return button;
+    }
+
+    private void addNewUser(){
+        NewUserForm newUser = new NewUserForm(null);
+        newUser.setVisible(true);
+        String[] changesInMark = newUser.getData();
+        if(changesInMark!=null) {
+            switch (changesInMark[4]){
+                case "Uczen":
+                    NewStudentForm newStudent = new NewStudentForm(null,classNames);
+                    newStudent.setVisible(true);
+                    String[] changesInStudent = newStudent.getData();
+                    if(changesInStudent!=null) {
+                        model.addStudent(changesInStudent[0],changesInStudent[1],changesInStudent[4],changesInStudent[2],changesInStudent[3],changesInStudent[5]);
+                        model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                    }
+                    break;
+                case"Rodzic":
+                    model.addUser(changesInMark[0],changesInMark[1],1,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                    break;
+                case "Nauczyciel":
+                    NewTeacherForm newTeacher = new NewTeacherForm(null);
+                    newTeacher.setVisible(true);
+                    String[] changesInTeacher = newTeacher.getData();
+                    if(changesInTeacher!=null) {
+                        model.addUser(changesInMark[0], changesInMark[1], 2, changesInMark[2], Integer.parseInt(changesInMark[3]));
+                        model.addTeacher(changesInTeacher[0],changesInTeacher[1],changesInTeacher[2],changesInMark[0],Integer.parseInt(changesInTeacher[3]));
+                    }
+                    break;
+                case"Admin":
+                    model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                    break;
+            }
+        }
+        refreshUserList();
     }
 }

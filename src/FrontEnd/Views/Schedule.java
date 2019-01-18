@@ -14,19 +14,13 @@ import java.awt.event.ActionListener;
 public class Schedule extends Page {
 
     //to potrzebuje
-    private String subjects[][];//format np "nazwaPrzedmiotu:nazwisko:sala", w tabeli dzien godzina
-    //plan moze byc zwracany po id klasy albo id nauczyciela
-    // w tym drugim przypadku powinno byc "nazwaPrzedmiotu:klasa:sala"
-    private String allGroupsNames[]; //nazwy wszystkich klas - tylko dla adminów
-    private int maxNumOfLesson; //maksymalna ilosc godzin w dniu
-    //+ metodki
-    // edycja - tylko dla adminów
-    // sprawdzanie czy istieje lekcja o podanym dniu i godzinie
-
-    //Tego juz nie
+    private String subjects[][];
+    private String allGroupsNames[];
+    private int maxNumOfLesson;
     private boolean isAdmin;
     @Override
     public void createGUI() {
+        maxNumOfLesson =8;
         model = createNewModel();
         if(userType!=UserType.admin){
             subjects = model.getScheduleOfAccount();
@@ -40,7 +34,6 @@ public class Schedule extends Page {
             isAdmin=true;
             addAdminOptionsPanel();
         }
-        maxNumOfLesson =8;//usunac z koncowej
         addWeekLabels();
         for(int i=0;i<maxNumOfLesson;i++){
             this.addSubPanel(addLessonPanel(i),50);
@@ -53,21 +46,11 @@ public class Schedule extends Page {
         adminPanel.add(new JLabel(""));
 
         JButton newLessonButton = new JButton("Dodaj nowa lekcja");
-        newLessonButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addNewLesson();
-            }
-        });
+        newLessonButton.addActionListener(e -> addNewLesson());
         adminPanel.add(newLessonButton);
 
         JButton deleteLessonButton = new JButton("Usun lekcje");
-        deleteLessonButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelected();
-            }
-        });
+        deleteLessonButton.addActionListener(e -> deleteSelected());
         adminPanel.add(deleteLessonButton);
 
         adminPanel.add(new JLabel("Wybór Klasy:"));
@@ -94,13 +77,13 @@ public class Schedule extends Page {
             if(subjects[i][number]!=null) {
                 String[] lessonData = breakLessonData(i, number);
                 JButton lessonLabel = new JButton("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
+                lessonLabel.setHorizontalAlignment(JButton.LEFT);
                 lessonLabel.setBackground(Color.white);
                 lessonLabel.setForeground(Color.BLACK);
                 if (isAdmin) {
                     lessonLabel.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            //potrzebna metodka co mi zwróci cały subject
                             LessonForm newLesson = new LessonForm(null, null);
                             newLesson.setVisible(true);
                             String[] changes = newLesson.getData();
@@ -112,7 +95,7 @@ public class Schedule extends Page {
                         }
                     });
                 } else {
-                    lessonLabel.setEnabled(false);
+                    lessonLabel.setFocusable(false);
                 }
                 Border border = BorderFactory.createLineBorder(Color.BLACK);
                 lessonLabel.setBorder(border);

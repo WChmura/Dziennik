@@ -295,13 +295,13 @@ public class StudentPanel extends Model {
         else if (acc.getPermission() == 2) {
             Teacher tea = TeacherDAO.getTeacherFromAccount(acc);
             ArrayList<Timetable> timetable = TimetableDAO.getScheduleForTeacher(tea);
-            String[][] schedule = new String[8][5];
+            String[][] schedule = new String[5][8];
             for (Timetable cell : timetable) {
                 Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
                 Group group = GroupDAO.getGroup(cell.getGroupID());
                 Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
                 String text = subject.getName() + ":" + group.getName() + ":" + classroom.getName();
-                schedule[cell.getDay()][cell.getHour()] = text;
+                schedule[cell.getDay()-1][cell.getHour()-1] = text;
             }
             return schedule;
         }
