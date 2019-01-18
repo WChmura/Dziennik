@@ -20,19 +20,15 @@ public class TeacherPanel extends ParentPanel {
     }
 
     public ArrayList<String> getNamesOfGroup(String groupName) {
+        System.out.println(groupName);
         int groupID = GroupDAO.getGroup(groupName).getGroupID();
         ArrayList<String> list = new ArrayList<String>();
-        try {
-            ResultSet rs = getAllPersonalData();
-            while(rs.next())
-            {
-                if (rs.getInt("id_klasy") == groupID) list.add(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-            }
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ArrayList<Student> students = getAllPersonalData();
+        for (Student std : students)
+        {
+            if(std.getGroupID() == groupID) list.add(std.getFirstName() + " " + std.getSecondName());
         }
-        return null;
+        return list;
     }
 
     public String getFormGroup() {

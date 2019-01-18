@@ -15,8 +15,9 @@ public class ClassroomDAO {
     /** Insert do bazy **/
     public static void insertClassroom(Classroom cla)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO SALA"
                     + "(id_sali, nazwa, ilosc_miejsc, typ, wyposazenie_specjalne) VALUES"
                     + "(?,?,?,?,?)";
@@ -33,14 +34,22 @@ public class ClassroomDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** zwraca obiekt Classroom z bazy na podstawie id, moze sie przyda **/
     public static Classroom getClassroom(int id)
     {
         Classroom cla = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Sala where id_sali = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -64,6 +73,13 @@ public class ClassroomDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return cla;
     }

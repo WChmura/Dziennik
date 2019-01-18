@@ -11,8 +11,9 @@ public class TimetableDAO {
     /** insert do bazy **/
     public static void insertTimetable(Timetable tbl)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO \"DZIENNIK3\".\"Plan\""
                     + "(ID_LEKCJI, DZIEN, GODZINA, ID_KLASY, ID_SALI, ID_NAUCZYCIELA, ID_PRZEDMIOTU) VALUES"
                     + "(?,?,?,?,?,?,?)";
@@ -30,11 +31,20 @@ public class TimetableDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void updateTimetable(int day, int hour, int classroomID, int teacherID, int groupID, int subjectID) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE \"DZIENNIK3\".\"Plan\" set id_klasy = ? , id_sali = ? , id_nauczyciela = ? , id_przedmiotu = ? where dzien = ? and godzina = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, classroomID);
@@ -48,11 +58,20 @@ public class TimetableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static boolean checkGroup(int day, int hour, int groupID) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where dzien = ? and godzina = ? and id_klasy = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, hour);
@@ -65,12 +84,21 @@ public class TimetableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return false;
     }
 
     public static boolean checkTeacher(int day, int hour, int teacherID) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where dzien = ? and godzina = ? and id_nauczyciela = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, hour);
@@ -83,6 +111,14 @@ public class TimetableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return false;
     }
 
@@ -90,8 +126,9 @@ public class TimetableDAO {
     public static ArrayList<Student> getStudents(int day, int hour, Teacher tea)
     {
         ArrayList<Student> ListOfStudents = new ArrayList<Student>();
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from uczen inner join klasa on uczen.id_klasy = klasa.id_klasy inner join \"DZIENNIK3\".\"Plan\" on \"DZIENNIK3\".\"Plan\".id_klasy = uczen.id_klasy where godzina = ? and dzien= ? and \"DZIENNIK3\".\"Plan\".id_nauczyciela=? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, hour);
@@ -111,18 +148,28 @@ public class TimetableDAO {
                 std.setStudentID(studentID);
                 ListOfStudents.add(std);
             }
+            return  ListOfStudents;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfStudents;
     }
 
     /**  zqwraca id grupy ktora ma lekcje danego dnia z danym nauczycielem **/
     public static int getGroupIdOfLesson(int day, int teacherID)
     {
+        Connection con = null;
         ArrayList<Student> ListOfStudents = new ArrayList<Student>();
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "select ID_klasy from \"DZIENNIK3\".\"Plan\" where dzien = ? and id_nuczyciela = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, day);
@@ -137,14 +184,23 @@ public class TimetableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return -1;
     }
 
     /**  zwraca numer lekcji podczas ktorj dana grupa ma lekcje z danym nauczycielem danego dnia **/
     public static int getNumberOfLesson(int groupId, int day, int teacherID)
     {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "select godzina from \"DZIENNIK3\".\"Plan\" where dzien = ? and id_nauczyciela = ? and id_klasy = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, day);
@@ -160,15 +216,24 @@ public class TimetableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return -1;
     }
 
     /** Pobieranie planu dla nauczyciela **/
     public static ArrayList<Timetable> getScheduleForTeacher(Teacher tea)
     {
+        Connection con = null;
         ArrayList<Timetable> ListOfSchedule = new ArrayList<Timetable>();
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where id_nauczyciela = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, tea.getTeacherID());
@@ -187,18 +252,28 @@ public class TimetableDAO {
                 tim.setLessonID(lessonID);
                 ListOfSchedule.add(tim);
             }
+            return ListOfSchedule;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfSchedule;
     }
 
     /** Pobieranie planu dla grupy, tu chyba będzie trzeba coc zmienic bo obiekty Timetable przechowuja praktycznie tylko id-iki **/
     public static ArrayList<Timetable> getScheduleForGroup(Group grp)
     {
+        Connection con = null;
         ArrayList<Timetable> ListOfSchedule = new ArrayList<Timetable>();
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from \"DZIENNIK3\".\"Plan\" where id_klasy = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, grp.getGroupID());
@@ -217,10 +292,18 @@ public class TimetableDAO {
                 tim.setLessonID(lessonID);
                 ListOfSchedule.add(tim);
             }
+            return ListOfSchedule;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfSchedule;
     }
-
 }

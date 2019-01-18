@@ -13,8 +13,9 @@ public class MessageDAO {
 
     public static void insertMessage(Message msg)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO WIADOMOSC"
                     + "(ID_WIADOMOSCI, ID_NADAWCY, ID_ODBIORCY, TEMAT, WIADOMOSC, PRZECZYTANA) VALUES"
                     + "(?,?,?,?,?,?)";
@@ -32,14 +33,22 @@ public class MessageDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /* Zwraca liste wszystkich wiadomosci do odczytu dla danego konta */
     public static ArrayList<Message> getAllMesseges(Account acc)
     {
         ArrayList<Message> ListOfMesseges = new ArrayList<Message>();
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from WIADOMOSC where id_odbiorcy = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, acc.getPersonID());
@@ -63,11 +72,21 @@ public class MessageDAO {
                 Message msg1 = new Message(id_sender, id_recipient, topic, msg, readed);
                 msg1.setId_message(id_message);
                 ListOfMesseges.add(msg1);
+
             }
+            return ListOfMesseges;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ListOfMesseges;
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+
     }
 
 
@@ -76,8 +95,9 @@ public class MessageDAO {
     public static ArrayList<Message> getAllSended(Account acc)
     {
         ArrayList<Message> ListOfMesseges = new ArrayList<Message>();
+        Connection con =null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from WIADOMOSC where id_nadawcy = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, acc.getPersonID());
@@ -102,15 +122,26 @@ public class MessageDAO {
                 msg1.setId_message(id_message);
                 ListOfMesseges.add(msg1);
             }
+            return ListOfMesseges;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
         return ListOfMesseges;
     }
 
     public static void markAsReaded(Message msg) {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE WIADOMOSC set przeczytana = 1 where id_wiadomosci = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(2, msg.getId_message());
@@ -119,6 +150,13 @@ public class MessageDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
+    }
 }

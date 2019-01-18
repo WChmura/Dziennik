@@ -3,9 +3,7 @@ package Models;
 import Database.dao.AccountDAO;
 import Database.dao.GroupDAO;
 import Database.dao.StudentDAO;
-import Database.dao.TeacherDAO;
 import Database.pojo.Student;
-import Database.pojo.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,16 +39,6 @@ public class AdminPanel extends TeacherPanel {
         Database.dao.AccountDAO.insertAccount(acc);
     }
 
-    public void addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName) {
-        Student std = new Student(GroupDAO.getGroup(groupName).getGroupID(), firstName, lastName, address, sex, personalIdentityNumber);
-        StudentDAO.insertStudent(std);
-    }
-
-    public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId) {
-        Teacher tea = new Teacher(firstName, lastName, degree, AccountDAO.getAccount(login).getPersonID(), subjectId);
-        TeacherDAO.insertTeacher(tea);
-    }
-
     public void deleteUser(String accountName) {
         System.out.println(accountName);
         Database.dao.AccountDAO.deleteAccount(Database.dao.AccountDAO.getAccount(accountName));
@@ -74,16 +62,8 @@ public class AdminPanel extends TeacherPanel {
 
     public ArrayList<String> getAllStudents() {
         ArrayList<String> list = new ArrayList<String>();
-        try {
-            ResultSet rs = getAllPersonalData();
-            while(rs.next())
-            {
-                list.add(rs.getString("Imie")+" "+rs.getString("Nazwisko"));
-            }
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        ArrayList<Student> students = getAllPersonalData();
+        for (Student std : students) list.add(std.getFirstName() + " " + std.getSecondName());
+        return list;
     }
 }

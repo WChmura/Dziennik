@@ -10,12 +10,13 @@ public class PresenceDAO {
     /** Insert do bazy **/
     public static void insertPresence(Presence pre)
     {
+        Connection con =null;
         try {
             Calendar cal = Calendar.getInstance();
             cal.setTime(pre.getDate());
             //cal.add(Calendar.YEAR, -1900);
             pre.setDate(new java.sql.Date(cal.getTime().getTime()));
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO OBECNOSC"
                     + "(id_obecnosci, data, numer_lekcji, typ, id_ucznia, id_nauczyciela, id_przedmiotu) VALUES"
                     + "(?,?,?,?,?,?,?)";
@@ -34,13 +35,22 @@ public class PresenceDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /** Zmienia typ obecnosci **/
     public static void changeAttendance(Student std, Date date, int numberOfLesson, int newValue)
     {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE Obecnosc set typ = ? where id_ucznia = ? and data = ? and numer_lekcji = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, newValue);
@@ -52,14 +62,23 @@ public class PresenceDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /** Zwraca liste obecnosci ucznia; Do dorobobienia dla nauczyciela i klasy? **/
     public static ArrayList<Presence> getAttendance(Student std)
     {
         ArrayList<Presence> ListOfAttendance = new ArrayList<Presence>();
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Obecnosc where id_ucznia = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, std.getStudentID());
@@ -77,9 +96,18 @@ public class PresenceDAO {
                 pres.setPresenceId(presenceId);
                 ListOfAttendance.add(pres);
             }
+            return ListOfAttendance;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfAttendance;
     }
 
@@ -87,8 +115,9 @@ public class PresenceDAO {
     public static ArrayList<Presence> getAttendance(Student std, String lastMonday, String nextMonday)
     {
         ArrayList<Presence> ListOfAttendance = new ArrayList<Presence>();
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Obecnosc where id_ucznia = ? and data >= to_date( ? ) and data <S to_date ( ? )";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, std.getStudentID());
@@ -108,9 +137,18 @@ public class PresenceDAO {
                 pres.setPresenceId(presenceId);
                 ListOfAttendance.add(pres);
             }
+        return ListOfAttendance;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfAttendance;
     }
 
@@ -118,8 +156,9 @@ public class PresenceDAO {
     public static Presence getPresence(int id)
     {
         Presence pres = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Obecnosc where id_obecnosci = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -147,6 +186,14 @@ public class PresenceDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return pres;
     }
 }

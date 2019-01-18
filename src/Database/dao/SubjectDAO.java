@@ -14,8 +14,9 @@ public class SubjectDAO {
     /*** Insert do bazy ****/
     public static void insertSubject(Subject sub)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO PRZEDMIOT"
                     + "(id_przedmiotu, nazwa) VALUES"
                     + "(?,?)";
@@ -28,14 +29,23 @@ public class SubjectDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /** zwraca obiekt Przedmiot z bazy na podstawie id, moze sie przyda **/
     public static Subject getSubject(int id)
     {
+        Connection con = null;
         Subject sub = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Przedmiot where id_przedmiotu = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -54,6 +64,14 @@ public class SubjectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return sub;
     }
 

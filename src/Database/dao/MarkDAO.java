@@ -11,8 +11,9 @@ public class MarkDAO {
     /** Insert do bazy **/
     public static void insertMark(Mark mark)
     {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO OCENA"
                     + "(ID_OCENY, DATA, OCENA, WAGA, OPIS, ID_UCZNIA, ID_NAUCZYCIELA, ID_PRZEDMIOTU) VALUES"
                     + "(?,?,?,?,?,?,?,?)";
@@ -32,13 +33,21 @@ public class MarkDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
     /** Edycja oceny w bazie **/
     public static void changeMark(Mark mar, int mark) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE Ocena set ocena = ? where id_oceny = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, mark);
@@ -48,11 +57,19 @@ public class MarkDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
     /** Edycja wagi oceny w bazie **/
     public static void changeWeight(Mark mar, int weight) {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE Ocena set waga = ? where id_oceny = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, weight);
@@ -62,12 +79,20 @@ public class MarkDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** Edycja opisu w bazie **/
     public static void changeDescription(Mark mar, String description) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE Ocena set opis = ? where id_oceny = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, description);
@@ -77,14 +102,22 @@ public class MarkDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** zwraca obiekt Ocena z bazy na podstawie id, moze sie przyda **/
     public static Mark getMark(int id)
     {
         Mark mar = null;
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Ocena where id_oceny = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -114,15 +147,23 @@ public class MarkDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return mar;
     }
 
     /** zwraca obiekty Ocena z bazy na podstawie id ucznia, moze sie przyda **/
     public static ArrayList<Mark> getMarks(int studentID)
     {
+        Connection con = null;
         ArrayList<Mark> marks = new ArrayList<Mark>();
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Ocena where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, studentID);
@@ -151,6 +192,13 @@ public class MarkDAO {
             return marks;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

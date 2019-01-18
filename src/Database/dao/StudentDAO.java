@@ -12,8 +12,9 @@ public class StudentDAO {
     /** Insert do tabeli. Jako parametr przyjmuje obiekt typu Student**/
     public static void insertStudent(Student std)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Uczen"
                     + "(id_ucznia, nazwisko, id_klasy, plec, pesel, adres, imie) VALUES"
                     + "(?,?,?,?,?,?,?)";
@@ -31,11 +32,20 @@ public class StudentDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void changeAddress(Student student, String address) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE uczen set adres = ? where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, address);
@@ -45,11 +55,20 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void changePersonalIdentityNumber(Student student, String personalIdentityNumber) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE uczen set pesel = ? where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, personalIdentityNumber);
@@ -59,13 +78,22 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /** Delete z bazy **/
     public static void deleteStudent(Student std)
     {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "Delete from UCZEN WHERE Id_ucznia= ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, std.getStudentID());
@@ -74,12 +102,21 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**********Zmiana danych osobowych; Czy potrzeba zmieniac cos wiecej niz adres? **/
     public static void updatePersonalData(Student std, String adress) {
+        Connection con =null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE uczen set adres = ? where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, adress);
@@ -89,12 +126,21 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**********Zmiana klasy **/
     public static void updateGroup(Student std, Group group) {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE uczen set id_klasy = ? where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, group.getGroupID());
@@ -104,17 +150,47 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /************Zwraca dane osobowe wszystkich studentow***************************************/
-    public static ResultSet getAllPersonalData() {
+    public static ArrayList<Student> getAllPersonalData() {
+        Connection con = null;
+        ResultSet rs = null;
+        ArrayList<Student> as = new ArrayList<>();
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
+
             String insertTableSQL = " Select * from Uczen";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
 
+            while(rs.next())
+            {
+                int studentID = rs.getInt("ID_UCZNIA");
+                String secondname = rs.getString("NAZWISKO");
+                int groupId = rs.getInt("ID_KLASY");
+                String sex = rs.getString("plec");
+                String pd = rs.getString("pesel");
+                String ad = rs.getString("adres");
+                String first_name = rs.getString("imie");
+
+
+                Student s = new Student(groupId,first_name,secondname,ad,sex,pd);
+                s.setStudentID(studentID);
+                as.add(s);
+
+            }
+            return as;
             /**test**/
+
             /*while(rs.next())
             {
                 System.out.println(rs.getInt("ID_ucznia")+" "+
@@ -125,18 +201,26 @@ public class StudentDAO {
                         rs.getString("Plec")
                 );
             }*/
-            return rs;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return as;
     }
     /** Zwraca liste wszystkich ocen **/
     public static ArrayList<Mark> getAllMarks(Student std)
     {
         ArrayList<Mark> ListOfMarks = new ArrayList<Mark>();
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Ocena where id_ucznia = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, std.getStudentID());
@@ -156,9 +240,18 @@ public class StudentDAO {
                 mr.setMarkID(markID);
                 ListOfMarks.add(mr);
             }
+            return ListOfMarks;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfMarks;
     }
 
@@ -166,8 +259,9 @@ public class StudentDAO {
     public static Student getStudent(int id)
     {
         Student std= null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Uczen where id_ucznia = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -192,8 +286,16 @@ public class StudentDAO {
                 std = new Student(groupID,firstName,secondName,adress,sex,personal_identity_number);
                 std.setStudentID(studentID);
             }
+            return std;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return std;
     }
@@ -202,8 +304,9 @@ public class StudentDAO {
     public static Student getStudent(String firstName, String lastName)
     {
         Student std= null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Uczen where nazwisko = ? and imie = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, lastName);
@@ -228,8 +331,16 @@ public class StudentDAO {
                 std = new Student(groupID,firstName,secondName,adress,sex,personal_identity_number);
                 std.setStudentID(studentID);
             }
+         return  std;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return std;
     }
@@ -238,8 +349,9 @@ public class StudentDAO {
     public static ArrayList<Student> getStudentsFromGroup(String groupName)
     {
         ArrayList<Student> ListOfStudents = new ArrayList<Student>();
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Uczen natural join Klasa where Klasa.nazwa = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, groupName);
@@ -271,8 +383,16 @@ public class StudentDAO {
                 std.setStudentID(studentID);
                 ListOfStudents.add(std);
             }
+            return ListOfStudents;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return ListOfStudents;
     }
@@ -281,8 +401,9 @@ public class StudentDAO {
     public static ArrayList<Student> getStudentsFromGroup(String groupName, Date date, int teacherID)
     {
         ArrayList<Student> ListOfStudents = new ArrayList<Student>();
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Uczen natural join Klasa where Klasa.nazwa = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, groupName);
@@ -314,9 +435,18 @@ public class StudentDAO {
                 std.setStudentID(studentID);
                 ListOfStudents.add(std);
             }
+            return ListOfStudents;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ListOfStudents;
     }
 

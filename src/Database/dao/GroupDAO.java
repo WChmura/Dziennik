@@ -16,8 +16,9 @@ public class GroupDAO {
     /** Insert do bazy **/
     public static void insertGroup(Group gr)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Klasa"
                     + "(id_klasy, nazwa, id_sali, id_nauczyciela) VALUES"
                     + "(?,?,?,?)";
@@ -32,13 +33,21 @@ public class GroupDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** Delete z bazy **/
     public static void deleteGroup(Group gr)
     {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "Delete from KLASA WHERE Id_klasy= ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, gr.getGroupID());
@@ -46,6 +55,13 @@ public class GroupDAO {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -55,8 +71,9 @@ public class GroupDAO {
     public static Group getGroup(int id)
     {
         Group grp = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Klasa where id_klasy = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -77,10 +94,18 @@ public class GroupDAO {
 
                 grp = new Group(name, teacherID, classroomID);
                 grp.setGroupID(groupID);
-                return  grp;
+
             }
+            return  grp;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return grp;
     }
@@ -89,8 +114,9 @@ public class GroupDAO {
     public static Group getGroup(String firstName, String lastName)
     {
         Group grp = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Klasa natural join Nauczyciel where imie = ? and nazwisko = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, firstName);
@@ -112,10 +138,17 @@ public class GroupDAO {
 
                 grp = new Group(name, teacherID, classroomID);
                 grp.setGroupID(groupID);
-                return  grp;
             }
+            return  grp;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return grp;
     }
@@ -123,8 +156,9 @@ public class GroupDAO {
     public static Group getGroup(String groupName)
     {
         Group grp = null;
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Klasa where nazwa = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, groupName);
@@ -145,10 +179,18 @@ public class GroupDAO {
 
                 grp = new Group(name, teacherID, classroomID);
                 grp.setGroupID(groupID);
-                return  grp;
+
             }
+            return  grp;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return grp;
     }
@@ -157,8 +199,9 @@ public class GroupDAO {
     public static ArrayList<String> getAllGroups()
     {
         ArrayList<String> ListOfClasses = new ArrayList<String>();
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " Select nazwa from Klasa ";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             ResultSet rs = preparedStatement.executeQuery();
@@ -166,8 +209,16 @@ public class GroupDAO {
             {
                 ListOfClasses.add(rs.getString("nazwa"));
             }
+            return ListOfClasses;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return ListOfClasses;
     }

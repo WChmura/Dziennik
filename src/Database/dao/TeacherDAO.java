@@ -13,8 +13,9 @@ public class TeacherDAO {
 
     public static void insertTeacher(Teacher Tea)
     {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "INSERT INTO Nauczyciel"
                     + "(id_nauczyciela,imie, nazwisko, wyksztalcenie, id_konta, id_przedmiotu) VALUES"
                     + "(?,?,?,?,?,?)";
@@ -32,6 +33,14 @@ public class TeacherDAO {
             System.out.println("Blad, opis ponizej: ");
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -39,8 +48,9 @@ public class TeacherDAO {
     public static Teacher getTeacher(int id)
     {
         Teacher tea = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Nauczyciel where id_nauczyciela = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id);
@@ -67,12 +77,21 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return tea;
     }
 
     public static void setFirstName(int teacherId, String firstName) {
+        Connection con=null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE nauczyciel set imie = ? where id_nauczyciela = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, firstName);
@@ -82,11 +101,20 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void setLastName(int teacherId, String lastName) {
+        Connection con =null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE nauczyciel set nazwisko = ? where id_nauczyciela = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, lastName);
@@ -96,11 +124,20 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void setDegree(int teacherId, String degree) {
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = "UPDATE nauczyciel set wyksztalcenie = ? where id_nauczyciela = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, degree);
@@ -110,12 +147,21 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static Teacher getTeacherFromAccount(Account account) {
         Teacher tea = null;
+        Connection con = null;
         try {
-            Connection con = C3poDataSource.getConnection();
+            con = C3poDataSource.getConnection();
             String insertTableSQL = " select * from Nauczyciel where id_konta = ?";
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             System.out.println(account);
@@ -143,6 +189,14 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return tea;
     }
 
