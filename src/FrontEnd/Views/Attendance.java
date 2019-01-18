@@ -10,7 +10,6 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.ArrayList;
 
 //TODO: Stringi z data musi uzywac
@@ -22,40 +21,35 @@ public class Attendance extends Page {
         super(value);
     }
 
-    //to potrzebuje - wszystko dla wszystkich
-    private int numOfWeeksShowed=2; //ilosc pokazywanych tygodni, do zmiany w ustawieniach
-    private Database.pojo.Presence[][] attendances;//obecności
-    // + metoda do zmiany typu obecności <- nauczyciele i rodzice
-    private String studentNames;// + tylko dla nauczycieli -ich uczniowie i adminów -wszyscy uczniowie
-
-    //tego juz nie
+    private String studentNames;
     private int numOfLessons;
-    private int[][] attendanceValues;//obecności ob/niob/usp
+    private int[] attendanceValues;//obecności ob/niob/usp
     private ArrayList<Presence> attendancesList;
     //TODO:pobieranie dat z otrzymanych obecnosci
-    private Date startDate = new Date(100,5,1);
-    private Date endDate = new Date(100,5,15);
-    private JButton attendanceButtons[][];
+    private String startDate;
+    private String endDate;
+    private JButton attendanceButtons[];
 
     @Override
     public void createGUI() {
+        startDate = "2019-01-07";
+        endDate = "2019-01-18";
         model = createNewModel();
         if(userType==UserType.teacher||userType==UserType.admin){
-            addTopMenu(numOfWeeksShowed+3);
+            addTopMenu(5);
             addTeacherPanel();
         }
         else{
-            addTopMenu(numOfWeeksShowed+2);
+            addTopMenu(4);
         }
-        int startWeek = 0;
-        attendancesList = model.getAttendance("2019-01-14");
-        //numOfLessons = model.getNumOfLessons();
-        attendanceButtons= new JButton[numOfWeeksShowed][numOfLessons];
+        attendancesList = model.getAttendance(startDate);
+        numOfLessons = attendancesList.size()+10;
+        attendanceButtons= new JButton[numOfLessons];
         setAttendanceValues();
         addLabelsPanel();
-        for(int i=0;i<numOfWeeksShowed;i++){
-            addWeekPanel(i);
-        }
+        //for(int i=0;i<2;i++){
+            addWeekPanel(0);
+        //}
         addChangeWeekPanel();
     }
 
@@ -105,9 +99,9 @@ public class Attendance extends Page {
         int day =0;
         JPanel labelPanel = new JPanel();
         labelPanel.setLayout(new GridLayout(1,numOfLessons,5,0));
-        for(int i=0;i<numOfLessons;i++){
+        for(int i=0;i<numOfLessons/2;i++){
             JLabel label;
-            if(attendanceValues[0][i]<0){
+            if(attendanceValues[i]<0){
                 label = new JLabel(DaysOfWeek.dayName[day++]);
                 lesson=1;
             }
@@ -123,12 +117,12 @@ public class Attendance extends Page {
     private void addWeekPanel(int week){
         JPanel weekPanel = new JPanel();
         weekPanel.setLayout(new GridLayout(1,numOfLessons,5,0));
-        for(int i=0;i<numOfLessons;i++){
+        for(int i=0;i<numOfLessons/2;i++){
             JComponent component;
-            if(attendanceValues[week][i]>=0){
+            if(attendanceValues[i]>=0){
                 JButton button = new JButton();
-                component = configureAttendanceButton(button,attendanceValues[week][i],week,i);
-                attendanceButtons[week][i]=button;
+                component = configureAttendanceButton(button,attendanceValues[i],week,i);
+                attendanceButtons[i]=button;
             }
             else
                 component = new JLabel(" ");
@@ -138,7 +132,7 @@ public class Attendance extends Page {
     }
 
     private void addChangeWeekPanel(){
-        JPanel changeWeekPanel = new JPanel();
+        /*JPanel changeWeekPanel = new JPanel();
         String dateText = "Pokazywany okres od "+startDate.toString()+" do "+endDate.toString();
         JLabel label = new JLabel(dateText);
         changeWeekPanel.add(label,BorderLayout.CENTER);
@@ -152,12 +146,12 @@ public class Attendance extends Page {
             }
         });
         changeWeekPanel.add(button,BorderLayout.EAST);
-        this.addSubPanel(changeWeekPanel,50);
+        this.addSubPanel(changeWeekPanel,50);*/
     }
 
     private void editAttendance(int week, int lesson){
-        System.out.println("edit attendance");
-        EditAttendanceForm edit = new EditAttendanceForm(null,attendances[week][lesson]);
+        /*System.out.println("edit attendance");
+        EditAttendanceForm edit = new EditAttendanceForm(null,attendances[lesson]);
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
@@ -179,11 +173,11 @@ public class Attendance extends Page {
                 attendanceValues[week][lesson]=value;
             //TODO: zmiana w bazie
             updateValues();
-        }
+        }*/
     }
 
     private void justifyAbsention(int week, int lesson){
-        int n = JOptionPane.showConfirmDialog(
+        /*int n = JOptionPane.showConfirmDialog(
                 this,
                 "Czy chcesz usprawiedliwic nieobecnosc?",
                 "",
@@ -193,24 +187,29 @@ public class Attendance extends Page {
             updateValues();
             //DbPresence.updatePresenceType(attendances[week][lesson].getPresenceId(),2);
             //TODO: zmiana w bazie
-        }
-
+        }*/
     }
 
     private void updateValues(){
-        for(int week=0;week<numOfWeeksShowed;week++){
+        /*for(int week=0;week<2;week++){
             for(int i=0;i<numOfLessons;i++){
                 if(attendanceValues[week][i]>=0){
-                    configureAttendanceButton(attendanceButtons[week][i],attendanceValues[week][i],week,i);
+                    configureAttendanceButton(attendanceButtons[i],attendanceValues[i],week,i);
                 }
             }
-        }
+        }*/
     }
     private void setAttendanceValues(){
-        attendanceValues = new int[numOfWeeksShowed][numOfLessons];
+        attendanceValues = new int[numOfLessons];
+        int valueIterator = 1;
+        attendanceValues[0]=-3;
         for(int i=1;i<numOfLessons;i++){
-            attendanceValues[0][i]=attendances[0][i].getType();
-            attendanceValues[1][i]=attendances[1][i].getType();
+            if(attendancesList.get(i-1).getDate().equals(attendancesList.get(1).getDate()))
+                attendanceValues[valueIterator++]=attendancesList.get(i-1).getType();
+            else{
+                attendanceValues[valueIterator++]=-1;
+                attendanceValues[valueIterator++]=attendancesList.get(i-1).getType();
+            }
         }
     }
 }

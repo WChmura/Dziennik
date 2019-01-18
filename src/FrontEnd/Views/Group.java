@@ -75,6 +75,7 @@ public class Group extends Page{
         studentPanel.add(new JLabel(students[number]));
 
         JButton marksButton = new JButton("Pokaz oceny");
+        marksButton.setMargin(new Insets(0,0,0,0));
         marksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +87,7 @@ public class Group extends Page{
         marksButton.setMargin(new Insets(0,0,0,0));
 
         JButton attendanceButton = new JButton("Pokaz obecnosci");
+        attendanceButton.setMargin(new Insets(0,0,0,0));
         attendanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,6 +101,7 @@ public class Group extends Page{
         attendanceButton.setMargin(new Insets(0,0,0,0));
 
         JButton personalButton = new JButton("Pokaz dane");
+        personalButton.setMargin(new Insets(0,0,0,0));
         personalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

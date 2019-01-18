@@ -26,7 +26,9 @@ public class StudentPanel extends Model {
     }
 
     public ArrayList<Presence> getAttendance(String date) {
+        System.out.println(date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        System.out.println(formatter);
         LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate nextMonday = lastMonday.plusWeeks(2);
         return Database.dao.PresenceDAO.getAttendance(StudentDAO.getStudent(account.getStudentID()), lastMonday.format(formatter), nextMonday.format(formatter));
