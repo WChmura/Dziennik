@@ -127,7 +127,6 @@ public class MarkDAO {
             PreparedStatement preparedStatement = con.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, studentID);
             ResultSet rs = preparedStatement.executeQuery();
-
             int markID;
             int subjectID;
             int teacherID;
@@ -149,6 +148,7 @@ public class MarkDAO {
                 mark1.setMarkID(markID);
                 marks.add(mark1);
             }
+            return marks;
         } catch (SQLException e) {
             e.printStackTrace();
         }
