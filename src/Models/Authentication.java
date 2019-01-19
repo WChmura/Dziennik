@@ -5,6 +5,7 @@ import Database.dao.AccountDAO;
 import Database.pojo.Mark;
 import Database.pojo.Presence;
 import Database.pojo.Student;
+import Database.pojo.Timetable;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -388,5 +389,10 @@ public class Authentication extends Model {
     @Override
     public String getGroupName(String firstName, String lastName) {
         return null;
+    }
+
+    @Override
+    public Timetable[][] getTimetables(String groupName) {
+        return new Timetable[0][];
     }
 }

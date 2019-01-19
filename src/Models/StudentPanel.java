@@ -281,6 +281,11 @@ public class StudentPanel extends Model {
         return GroupDAO.getGroup(groupId).getName();
     }
 
+    @Override
+    public Timetable[][] getTimetables(String groupName) {
+        return new Timetable[0][];
+    }
+
     public void updateMark(Mark mark) {
         MarkDAO.changeDescription(mark, mark.getDescription());
         MarkDAO.changeMark(mark, mark.getMark());

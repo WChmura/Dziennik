@@ -1,6 +1,7 @@
 package FrontEnd.Views;
 
 import Common.UserType;
+import Database.pojo.Timetable;
 import FrontEnd.Forms.DeleteLesson;
 import FrontEnd.Forms.LessonForm;
 import FrontEnd.Page;
@@ -11,8 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Schedule extends Page {
+public class Schedule extends Page implements ActionListener {
     private String[][] subjects;
+    private Timetable[][] timetables;
     private String[] allGroupsNames;
     private int maxNumOfLesson;
     private boolean isAdmin;
@@ -29,6 +31,7 @@ public class Schedule extends Page {
         else {
             allGroupsNames = model.getAllGroupsNames().toArray(new String[0]);
             subjects = model.getScheduleOfGroup(allGroupsNames[0]);
+            timetables = model.getTimetables(allGroupsNames[0]);
             addTopMenu(maxNumOfLesson + 3);
             isAdmin=true;
             addAdminOptionsPanel();
@@ -77,19 +80,8 @@ public class Schedule extends Page {
                 lessonLabel.setBackground(Color.white);
                 lessonLabel.setForeground(Color.BLACK);
                 if (isAdmin) {
-                    lessonLabel.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            LessonForm newLesson = new LessonForm(null, null);
-                            newLesson.setVisible(true);
-                            String[] changes = newLesson.getData();
-                            if (changes != null) {
-                                //TODO;dodac edycjelekcji
-                            /*reloadGroup(-1);
-                            reloadPanels();*/
-                            }
-                        }
-                    });
+                    lessonLabel.addActionListener(this);
+                    lessonLabel.setActionCommand(i +" "+number);
                 } else {
                     lessonLabel.setFocusable(false);
                 }
@@ -134,10 +126,14 @@ public class Schedule extends Page {
         newLesson.setVisible(true);
         String[] changes = newLesson.getData();
         if(changes!=null) {
-            //TODO;dodac usuwanie lekcji
-            subjects[Integer.parseInt(changes[0])][Integer.parseInt(changes[1])]=null;
-            System.out.println("Usuwanie lekcji");
-            reloadPanels();
+            if(model.doesLessonExistForGroup(Integer.parseInt(changes[1]),Integer.parseInt(changes[2]),Integer.parseInt(changes[0]))) {
+                model.deleteTimetable(
+                        Integer.parseInt(changes[0]),
+                        Integer.parseInt(changes[1]),
+                        Integer.parseInt(changes[2]));
+                reloadGroup();
+                reloadPanels();
+            }
         }
     }
 
@@ -232,4 +228,25 @@ public class Schedule extends Page {
         return false;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String numbers[] = e.getActionCommand().split(" ");
+        int day = Integer.parseInt(numbers[0]);
+        int number = Integer.parseInt(numbers[1]);
+        LessonForm newLesson = new LessonForm(null, timetables[day][number]);
+        newLesson.setVisible(true);
+        String[] changes = newLesson.getData();
+        if (changes != null) {
+            model.editTimetable(
+                    Integer.parseInt(changes[0]),
+                    Integer.parseInt(changes[2]),
+                    Integer.parseInt(changes[1]),
+                    Integer.parseInt(changes[4]),
+                    Integer.parseInt(changes[5]),
+                    Integer.parseInt(changes[3])
+            );
+            reloadGroup();
+            reloadPanels();
+        }
+    }
 }

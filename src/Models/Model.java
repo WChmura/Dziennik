@@ -168,4 +168,6 @@ public abstract class Model {
     abstract public ArrayList<Presence> getAttendance(String date, String firstName,String lastName);
 
     abstract public String getGroupName(String firstName,String lastName);
+
+    abstract public Timetable[][] getTimetables(String groupName);
 }

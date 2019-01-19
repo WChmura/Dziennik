@@ -1,9 +1,7 @@
 package Models;
 
 import Database.dao.*;
-import Database.pojo.Student;
-import Database.pojo.Teacher;
-import Database.pojo.Timetable;
+import Database.pojo.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +24,7 @@ public class AdminPanel extends TeacherPanel {
     }
 
     public void deleteTimetable(int groupId, int day, int hour) {
-        TimetableDAO.deleteTimetable(groupId, hour, day);
+        TimetableDAO.deleteTimetable(groupId, day, hour);
     }
 
     public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId) {
@@ -56,11 +54,6 @@ public class AdminPanel extends TeacherPanel {
     }
 
     public void addUser(String login, String hash, int permission, String mailAddress, int studentID) {
-        System.out.println(login);
-        System.out.println(hash);
-        System.out.println(permission);
-        System.out.println(mailAddress);
-        System.out.println(studentID);
         Database.pojo.Account acc = new Database.pojo.Account(login, hash, permission, mailAddress, studentID);
         Database.dao.AccountDAO.insertAccount(acc);
     }
@@ -91,5 +84,17 @@ public class AdminPanel extends TeacherPanel {
         ArrayList<Student> students = getAllPersonalData();
         for (Student std : students) list.add(std.getFirstName() + " " + std.getSecondName());
         return list;
+    }
+    public  Timetable[][] getTimetables(String groupName) {
+        Group grp = GroupDAO.getGroup(groupName);
+        ArrayList<Timetable> timetable = TimetableDAO.getScheduleForGroup(grp);
+        Timetable[][] schedule = new Timetable[5][8];
+        for (Timetable cell : timetable) {
+            Subject subject = SubjectDAO.getSubject(cell.getSubjectID());
+            Teacher teacher = TeacherDAO.getTeacher(cell.getTeacherID());
+            Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
+            schedule[cell.getDay()-1][cell.getHour()-1] = cell;
+        }
+        return schedule;
     }
 }
