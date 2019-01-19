@@ -24,7 +24,7 @@ public class TimetableDAO {
             preparedStatement.setInt(4, tbl.getGroupID());
             preparedStatement.setInt(5, tbl.getClassroomID());
             preparedStatement.setInt(6, tbl.getTeacherID());
-            preparedStatement.setInt(7, tbl.getLessonID());
+            preparedStatement.setInt(7, tbl.getSubjectID());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
