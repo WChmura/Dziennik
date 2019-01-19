@@ -7,7 +7,7 @@ import java.awt.*;
 public class NewMarkForm extends Form {
 
     public NewMarkForm(Frame frame, String studentLogin) {
-        super(frame,"Edycja obecnosci");
+        super(frame,"Nowa ocena");
         addNonEditableTextField("Login studenta:",studentLogin);
         addTextField("Ocena:",null);
         addTextField("Waga:",null);
