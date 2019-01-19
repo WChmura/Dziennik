@@ -65,6 +65,7 @@ public class Group extends Page{
                 this.addSubPanel(StudentPanel(i),50,i+2);
             }
             this.mainContent.repaint();
+            this.setSize(this.getWidth()+1,this.getHeight());
         });
         chooseGroupPanel.add(comboBox,BorderLayout.EAST);
         this.addSubPanel(chooseGroupPanel,30);
@@ -107,6 +108,7 @@ public class Group extends Page{
         }
         return studentPanel;
     }
+
     private JPanel GroupNamePanel(){
         JPanel classPanel = new JPanel(new GridLayout(1,10));
         classPanel.add(new JLabel(" "));
@@ -117,5 +119,4 @@ public class Group extends Page{
         return classPanel;
 
     }
-
 }

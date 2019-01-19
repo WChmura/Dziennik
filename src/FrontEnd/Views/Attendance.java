@@ -9,6 +9,9 @@ import FrontEnd.Page;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Attendance extends Page {
@@ -147,23 +150,28 @@ public class Attendance extends Page {
     }
 
     private void addChangeWeekPanel(){
-
-        /*JPanel changeWeekPanel = new JPanel();
-        String dateText = "Pokazywany okres od "+startDate.toString()+" do "+endDate.toString();
+        JPanel changeWeekPanel = new JPanel();
+        String dateText = "Pokazywany okres od "+startDate+" do "+endDate;
         JLabel label = new JLabel(dateText);
         changeWeekPanel.add(label,BorderLayout.CENTER);
-        JButton button = new JButton("Pokaz wczesniejszy okres");
+        JTextField textField = new JTextField(startDate);
+        changeWeekPanel.add(textField);
+        JButton button = new JButton("Pokaz od wybranej daty okres");
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
         button.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                //TODO:załaduj nowe dane
+                startDate = textField.getText();
+                if(userType==UserType.teacher||userType==UserType.admin)
+                    sourceList = model.getAttendance(startDate,studentNames[0],studentNames[1]);
+                else
+                    sourceList = model.getAttendance(startDate);
                 updateValues();
             }
         });
         changeWeekPanel.add(button,BorderLayout.EAST);
-        this.addSubPanel(changeWeekPanel,50);*/
-    }//TODO:póxniej
+        this.addSubPanel(changeWeekPanel,50);
+    }
 
     private void editAttendance(int lesson){
         System.out.println("edit attendance");

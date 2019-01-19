@@ -235,8 +235,8 @@ public class AdminPanel extends Page implements ActionListener {
                     newStudent.setVisible(true);
                     String[] changesInStudent = newStudent.getData();
                     if(changesInStudent!=null) {
-                        model.addStudent(changesInStudent[0],changesInStudent[1],changesInStudent[4],changesInStudent[2],changesInStudent[3],changesInStudent[5]);
-                        model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                        int id = model.addStudent(changesInStudent[0],changesInStudent[1],changesInStudent[4],changesInStudent[2],changesInStudent[3],changesInStudent[5]);
+                        model.addUser(changesInMark[0],changesInMark[1],0,changesInMark[2],id);
                     }
                     break;
                 case"Rodzic":
@@ -247,12 +247,12 @@ public class AdminPanel extends Page implements ActionListener {
                     newTeacher.setVisible(true);
                     String[] changesInTeacher = newTeacher.getData();
                     if(changesInTeacher!=null) {
-                        model.addUser(changesInMark[0], changesInMark[1], 2, changesInMark[2], Integer.parseInt(changesInMark[3]));
+                        model.addUser(changesInMark[0], changesInMark[1], 2, changesInMark[2], 2000);
                         model.addTeacher(changesInTeacher[0],changesInTeacher[1],changesInTeacher[2],changesInMark[0],Integer.parseInt(changesInTeacher[3]));
                     }
                     break;
                 case"Admin":
-                    model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],Integer.parseInt(changesInMark[3]));
+                    model.addUser(changesInMark[0],changesInMark[1],3,changesInMark[2],2000);
                     break;
             }
         }
