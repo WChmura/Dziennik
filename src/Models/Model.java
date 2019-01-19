@@ -119,9 +119,9 @@ public abstract class Model {
 
     abstract public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
 
-    abstract public boolean doesLessonExistForGroup(int day, int hour, String groupName);
+    abstract public boolean doesLessonExistForGroup(int day, int hour, int groupId);
 
-    abstract public boolean doesLessonExistForTeacher(int day, int hour, String login);
+    abstract public boolean doesLessonExistForTeacher(int day, int hour, int teacherId);
 
     abstract public String getLastName();
 

@@ -273,12 +273,12 @@ public class Authentication extends Model {
     }
 
     @Override
-    public boolean doesLessonExistForGroup(int day, int hour, String groupName) {
+    public boolean doesLessonExistForGroup(int day, int hour, int groupId) {
         return false;
     }
 
     @Override
-    public boolean doesLessonExistForTeacher(int day, int hour, String login) {
+    public boolean doesLessonExistForTeacher(int day, int hour, int teacherId) {
         return false;
     }
 

@@ -71,7 +71,6 @@ public abstract class Page extends JFrame {
         subPanel.setSize(mainPanel.getWidth(),height);
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel,num);
-        System.out.println("Teoretycznie dodano");
     }
     protected void deletePanel(int num){
         mainPanel.remove(num);
@@ -87,7 +86,6 @@ public abstract class Page extends JFrame {
     public abstract void createGUI();
 
     protected Model createNewModel(){
-        System.out.println("Create new model");
         System.out.println(userType);
         switch (userType) {
             case admin:

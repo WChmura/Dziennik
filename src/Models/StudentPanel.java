@@ -382,14 +382,12 @@ public class StudentPanel extends Model {
         TimetableDAO.updateTimetable(day, hour, classroomID, teacherID, groupID, subjectID);
     }
 
-    public boolean doesLessonExistForGroup(int day, int hour, String groupName) {
-        Group group = GroupDAO.getGroup(groupName);
-        return TimetableDAO.checkGroup(day, hour, group.getGroupID());
+    public boolean doesLessonExistForGroup(int day, int hour, int groupId) {
+        return TimetableDAO.checkGroup(day, hour, groupId);
     }
 
-    public boolean doesLessonExistForTeacher(int day, int hour, String login) {
-        Teacher teacher = TeacherDAO.getTeacherFromAccount(AccountDAO.getAccount(login));
-        return TimetableDAO.checkTeacher(day, hour, teacher.getTeacherID());
+    public boolean doesLessonExistForTeacher(int day, int hour, int teacherId) {
+        return TimetableDAO.checkTeacher(day, hour, teacherId);
     }
 
     @Override

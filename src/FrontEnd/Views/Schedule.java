@@ -12,12 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Schedule extends Page {
-
-    //to potrzebuje
-    private String subjects[][];
-    private String allGroupsNames[];
+    private String[][] subjects;
+    private String[] allGroupsNames;
     private int maxNumOfLesson;
     private boolean isAdmin;
+    private JComboBox comboBox;
     @Override
     public void createGUI() {
         maxNumOfLesson =8;
@@ -54,9 +53,9 @@ public class Schedule extends Page {
 
         adminPanel.add(new JLabel("Wybór Klasy:"));
 
-        JComboBox comboBox = new JComboBox<>(allGroupsNames);
+        comboBox = new JComboBox<>(allGroupsNames);
         comboBox.addActionListener(e -> {
-            reloadGroup(comboBox.getSelectedIndex());
+            reloadGroup();
             reloadPanels();
         });
         adminPanel.add(comboBox);
@@ -109,10 +108,23 @@ public class Schedule extends Page {
         LessonForm newLesson = new LessonForm(null,null);
         newLesson.setVisible(true);
         String[] changes = newLesson.getData();
-        if(changes!=null) {
-            //TODO;dodac dopisanie lekcji
+        if(changes!=null&&!doesLessonExist(changes[4],changes[5],changes[1],changes[0])) {
+            System.out.println("Id klasy "+changes[0]);
+            System.out.println("Id sali "+changes[2]);
+            System.out.println("Id nauczyciela "+changes[1]);
+            System.out.println("dzien "+changes[4]);
+            System.out.println("godzina "+changes[5]);
+            System.out.println("Id przedmiotu "+changes[3]);
+            model.addTimetable(
+                    Integer.parseInt(changes[0]),
+                    Integer.parseInt(changes[2]),
+                    Integer.parseInt(changes[1]),
+                    Integer.parseInt(changes[4]),
+                    Integer.parseInt(changes[5]),
+                    Integer.parseInt(changes[3])
+            );
             System.out.println("Dodawanie lekcji");
-            reloadGroup(-1);
+            reloadGroup();
             reloadPanels();
         }
     }
@@ -129,26 +141,19 @@ public class Schedule extends Page {
         }
     }
 
-    private void reloadGroup(int classNumber){
-        if(classNumber<0){
-            subjects = model.getScheduleOfAccount();
-        }
-        else{
-        subjects = model.getScheduleOfGroup(allGroupsNames[classNumber]);
-        }
+    private void reloadGroup(){
+        subjects = model.getScheduleOfGroup((String)comboBox.getSelectedItem());
     }
 
     private void reloadPanels(){
-            for (int i = maxNumOfLesson+1;i>1;i--){
-                System.out.println("Usuwanie Panelu");
-                this.deletePanel(i);
-            }
-            maxNumOfLesson = 6;
-            for(int i =0;i<maxNumOfLesson;i++){
-                this.addSubPanel(addLessonPanel(i),50,i+2);
-                System.out.println("Dodano Panel");
-            }
-            this.mainContent.repaint();
+        for (int i = maxNumOfLesson+1;i>1;i--){
+            this.deletePanel(i);
+        }
+        for(int i =0;i<maxNumOfLesson;i++){
+            this.addSubPanel(addLessonPanel(i),50,i+2);
+        }
+        this.mainContent.repaint();
+        this.setSize(this.getWidth()+1,this.getHeight());
     }
 
     private String lessonTime(int num){
@@ -204,6 +209,27 @@ public class Schedule extends Page {
     private String[] breakLessonData(int day,int lesson){
         String string = subjects[day][lesson];
         return string.split(":");
+    }
+
+    private boolean doesLessonExist(String sday, String slesson,String stechaerId, String sgroupId){
+        System.out.println("Badanie czy jest");
+        System.out.println(sday+","+slesson);
+        System.out.print("Uczy: " +stechaerId);
+        System.out.println(" Klase:"+ sgroupId);
+        int day = Integer.parseInt(sday);
+        int lesson = Integer.parseInt(slesson);
+        int teacherId = Integer.parseInt(stechaerId);
+        int groupId = Integer.parseInt(sgroupId);
+        if(model.doesLessonExistForGroup(day,lesson,groupId)) {
+            System.out.println("jest dla klasy");
+            return true;
+        }
+        if(model.doesLessonExistForTeacher(day,lesson,teacherId)) {
+            System.out.println("jest dla nauczyciela");
+            return true;
+        }
+        System.out.println("Nie ma");
+        return false;
     }
 
 }

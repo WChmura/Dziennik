@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Group extends Page{
-    //to potrzebuje - tylko dla nauczycieli i adminów
     private String[] students;
     private String groupName;
     private String[] allGroupsNames;
