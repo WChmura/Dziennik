@@ -384,4 +384,9 @@ public class Authentication extends Model {
     public ArrayList<Presence> getAttendance(String date, String firstName, String lastName) {
         return null;
     }
+
+    @Override
+    public String getGroupName(String firstName, String lastName) {
+        return null;
+    }
 }

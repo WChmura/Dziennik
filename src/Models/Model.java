@@ -166,4 +166,6 @@ public abstract class Model {
     abstract public void changeAttendance(String firstName, String lastName, java.sql.Date date, int numberOfLesson, int newValue);
 
     abstract public ArrayList<Presence> getAttendance(String date, String firstName,String lastName);
+
+    abstract public String getGroupName(String firstName,String lastName);
 }

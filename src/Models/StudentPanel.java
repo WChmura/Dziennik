@@ -276,6 +276,10 @@ public class StudentPanel extends Model {
         System.out.println(student.getStudentID());
         return MarkDAO.getMarks(student.getStudentID());
     }
+    public String getGroupName(String firstName,String lastName){
+        int groupId = StudentDAO.getStudent(firstName, lastName).getGroupID();
+        return GroupDAO.getGroup(groupId).getName();
+    }
 
     public void updateMark(Mark mark) {
         MarkDAO.changeDescription(mark, mark.getDescription());

@@ -4,6 +4,7 @@ import Common.DaysOfWeek;
 import Common.UserType;
 import Database.pojo.Presence;
 import FrontEnd.Colors;
+import FrontEnd.Forms.EditAttendanceForm;
 import FrontEnd.Page;
 
 import javax.swing.*;
@@ -18,14 +19,13 @@ public class Attendance extends Page {
         super(value);
     }
 
-    private String[] studentNames;//TODO:pobieranie studentsNames
+    private String[] studentNames;
     private int numOfLessons;
     private ArrayList<Presence> sourceList;
     private ArrayList<Presence> attendanceList;
-    private String[][] schedule;
     private String startDate;
     private String endDate;
-    private JButton attendanceButtons[];
+    private JButton[] attendanceButtons;
 
     @Override
     public void createGUI() {
@@ -41,10 +41,8 @@ public class Attendance extends Page {
             addTopMenu(4);
             sourceList = model.getAttendance(startDate);
         }
-
-        numOfLessons = sourceList.size()+10;
-        attendanceButtons= new JButton[numOfLessons];
         setAttendanceValues();
+        attendanceButtons= new JButton[numOfLessons];
         addLabelsPanel();
         for(int i=0;i<2;i++){
             addWeekPanel(i);
@@ -53,6 +51,7 @@ public class Attendance extends Page {
     }
 
     private JButton configureAttendanceButton(JButton button, int value,int lesson){
+        button.setEnabled(true);
         switch (value){
             case 0:
                 button.setText("O");
@@ -66,8 +65,15 @@ public class Attendance extends Page {
                 button.setText("U");
                 button.setBackground(Colors.absentJustified);
                 break;
+            case -1:
+                button.setText(null);
+                button.setEnabled(false);
+                button.setBackground(Colors.main);
+                break;
             default:
         }
+        if(userType==UserType.student)
+            button.setEnabled(false);
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
         if(userType==UserType.teacher)
@@ -85,8 +91,13 @@ public class Attendance extends Page {
              s = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
         else
             s = model.getAllStudents().toArray(new String[0]);
-        studentNames = s[0].split(" ");
         final JComboBox<String> comboBox = new JComboBox<>(s);
+        if(login==null)
+            studentNames = s[0].split(" ");
+        else {
+            studentNames = login.split(" ");
+            comboBox.setSelectedItem(login);
+        }
         comboBox.addActionListener(e -> {
             String studentName = (String)comboBox.getSelectedItem();
             studentNames = studentName.split(" ");
@@ -124,15 +135,13 @@ public class Attendance extends Page {
             end=numOfLessons;
         }
         for(int i=start;i<end;i++){
-            JComponent component;
-            if(attendanceList.get(i)!=null){
-                JButton button = new JButton();
-                component = configureAttendanceButton(button,attendanceList.get(i).getType(),i);
-                attendanceButtons[i]=button;
-            }
+            JButton button = new JButton();
+            if(attendanceList.get(i)!=null)
+                button = configureAttendanceButton(button,attendanceList.get(i).getType(),i);
             else
-                component = new JLabel(" ");
-            weekPanel.add(component);
+                button = configureAttendanceButton(button,-1,i);
+            attendanceButtons[i]=button;
+            weekPanel.add(button);
         }
         this.addSubPanel(weekPanel,50);
     }
@@ -157,9 +166,8 @@ public class Attendance extends Page {
     }//TODO:póxniej
 
     private void editAttendance(int lesson){
-        //TODO:póxniej
-        /*System.out.println("edit attendance");
-        EditAttendanceForm edit = new EditAttendanceForm(null,attendances[lesson]);
+        System.out.println("edit attendance");
+        EditAttendanceForm edit = new EditAttendanceForm(null,attendanceList.get(lesson));
         edit.setVisible(true);
         String[] changesInMark = edit.getData();
         if(changesInMark!=null) {
@@ -177,12 +185,12 @@ public class Attendance extends Page {
                 default:
                     value = -1;
             }
-            if(value>=0)
-                attendanceValues[week][lesson]=value;
-            //TODO: zmiana w bazie
-            updateValues();
-        }*/
-    }//TODO:póxniej
+            if(value>=0){
+                attendanceButtons[lesson]=configureAttendanceButton(attendanceButtons[lesson],value,lesson);
+                model.changeAttendance(model.getFirstName(),model.getlastName(),attendanceList.get(lesson).getDate(),attendanceList.get(lesson).getLesson_number(),value);
+            }
+        }
+    }
 
     private void justifyAbsention(int number){
         int n = JOptionPane.showConfirmDialog(
@@ -198,13 +206,23 @@ public class Attendance extends Page {
 
     private void updateValues(){
         setAttendanceValues();
+        for(int i=0;i<numOfLessons;i++){
+            if(attendanceList.get(i)!=null)
+                attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],attendanceList.get(i).getType(),i);
+            else
+                attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],-1,i);
+        }
     }
 
     private void setAttendanceValues(){
+        for(int i=0;i<sourceList.size();i++){
+            System.out.println(sourceList.get(i));
+        }
+        String[][] schedule;
         if(userType==UserType.student||userType==UserType.parent)
             schedule = model.getScheduleOfAccount();
-        //else
-            //TODO:pobranie dla nauczyciela
+        else
+            schedule = model.getScheduleOfGroup(model.getGroupName(studentNames[0],studentNames[1]));
         attendanceList = new ArrayList<>();
         int numOfAttendances=0;
         for(int week=0;week<2;week++) {
@@ -212,12 +230,15 @@ public class Attendance extends Page {
                 attendanceList.add(null);
                 for (int j = 0; j < 8; j++)
                     if (schedule[i][j] != null) {
-                        if (sourceList.size() > numOfAttendances)
+                        if (sourceList.size() > numOfAttendances) {
+                            System.out.println(sourceList.get(numOfAttendances));
                             attendanceList.add(sourceList.get(numOfAttendances++));
+                        }
                         else
                             attendanceList.add(null);
                     }
             }
         }
+        numOfLessons=attendanceList.size();
     }
 }
