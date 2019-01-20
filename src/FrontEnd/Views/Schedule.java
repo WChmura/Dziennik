@@ -84,7 +84,7 @@ public class Schedule extends Page implements ActionListener {
                     lessonLabel = lessonButton;
                 }
                 else
-                    lessonLabel = new JTextField("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
+                    lessonLabel = new JLabel("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
 
                 lessonLabel.setBackground(Color.white);
                 lessonLabel.setForeground(Color.BLACK);
