@@ -27,7 +27,7 @@ public class StudentPanel extends Model {
 
     public ArrayList<Presence> getAttendance(String date, String firstName,String lastName) {
         System.out.println(date);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println(formatter);
         Student student = StudentDAO.getStudent(firstName, lastName);
         LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
@@ -36,7 +36,7 @@ public class StudentPanel extends Model {
     }
     public ArrayList<Presence> getAttendance(String date, String login) {
         System.out.println(date);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println(formatter);
         LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate nextMonday = lastMonday.plusWeeks(2);

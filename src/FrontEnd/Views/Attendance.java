@@ -215,8 +215,11 @@ public class Attendance extends Page {
     private void updateValues(){
         setAttendanceValues();
         for(int i=0;i<numOfLessons;i++){
-            if(attendanceList.get(i)!=null)
-                attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],attendanceList.get(i).getType(),i);
+            if(attendanceList.get(i)!=null) {
+                System.out.println("rozmiar attendanceButtons: " + attendanceButtons.length + ", i = " + i);
+                System.out.println("proba ustawienia attendanceButtons[" + i + "] na " + configureAttendanceButton(attendanceButtons[i], attendanceList.get(i).getType(), i));
+                attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i], attendanceList.get(i).getType(), i);
+            }
             else
                 attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],-1,i);
         }

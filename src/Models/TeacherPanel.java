@@ -106,7 +106,7 @@ public class TeacherPanel extends ParentPanel {
     }
 
     public boolean doesLessonExist(String groupName, int teacherId, String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-DD");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         int weekday = LocalDate.parse(date, formatter).getDayOfWeek().getValue();
         int groupId = GroupDAO.getGroup(groupName).getGroupID();
         int numberOfLesson = TimetableDAO.getNumberOfLesson(groupId, weekday, teacherId);
