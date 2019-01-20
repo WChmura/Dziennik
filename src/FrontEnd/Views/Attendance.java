@@ -80,7 +80,7 @@ public class Attendance extends Page {
             button.setEnabled(false);
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
-        if(userType==UserType.teacher)
+        if(userType==UserType.teacher||userType==UserType.admin)
             button.addActionListener(ae -> editAttendance(lesson));
         if(userType==UserType.parent&&value==1)
             button.addActionListener(ae -> justifyAbsention(lesson));
