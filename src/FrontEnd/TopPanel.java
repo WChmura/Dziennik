@@ -70,11 +70,6 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 panel.add(adminButton);
             }
         }
-        /*else{
-            for(int i=0;i<2;i++)
-                panel.add(new JLabel());
-        }*/
-        panel.add(new JLabel("    zalogwano jako: "+ userName));
         if(userType ==notLogged){
             JButton logInButton = configureButton(logInText);
             panel.add(logInButton);
@@ -83,6 +78,8 @@ public class TopPanel extends JMenuBar implements ActionListener {
             JButton logOutButton = configureButton(logOutText);
             panel.add(logOutButton);
         }
+        JLabel label = new JLabel("zalogwano jako: "+ userName);
+        panel.add(label);
         add(panel);
     }
 

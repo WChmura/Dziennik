@@ -75,16 +75,20 @@ public class Schedule extends Page implements ActionListener {
         for(int i=0;i<5;i++){
             if(subjects[i][number]!=null) {
                 String[] lessonData = breakLessonData(i, number);
-                JButton lessonLabel = new JButton("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
-                lessonLabel.setHorizontalAlignment(JButton.LEFT);
+                JComponent lessonLabel;
+                if(userType==UserType.admin) {
+                    JButton lessonButton = new JButton("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
+                    lessonButton.addActionListener(this);
+                    lessonButton.setHorizontalAlignment(JButton.LEFT);
+                    lessonButton.setActionCommand(i +" "+number);
+                    lessonLabel = lessonButton;
+                }
+                else
+                    lessonLabel = new JTextField("<html>" + lessonData[0] + "<br>" + lessonData[1] + " " + lessonData[2]);
+
                 lessonLabel.setBackground(Color.white);
                 lessonLabel.setForeground(Color.BLACK);
-                if (isAdmin) {
-                    lessonLabel.addActionListener(this);
-                    lessonLabel.setActionCommand(i +" "+number);
-                } else {
-                    lessonLabel.setFocusable(false);
-                }
+
                 Border border = BorderFactory.createLineBorder(Color.BLACK);
                 lessonLabel.setBorder(border);
                 lessonPanel.add(lessonLabel);
