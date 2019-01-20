@@ -178,17 +178,22 @@ public class AdminPanel extends Page implements ActionListener {
                 }
                 break;
             case "changeClass":
-                ChangeClassForm changeClass = new ChangeClassForm(null,classNames);
-                changeClass.setVisible(true);
-                String[] changesInStudents = changeClass.getData();
-                if(changesInStudents!=null) {
-                    String[] studentData = studentList.getSelectedValue().split(" ");
-                    System.out.print(studentData[1]);
-                    System.out.println(" do "+ changesInStudents[0]);
-                    model.changeStudentGroup(studentData[0],studentData[1],changesInStudents[0]);
+                if(studentList.getSelectedValue()!=null) {
+                    ChangeClassForm changeClass = new ChangeClassForm(null, classNames);
+                    changeClass.setVisible(true);
+                    String[] changesInStudents = changeClass.getData();
+                    if (changesInStudents != null) {
+                        String[] studentData = studentList.getSelectedValue().split(" ");
+                        System.out.print(studentData[1]);
+                        System.out.println(" do " + changesInStudents[0]);
+                        model.changeStudentGroup(studentData[0], studentData[1], changesInStudents[0]);
+                    }
+                    studentsByClasses = model.getStudentsFromAllGroups();
+                    refreshStudentsList();
                 }
-                studentsByClasses = model.getStudentsFromAllGroups();
-                refreshStudentsList();
+                else{
+                    JOptionPane.showMessageDialog(null, "Nie wybrano ucznia");
+                }
                 break;
             default:
         }
