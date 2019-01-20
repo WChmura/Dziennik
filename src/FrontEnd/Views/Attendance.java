@@ -10,9 +10,8 @@ import FrontEnd.Page;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Attendance extends Page {
     public Attendance() {
@@ -28,6 +27,8 @@ public class Attendance extends Page {
     private ArrayList<Presence> attendanceList;
     private String startDate;
     private String endDate;
+    private String dateText;
+    private JLabel dateLabel;
     private JButton[] attendanceButtons;
 
     @Override
@@ -151,12 +152,12 @@ public class Attendance extends Page {
 
     private void addChangeWeekPanel(){
         JPanel changeWeekPanel = new JPanel();
-        String dateText = "Pokazywany okres od "+startDate+" do "+endDate;
-        JLabel label = new JLabel(dateText);
-        changeWeekPanel.add(label,BorderLayout.CENTER);
+        dateText = "Pokazywany okres od "+startDate+" do "+endDate;
+        dateLabel = new JLabel(dateText);
+        changeWeekPanel.add(dateLabel,BorderLayout.CENTER);
         JTextField textField = new JTextField(startDate);
         changeWeekPanel.add(textField);
-        JButton button = new JButton("Pokaz od wybranej daty okres");
+        JButton button = new JButton("Pokaz okres od wybranej daty");
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
         button.addActionListener(new ActionListener() {
@@ -166,6 +167,10 @@ public class Attendance extends Page {
                     sourceList = model.getAttendance(startDate,studentNames[0],studentNames[1]);
                 else
                     sourceList = model.getAttendance(startDate);
+                String[] dates = model.getStartAndEndDate(startDate);
+                startDate = dates[0];
+                endDate = dates[1];
+                dateText = "Pokazywany okres od "+startDate+" do "+endDate;
                 updateValues();
             }
         });
@@ -216,19 +221,15 @@ public class Attendance extends Page {
         setAttendanceValues();
         for(int i=0;i<numOfLessons;i++){
             if(attendanceList.get(i)!=null) {
-                System.out.println("rozmiar attendanceButtons: " + attendanceButtons.length + ", i = " + i);
-                System.out.println("proba ustawienia attendanceButtons[" + i + "] na " + configureAttendanceButton(attendanceButtons[i], attendanceList.get(i).getType(), i));
                 attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i], attendanceList.get(i).getType(), i);
             }
             else
                 attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],-1,i);
         }
+        dateLabel.setText(dateText);
     }
 
     private void setAttendanceValues(){
-        for(int i=0;i<sourceList.size();i++){
-            System.out.println(sourceList.get(i));
-        }
         String[][] schedule;
         if(userType==UserType.student||userType==UserType.parent)
             schedule = model.getScheduleOfAccount();

@@ -34,6 +34,18 @@ public class StudentPanel extends Model {
         LocalDate nextMonday = lastMonday.plusWeeks(2);
         return Database.dao.PresenceDAO.getAttendance(student, lastMonday.format(formatter), nextMonday.format(formatter));
     }
+
+    public String[] getStartAndEndDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate lastMonday = LocalDate.parse(date, formatter).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate nextMonday = lastMonday.plusWeeks(2);
+        LocalDate lastDay = nextMonday.minusDays(3);
+        String[]score = new String[2];
+        score[0]=lastMonday.toString();
+        score[1]=lastDay.toString();
+        return score;
+
+    }
     public ArrayList<Presence> getAttendance(String date, String login) {
         System.out.println(date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

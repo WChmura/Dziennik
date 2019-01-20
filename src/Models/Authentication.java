@@ -395,4 +395,9 @@ public class Authentication extends Model {
     public Timetable[][] getTimetables(String groupName) {
         return new Timetable[0][];
     }
+
+    @Override
+    public String[] getStartAndEndDate(String date) {
+        return new String[0];
+    }
 }

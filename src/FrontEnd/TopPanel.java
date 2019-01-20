@@ -70,10 +70,10 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 panel.add(adminButton);
             }
         }
-        else{
+        /*else{
             for(int i=0;i<2;i++)
                 panel.add(new JLabel());
-        }
+        }*/
         panel.add(new JLabel("    zalogwano jako: "+ userName));
         if(userType ==notLogged){
             JButton logInButton = configureButton(logInText);

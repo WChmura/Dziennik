@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Form extends JDialog {
+public class Form extends JDialog{
     private String[] data;
     protected ArrayList<JTextField> input = new ArrayList<>();
     protected String comboBoxScores = null;
@@ -91,6 +93,7 @@ public class Form extends JDialog {
         JButton noBtn   = new JButton("Anuluj");
         okBtn.addActionListener(ae -> okButton());
         noBtn.addActionListener(ae -> noButton());
+        //okBtn.addKeyListener();
         btnPanel.add(okBtn);
         btnPanel.add(noBtn);
         getContentPane().add(btnPanel,BorderLayout.PAGE_END);
@@ -151,4 +154,5 @@ public class Form extends JDialog {
         }
         return d < maxNumber;
     }
+
 }
