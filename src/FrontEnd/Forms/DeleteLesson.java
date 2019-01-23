@@ -15,13 +15,8 @@ public class DeleteLesson extends Form {
 
     @Override
     protected boolean checkDataValues() {
-        if(     isNumeric(input.get(0).getText())&&
-                isNumeric(input.get(1).getText(),5)&&
-                isNumeric(input.get(2).getText(),8)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isNumeric(input.get(0).getText()) &&
+                isNumeric(input.get(1).getText(), 5) &&
+                isNumeric(input.get(2).getText(), 8);
     }
 }

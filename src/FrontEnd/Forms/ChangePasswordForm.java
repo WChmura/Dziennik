@@ -5,7 +5,7 @@ import FrontEnd.Form;
 import java.awt.*;
 
 public class ChangePasswordForm extends Form {
-    String oldPassword;
+    private String oldPassword;
     public ChangePasswordForm(Frame frame,String oldPassword,boolean admin) {
         super(frame,"Zmiana hasła");
         this.oldPassword = oldPassword;
@@ -20,11 +20,6 @@ public class ChangePasswordForm extends Form {
 
     @Override
     protected boolean checkDataValues() {
-        if(input.get(1).getText().equals(input.get(2).getText())&&input.get(0).getText().equals(oldPassword)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return input.get(1).getText().equals(input.get(2).getText()) && input.get(0).getText().equals(oldPassword);
     }
 }

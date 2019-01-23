@@ -16,11 +16,6 @@ public class NewMarkForm extends Form {
     }
     @Override
     protected boolean checkDataValues() {
-        if(isNumeric(input.get(1).getText(),6)&&isNumeric(input.get(2).getText())){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isNumeric(input.get(1).getText(), 6) && isNumeric(input.get(2).getText());
     }
 }

@@ -15,11 +15,6 @@ public class NewClassForm extends Form {
     }
     @Override
     protected boolean checkDataValues() {
-        if(isNumeric(input.get(1).getText())&&isNumeric(input.get(2).getText())){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isNumeric(input.get(1).getText()) && isNumeric(input.get(2).getText());
     }
 }

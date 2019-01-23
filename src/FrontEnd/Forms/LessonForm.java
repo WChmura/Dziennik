@@ -28,10 +28,7 @@ public class LessonForm extends Form {
     }
     @Override
     protected boolean checkDataValues() {
-        if(areNumeric())
-            return true;
-        else
-            return false;
+        return areNumeric();
     }
     private boolean areNumeric(){
         if(!isNumeric(input.get(0).getText()))

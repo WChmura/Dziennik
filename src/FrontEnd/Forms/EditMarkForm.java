@@ -5,7 +5,7 @@ import FrontEnd.Form;
 import java.awt.*;
 
 public class EditMarkForm extends Form {
-    Database.pojo.Mark mark;
+    private Database.pojo.Mark mark;
     public EditMarkForm(Frame frame,Database.pojo.Mark mark) {
         super(frame,"Edycja oceny");
         this.mark=mark;
@@ -17,11 +17,6 @@ public class EditMarkForm extends Form {
 
     @Override
     protected boolean checkDataValues() {
-        if(isNumeric(input.get(0).getText(),7)&&isNumeric(input.get(1).getText())){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isNumeric(input.get(0).getText(), 7) && isNumeric(input.get(1).getText());
     }
 }
