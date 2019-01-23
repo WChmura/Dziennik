@@ -9,9 +9,8 @@ import Database.pojo.Timetable;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public class Authentication extends Model {
+public class Authentication extends DefaultModel implements Model {
 
     public Authentication() { super(); }
 

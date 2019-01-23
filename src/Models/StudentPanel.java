@@ -12,13 +12,13 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class StudentPanel extends Model {
+public class StudentPanel extends DefaultModel implements Model {
     public StudentPanel(String login) {
         super(login);
     }
 
     public StudentPanel() {
-
+        super();
     }
 
     public void changePassword(String newPassword) {

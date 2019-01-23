@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 import static Database.dao.StudentDAO.getAllPersonalData;
 
-public class TeacherPanel extends ParentPanel {
+public class TeacherPanel extends ParentPanel implements Model {
 
     public TeacherPanel(String login) {
         super(login);

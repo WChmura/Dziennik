@@ -1,175 +1,164 @@
 package Models;
 
 import Common.UserType;
-import Database.dao.*;
-import Database.pojo.*;
+import Database.pojo.Mark;
+import Database.pojo.Presence;
+import Database.pojo.Student;
+import Database.pojo.Timetable;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public abstract class Model {
-    Database.pojo.Account account;
+public interface Model {
+    UserType logIn(String[] loginData);
 
+    ArrayList<String> getAllUserNames();
 
+    ArrayList<String> getAllGroupsNames();
 
-    public Model () {
+    ArrayList<ArrayList <Student>> getStudentsFromAllGroups();
 
-    }
+    ArrayList<String> getNamesOfGroup(String groupName);
 
-    public Model(String login) {
-        account = Database.dao.AccountDAO.getAccount(login);
-    }
+    ArrayList<Presence> getAttendance(String date);
 
-    abstract public UserType logIn(String[] loginData);
+    String getFormGroup();
 
-    abstract public ArrayList<String> getAllUserNames();
+    void addUser(String login, String hash, int permission, String mailAddress, int studentID);
 
-    abstract public ArrayList<String> getAllGroupsNames();
+    void deleteUser(String accountName);
 
-    abstract public ArrayList<ArrayList <Student>> getStudentsFromAllGroups();
+    void addGroup(String name, int teacherID, int classroomID);
 
-    abstract public ArrayList<String> getNamesOfGroup(String groupName);
+    void deleteGroup(String name);
 
-    abstract public ArrayList<Presence> getAttendance(String date);
+    void changeStudentGroup(String firstName, String lastName, String groupName);
 
-    abstract public String getFormGroup();
+    void changePassword(String accountName, String newPassword);
 
-    abstract public void addUser(String login, String hash, int permission, String mailAddress, int studentID);
+    void addMark(String firstName, String lastName, Date date, int value, int weight, String desc);
 
-    abstract public void deleteUser(String accountName);
+    void insertPresences(Date date, String groupName, int[] marks);
 
-    abstract public void addGroup(String name, int teacherID, int classroomID);
+    boolean doesLessonExist(String groupName, int teacherId, String date);
 
-    abstract public void deleteGroup(String name);
+    int getSubjectCountOfStudent(String firstName, String lastName);
 
-    abstract public void changeStudentGroup(String firstName, String lastName, String groupName);
+    ArrayList<Integer> getSubjectsOfStudent(String firstName, String lastName);
 
-    abstract public void changePassword(String accountName, String newPassword);
+    ArrayList<Mark> getMarks(String firstName, String lastName);
 
-    abstract public void addMark(String firstName, String lastName, Date date, int value, int weight, String desc);
+    void updateMark(Mark mark);
 
-    abstract public void insertPresences(Date date, String groupName, int[] marks);
+    String getFirstName(String login);
 
-    abstract public boolean doesLessonExist(String groupName, int teacherId, String date);
+    String getFirstName();
 
-    abstract public int getSubjectCountOfStudent(String firstName, String lastName);
+    String getlastName(String login);
 
-    abstract public ArrayList<Integer> getSubjectsOfStudent(String firstName, String lastName);
+    String getlastName();
 
-    abstract public ArrayList<Mark> getMarks(String firstName, String lastName);
+    String getAddress(String login);
 
-    abstract public void updateMark(Mark mark);
+    String getAddress();
 
-    abstract public String getFirstName(String login);
+    String getSex(String login);
 
-    abstract public String getFirstName();
+    String getSex();
 
-    abstract public String getlastName(String login);
+    String getPersonalIdentityNumber(String login);
 
-    abstract public String getlastName();
+    String getPersonalIdentityNumber();
 
-    abstract public String getAddress(String login);
+    ArrayList<String> getAllStudents();
 
-    abstract public String getAddress();
+    ArrayList<String> getSentMessages();
 
-    abstract public String getSex(String login);
+    ArrayList<String> getSentMessagesTitles();
 
-    abstract public String getSex();
+    ArrayList<String> getSentMessagesRecipents();
 
-    abstract public String getPersonalIdentityNumber(String login);
+    ArrayList<String> getReceivedMessages();
 
-    abstract public String getPersonalIdentityNumber();
+    ArrayList<String> getReceivedMessagesTitles();
 
-    abstract public ArrayList<String> getAllStudents();
+    ArrayList<String> getReceivedMessagesSenders();
 
-    abstract public ArrayList<String> getSentMessages();
+    ArrayList<Boolean> areReceivedMessagesRead();
 
-    abstract public ArrayList<String> getSentMessagesTitles();
+    void sendMessage(String messageTitle, String messageContent, String login);
 
-    abstract public ArrayList<String> getSentMessagesRecipents();
+    void markAsReaded(int numberOfMessage);
 
-    abstract public ArrayList<String> getReceivedMessages();
+    void setAddress(String login, String address);
 
-    abstract public ArrayList<String> getReceivedMessagesTitles();
+    void setPersonalIdentityNumber(String login, String personalIdentityNumber);
 
-    abstract public ArrayList<String> getReceivedMessagesSenders();
+    String getStudentLogin(String firstName, String lastName);
 
-    abstract public ArrayList<Boolean> areReceivedMessagesRead();
+    String[][] getScheduleOfAccount();
 
-    abstract public void sendMessage(String messageTitle, String messageContent, String login);
+    int getNumberOfLastGroupLesson(String groupName);
 
-    abstract public void markAsReaded(int numberOfMessage);
+    int getNumberOfLastTeacherLesson(String login);
 
-    abstract public void setAddress(String login, String address);
+    void addTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
 
-    abstract public void setPersonalIdentityNumber(String login, String personalIdentityNumber);
+    void deleteTimetable(int groupId, int day, int hour);
 
-    abstract public String getStudentLogin(String firstName, String lastName);
+    void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
 
-    abstract public String[][] getScheduleOfAccount();
+    boolean doesLessonExistForGroup(int day, int hour, int groupId);
 
-    abstract public int getNumberOfLastGroupLesson(String groupName);
+    boolean doesLessonExistForTeacher(int day, int hour, int teacherId);
 
-    abstract public int getNumberOfLastTeacherLesson(String login);
+    String getLastName();
 
-    abstract public void addTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
+    String getLastName(String login);
 
-    abstract public void deleteTimetable(int groupId, int day, int hour);
+    String getTeacherFirstName(String login);
 
-    abstract public void editTimetable(int groupId, int classromId, int teacherId, int day, int hour, int subjectId);
+    String getTeacherFirstName();
 
-    abstract public boolean doesLessonExistForGroup(int day, int hour, int groupId);
+    String getTeacherLastName();
 
-    abstract public boolean doesLessonExistForTeacher(int day, int hour, int teacherId);
+    String getDegree();
 
-    abstract public String getLastName();
+    String getDegree(String login);
 
-    abstract public String getLastName(String login);
+    String getTeacherLastName(String login);
 
-    abstract public String getTeacherFirstName(String login);
+    int getPermission(String login);
 
-    abstract public String getTeacherFirstName();
+    String getPassword();
 
-    abstract public String getTeacherLastName();
+    String getPassword(String login);
 
-    abstract public String getDegree();
+    void changePassword(String newPassword);
 
-    abstract public String getDegree(String login);
+    String[][] getScheduleOfGroup(String groupName);
 
-    abstract public String getTeacherLastName(String login);
+    int getTeacherId();
 
-    abstract public int getPermission(String login);
+    String getSubjectName(int subjectId);
 
-    abstract public String getPassword();
+    void setTeacherFirstName(String login, String firstName);
 
-    abstract public String getPassword(String login);
+    void setTeacherLastName(String login, String lastName);
 
-    abstract public void changePassword(String newPassword);
+    void setTeacherDegree(String login, String degree);
 
-    abstract public  String[][] getScheduleOfGroup(String groupName);
+    int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName);
 
-    abstract public int getTeacherId();
+    void addTeacher(String firstName, String lastName, String degree, String login, int subjectId);
 
-    abstract public String getSubjectName(int subjectId);
+    void changeAttendance(String firstName, String lastName, Date date, int numberOfLesson, int newValue);
 
-    abstract public void setTeacherFirstName(String login, String firstName);
+    ArrayList<Presence> getAttendance(String date, String firstName, String lastName);
 
-    abstract public void setTeacherLastName(String login, String lastName);
+    String getGroupName(String firstName, String lastName);
 
-    abstract public void setTeacherDegree(String login, String degree);
+    Timetable[][] getTimetables(String groupName);
 
-    abstract public int addStudent(String firstName, String lastName, String address, String sex, String personalIdentityNumber, String groupName);
-
-    abstract public void addTeacher(String firstName, String lastName, String degree, String login, int subjectId);
-
-    abstract public void changeAttendance(String firstName, String lastName, java.sql.Date date, int numberOfLesson, int newValue);
-
-    abstract public ArrayList<Presence> getAttendance(String date, String firstName,String lastName);
-
-    abstract public String getGroupName(String firstName,String lastName);
-
-    abstract public Timetable[][] getTimetables(String groupName);
-
-    abstract public String[] getStartAndEndDate(String date);
+    String[] getStartAndEndDate(String date);
 }

@@ -3,7 +3,7 @@ package Models;
 import Database.dao.PresenceDAO;
 import Database.dao.StudentDAO;
 
-public class ParentPanel extends  StudentPanel {
+public class ParentPanel extends  StudentPanel implements Model {
 
     public ParentPanel(String login) {
         super(login);

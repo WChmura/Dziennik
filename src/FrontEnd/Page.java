@@ -76,15 +76,15 @@ public abstract class Page extends JFrame {
         System.out.println(userType);
         switch (userType) {
             case admin:
-                return new AdminPanel(userName);
+                return (Model)Proxy.newInstance(new AdminPanel(userName));
             case teacher:
-                return new TeacherPanel(userName);
+                return (Model)Proxy.newInstance(new TeacherPanel(userName));
             case parent:
-                return new ParentPanel(userName);
+                return (Model)Proxy.newInstance(new ParentPanel(userName));
             case student:
-                return new StudentPanel(userName);
+                return (Model)Proxy.newInstance(new StudentPanel(userName));
             default:
-                return new Authentication();
+                return (Model)Proxy.newInstance(new Authentication(userName));
         }
     }
 }

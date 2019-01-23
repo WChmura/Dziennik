@@ -3,13 +3,11 @@ package Models;
 import Database.dao.*;
 import Database.pojo.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static Database.dao.StudentDAO.getAllPersonalData;
 
-public class AdminPanel extends TeacherPanel {
+public class AdminPanel extends TeacherPanel implements Model {
     public AdminPanel(String login) {
         super(login);
     }
