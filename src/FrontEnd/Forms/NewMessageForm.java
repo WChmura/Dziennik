@@ -10,7 +10,7 @@ public class NewMessageForm extends Form {
         super(frame,"Nowa wiadomosc");
         addTextField("Odbiorca:",null);
         addTextField("Tytul:",null);
-        addBigTextField(null,true);
+        addBigTextField();
         addButtons();
     }
 }

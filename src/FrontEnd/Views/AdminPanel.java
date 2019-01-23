@@ -6,8 +6,6 @@ import FrontEnd.Forms.*;
 import FrontEnd.Page;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +16,6 @@ public class AdminPanel extends Page implements ActionListener {
     private String[] allUsersNames;
     private String[] classNames;
     private ArrayList<ArrayList <Student>> studentsByClasses;
-
-    /*+ jeszcze, takie mniej ważne:
-     - czy dana nazwa klasy istnieje
-     - czy istneieje teacher o danym id
-     - czy istnieje sala o danym numerze
-     */
     private JList<String> userList;
     private JList<String> classList;
     private JList<String> studentList;
@@ -37,7 +29,7 @@ public class AdminPanel extends Page implements ActionListener {
         addTopMenu(3);
         addUsersPanel();
         addClassPanel();
-        addEmptyPanel(30);
+        addEmptyPanel();
     }
 
     private void addUsersPanel(){
@@ -45,8 +37,8 @@ public class AdminPanel extends Page implements ActionListener {
         JPanel buttonPanel = new JPanel(new GridLayout(4,1,0,5));
         buttonPanel.setBackground(Colors.main);
 
-        JButton newUserbutton = configureButton("Dodaj nowego użytkownika");
-        newUserbutton.setActionCommand("addNewUser");
+        JButton newUserButton = configureButton("Dodaj nowego użytkownika");
+        newUserButton.setActionCommand("addNewUser");
 
         JButton deleteUserButton = configureButton("Usuń użytkownika");
         deleteUserButton.setActionCommand("deleteUser");
@@ -71,7 +63,7 @@ public class AdminPanel extends Page implements ActionListener {
         JScrollPane listScroller = new JScrollPane(userList);
         listScroller.setPreferredSize(new Dimension(200, 100));
 
-        buttonPanel.add(newUserbutton);
+        buttonPanel.add(newUserButton);
         buttonPanel.add(personalDataButton);
         buttonPanel.add(changePasswordButton);
         buttonPanel.add(deleteUserButton);
@@ -85,7 +77,7 @@ public class AdminPanel extends Page implements ActionListener {
         usersPanel.add(label);
         for(int i=0;i<2;i++)
             usersPanel.add(new JLabel(""));
-        this.addSubPanel(usersPanel,300);
+        this.addSubPanel(usersPanel);
     }
 
     private void addClassPanel(){
@@ -93,9 +85,9 @@ public class AdminPanel extends Page implements ActionListener {
         JPanel buttonPanel = new JPanel(new GridLayout(3,1,0,5));
         buttonPanel.setBackground(Colors.main);
 
-        JButton newClassbutton = configureButton("Dodaj nową klasę");
-        newClassbutton.setActionCommand("newClass");
-        buttonPanel.add(newClassbutton);
+        JButton newClassButton = configureButton("Dodaj nową klasę");
+        newClassButton.setActionCommand("newClass");
+        buttonPanel.add(newClassButton);
 
         JButton deleteClassButton = configureButton("Usuń klasę");
         deleteClassButton.setActionCommand("deleteClass");
@@ -120,9 +112,9 @@ public class AdminPanel extends Page implements ActionListener {
 
         Student[] array = studentsByClasses.get(classSelected).toArray(new Student[0]);
         String[] namesArray = new String[array.length];
-        for(int i=0;i<array.length;i++){
+        for(int i=0;i<array.length;i++)
             namesArray[i]=array[i].getFirstName()+" "+array[i].getSecondName();
-        }
+
         studentList = new JList<>(namesArray);
         studentList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         studentList.setLayoutOrientation(JList.VERTICAL);
@@ -136,7 +128,7 @@ public class AdminPanel extends Page implements ActionListener {
         usersPanel.add(classScroller);
         usersPanel.add(studentScroller);
         usersPanel.add(buttonPanel);
-        this.addSubPanel(usersPanel,300);
+        this.addSubPanel(usersPanel);
     }
 
     @Override

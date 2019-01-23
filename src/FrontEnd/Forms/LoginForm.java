@@ -10,7 +10,7 @@ public class LoginForm extends Form {
     public LoginForm(Frame frame, Model model) {
         super(frame,"Logowanie");
         this.model = model;
-        addTextField("login",null);
+        addTextField("receivedValue",null);
         addPasswordField("haslo",null);
         addButtons();
     }

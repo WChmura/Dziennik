@@ -4,16 +4,13 @@ import FrontEnd.Colors;
 import FrontEnd.Forms.NewMarkForm;
 import FrontEnd.Forms.SelectLessonForm;
 import FrontEnd.Page;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
-
 public class Lesson extends Page{
-    //to potrzebuje - tylko dla nauczycieli
     private String[] students;
     private String groupName;
     private String[] classNames;
@@ -23,15 +20,13 @@ public class Lesson extends Page{
     private int numOfStudents=0;
     private Date date;
 
-    //TODO:Sprawdzanie czy lekcja istnieje
     @Override
     public void createGUI() {
         model = createNewModel();
         classNames=model.getAllGroupsNames().toArray(new String[0]);
         int groupNumber = chooseGroup();
-        if(groupNumber<0){
+        if(groupNumber<0)
             addTopMenu(0);
-        }
         else{
             groupName = classNames[groupNumber];
             students = model.getNamesOfGroup(groupName).toArray(new String[0]);
@@ -40,13 +35,9 @@ public class Lesson extends Page{
             newMarks = new JButton[numOfStudents][4];
             numOfMarks = new int[numOfStudents];
             attendances = new int[numOfStudents];
-            this.addSubPanel(GroupNamePanel(),30);
-            System.out.println("Dodano nazwe klasy");
-            for(int i=0;i<numOfStudents;i++){
-                this.addSubPanel(StudentPanel(i),50);
-                System.out.println("Dodano studenta");
-                attendances[i]=0;
-            }
+            this.addSubPanel(GroupNamePanel());
+            for(int i=0;i<numOfStudents;i++)
+                this.addSubPanel(StudentPanel(i));
             addEndLessonPanel();
         }
     }
@@ -81,27 +72,21 @@ public class Lesson extends Page{
     private void addEndLessonPanel(){
         JPanel endLessonPanel = new JPanel(new GridLayout(1,5,5,5));
         JButton button = new JButton("Zapisz zmiany");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(confirmationPane()) {
-                    model.insertPresences(date,groupName,attendances);
-                }
-            }
+        button.addActionListener(e -> {
+            if(confirmationPane())
+                model.insertPresences(date,groupName,attendances);
         });
         endLessonPanel.add(new JLabel(" "));
         endLessonPanel.add(button);
         for(int i=0;i<3;i++){
             endLessonPanel.add(new JLabel(" "));
         }
-        this.addSubPanel(endLessonPanel,50);
+        this.addSubPanel(endLessonPanel);
     }
 
     private void addMark(int studentNum){
         String[] studentData = students[studentNum].split(" ");
-        NewMarkForm edit = new NewMarkForm(null,model.getStudentLogin(studentData[0],studentData[1]));
-        edit.setVisible(true);
-        String[] changesInMark = edit.getData();
+        String[] changesInMark = new NewMarkForm(null,model.getStudentLogin(studentData[0],studentData[1])).getData();
         if(changesInMark!=null) {
             newMarks[studentNum][numOfMarks[studentNum]].setText(changesInMark[1]);
             newMarks[studentNum][numOfMarks[studentNum]++].setBackground(Color.white);
@@ -154,13 +139,10 @@ public class Lesson extends Page{
         selectClass.setVisible(true);
         String[] changesInStudents = selectClass.getData();
         if(changesInStudents!=null) {
-            for(int i=0;i<classNames.length;i++){
-                if(classNames[i].equals(changesInStudents[1])){
-                    date = Date.valueOf(changesInStudents[0]);
-                    System.out.println(date);
+            date = Date.valueOf(changesInStudents[0]);
+            for(int i=0;i<classNames.length;i++)
+                if(classNames[i].equals(changesInStudents[1]))
                     return i;
-                }
-            }
         }
         return -1;
     }

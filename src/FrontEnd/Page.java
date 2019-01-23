@@ -1,24 +1,17 @@
 package FrontEnd;
-
 import Common.UserType;
 import Models.*;
-
 import javax.swing.*;
 import java.awt.*;
-
 
 public abstract class Page extends JFrame {
     protected JPanel mainContent;
     private JPanel mainPanel;
-    private JPanel[] subPanels;
-    private int numOfSubPanels=0;
-    //protected static String userName = "qazxsw123";
-    //protected static UserType userType=UserType.teacher;
     static String userName = " ";
     protected static UserType userType = UserType.notLogged;
     protected Model model;
     protected TopPanel topPanel;
-    protected String login;
+    protected String receivedValue;
 
     public Page(){
         super("Dziennik elektroniczny");
@@ -33,7 +26,7 @@ public abstract class Page extends JFrame {
         super("Dziennik elektroniczny");
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         super.setSize(8*d.width/9,8*d.height/9);
-        login=value;
+        receivedValue =value;
         createGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -42,7 +35,6 @@ public abstract class Page extends JFrame {
     protected void addTopMenu(int numOfPanels){
         topPanel = new TopPanel(this,model);
         this.setJMenuBar(topPanel);
-        this.setBackground(Colors.background);
         mainContent = new JPanel();
         mainContent.setLayout(new BorderLayout());
         mainContent.setOpaque(true);
@@ -51,38 +43,33 @@ public abstract class Page extends JFrame {
 
         mainPanel = new JPanel();
         mainPanel.setBackground(Colors.main);
-        mainPanel.setSize(mainContent.getWidth(),mainContent.getHeight());
         mainPanel.setLayout(new GridLayout(numOfPanels,1,0,5));
         mainContent.add(mainPanel,BorderLayout.NORTH);
-        subPanels = new JPanel[numOfPanels];
-    }
-    protected void addSubPanel(JPanel subPanel,int height){
-        subPanel.setSize(mainPanel.getWidth(),height);
-        subPanel.setBackground(Colors.main);
-        mainPanel.add(subPanel);
-        subPanels[numOfSubPanels++]=subPanel;
-    }
-    protected void addEmptyPanel(int height){
-        JPanel panel = new JPanel();
-        this.addSubPanel(panel,height);
     }
 
-    protected void addSubPanel(JPanel subPanel, int height, int num){
-        subPanel.setSize(mainPanel.getWidth(),height);
+    protected void addSubPanel(JPanel subPanel){
+        subPanel.setBackground(Colors.main);
+        mainPanel.add(subPanel);
+    }
+
+    protected void addEmptyPanel(){
+        this.addSubPanel(new JPanel());
+    }
+
+    protected void addSubPanel(JPanel subPanel,int num){
         subPanel.setBackground(Colors.main);
         mainPanel.add(subPanel,num);
     }
+
     protected void deletePanel(int num){
         mainPanel.remove(num);
     }
+
     protected boolean confirmationPane(){
-        int n = JOptionPane.showConfirmDialog(
-                this,
-                "Na pewno?",
-                "",
-                JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(this, "Na pewno?", "", JOptionPane.YES_NO_OPTION);
         return n != 1;
     }
+
     public abstract void createGUI();
 
     protected Model createNewModel(){

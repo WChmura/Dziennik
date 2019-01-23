@@ -6,16 +6,13 @@ import Database.pojo.Presence;
 import FrontEnd.Colors;
 import FrontEnd.Forms.EditAttendanceForm;
 import FrontEnd.Page;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Attendance extends Page {
-    public Attendance() {
-    }
+    public Attendance() { }
 
     public Attendance(String value) {
         super(value);
@@ -36,21 +33,18 @@ public class Attendance extends Page {
         startDate = "2019-01-07";
         endDate = "2019-01-18";
         model = createNewModel();
+        addTopMenu(5);
         if(userType==UserType.teacher||userType==UserType.admin){
-            addTopMenu(5);
             addTeacherPanel();
             sourceList = model.getAttendance(startDate,studentNames[0],studentNames[1]);
         }
-        else{
-            addTopMenu(4);
+        else
             sourceList = model.getAttendance(startDate);
-        }
         setAttendanceValues();
         attendanceButtons= new JButton[numOfLessons];
         addLabelsPanel();
-        for(int i=0;i<2;i++){
+        for(int i=0;i<2;i++)
             addWeekPanel(i);
-         }
         addChangeWeekPanel();
     }
 
@@ -92,15 +86,15 @@ public class Attendance extends Page {
         JPanel teacherPanel = new JPanel();
         String[] s;
         if(userType==UserType.teacher)
-             s = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
+            s = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
         else
             s = model.getAllStudents().toArray(new String[0]);
         final JComboBox<String> comboBox = new JComboBox<>(s);
-        if(login==null)
+        if(receivedValue ==null)
             studentNames = s[0].split(" ");
         else {
-            studentNames = login.split(" ");
-            comboBox.setSelectedItem(login);
+            studentNames = receivedValue.split(" ");
+            comboBox.setSelectedItem(receivedValue);
         }
         comboBox.addActionListener(e -> {
             String studentName = (String)comboBox.getSelectedItem();
@@ -109,7 +103,7 @@ public class Attendance extends Page {
             updateValues();
         });
         teacherPanel.add(comboBox,BorderLayout.EAST);
-        this.addSubPanel(teacherPanel,30);
+        this.addSubPanel(teacherPanel);
     }
 
     private void addLabelsPanel(){
@@ -126,7 +120,7 @@ public class Attendance extends Page {
                 labelPanel.add(label2);
             }
         }
-        this.addSubPanel(labelPanel,30);
+        this.addSubPanel(labelPanel);
     }
 
     private void addWeekPanel(int week){
@@ -139,15 +133,13 @@ public class Attendance extends Page {
             end=numOfLessons;
         }
         for(int i=start;i<end;i++){
-            JButton button = new JButton();
             if(attendanceList.get(i)!=null)
-                button = configureAttendanceButton(button,attendanceList.get(i).getType(),i);
+                attendanceButtons[i] = configureAttendanceButton(new JButton(),attendanceList.get(i).getType(),i);
             else
-                button = configureAttendanceButton(button,-1,i);
-            attendanceButtons[i]=button;
-            weekPanel.add(button);
+                attendanceButtons[i] = configureAttendanceButton(new JButton(),-1,i);
+            weekPanel.add(attendanceButtons[i]);
         }
-        this.addSubPanel(weekPanel,50);
+        this.addSubPanel(weekPanel);
     }
 
     private void addChangeWeekPanel(){
@@ -160,29 +152,24 @@ public class Attendance extends Page {
         JButton button = new JButton("Pokaz okres od wybranej daty");
         button.setBorderPainted(false);
         button.setMargin(new Insets(0,0,0,0));
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent ae) {
-                startDate = textField.getText();
-                if(userType==UserType.teacher||userType==UserType.admin)
-                    sourceList = model.getAttendance(startDate,studentNames[0],studentNames[1]);
-                else
-                    sourceList = model.getAttendance(startDate);
-                String[] dates = model.getStartAndEndDate(startDate);
-                startDate = dates[0];
-                endDate = dates[1];
-                dateText = "Pokazywany okres od "+startDate+" do "+endDate;
-                updateValues();
-            }
+        button.addActionListener(ae -> {
+            startDate = textField.getText();
+            if(userType==UserType.teacher||userType==UserType.admin)
+                sourceList = model.getAttendance(startDate,studentNames[0],studentNames[1]);
+            else
+                sourceList = model.getAttendance(startDate);
+            String[] dates = model.getStartAndEndDate(startDate);
+            startDate = dates[0];
+            endDate = dates[1];
+            dateText = "Pokazywany okres od "+startDate+" do "+endDate;
+            updateValues();
         });
         changeWeekPanel.add(button,BorderLayout.EAST);
-        this.addSubPanel(changeWeekPanel,50);
+        this.addSubPanel(changeWeekPanel);
     }
 
     private void editAttendance(int lesson){
-        System.out.println("edit attendance");
-        EditAttendanceForm edit = new EditAttendanceForm(null,attendanceList.get(lesson));
-        edit.setVisible(true);
-        String[] changesInMark = edit.getData();
+        String[] changesInMark = new EditAttendanceForm(null,attendanceList.get(lesson)).getData();
         if(changesInMark!=null) {
             int value;
             switch(changesInMark[0]) {
@@ -220,9 +207,8 @@ public class Attendance extends Page {
     private void updateValues(){
         setAttendanceValues();
         for(int i=0;i<numOfLessons;i++){
-            if(attendanceList.get(i)!=null) {
+            if(attendanceList.get(i)!=null)
                 attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i], attendanceList.get(i).getType(), i);
-            }
             else
                 attendanceButtons[i] = configureAttendanceButton(attendanceButtons[i],-1,i);
         }
@@ -242,10 +228,8 @@ public class Attendance extends Page {
                 attendanceList.add(null);
                 for (int j = 0; j < 8; j++)
                     if (schedule[i][j] != null) {
-                        if (sourceList.size() > numOfAttendances) {
-                            System.out.println(sourceList.get(numOfAttendances));
+                        if (sourceList.size() > numOfAttendances)
                             attendanceList.add(sourceList.get(numOfAttendances++));
-                        }
                         else
                             attendanceList.add(null);
                     }

@@ -1,18 +1,13 @@
 package FrontEnd;
-
-import Common.UserType;
 import FrontEnd.Forms.LoginForm;
 import FrontEnd.Views.*;
 import Models.Model;
-
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import static Common.UserType.*;
 import static FrontEnd.Page.userName;
 import static FrontEnd.Page.userType;
@@ -40,46 +35,28 @@ public class TopPanel extends JMenuBar implements ActionListener {
         setSize(8*d.width/9, d.height/10);
         JPanel panel = new JPanel(new GridLayout(1,9));
         panel.setBackground(Colors.topPanelbackground);
-        JButton marksButton = configureButton(marksText);
-        panel.add(marksButton);
 
-        JButton scheduleButton = configureButton(scheduleText);
-        panel.add(scheduleButton);
+        panel.add(configureButton(marksText));
+        panel.add(configureButton(scheduleText));
+        panel.add(configureButton(attendanceText));
+        if(userType!=admin)
+            panel.add(configureButton(settingsText));
+        panel.add(configureButton(messagesText));
 
-        JButton attendanceButton = configureButton(attendanceText);
-        panel.add(attendanceButton);
-
-        if(userType!=admin) {
-            JButton settingsButton = configureButton(settingsText);
-            panel.add(settingsButton);
+        if(userType ==teacher || userType ==admin) {
+            panel.add(configureButton(groupText));
+            if(userType ==teacher)
+                panel.add(configureButton(lessonText));
+            else
+                panel.add(configureButton(adminText));
         }
 
-        JButton messagesButton = configureButton(messagesText);
-        panel.add(messagesButton);
-
-        if(userType ==teacher|| userType ==admin) {
-            JButton groupButton = configureButton(groupText);
-            panel.add(groupButton);
-
-            if(userType ==teacher) {
-                JButton lessonButton = configureButton(lessonText);
-                panel.add(lessonButton);
-            }
-            if(userType ==admin) {
-                JButton adminButton = configureButton(adminText);
-                panel.add(adminButton);
-            }
-        }
-        if(userType ==notLogged){
-            JButton logInButton = configureButton(logInText);
-            panel.add(logInButton);
-        }
+        if(userType ==notLogged)
+            panel.add(configureButton(logInText));
         else{
-            JButton logOutButton = configureButton(logOutText);
-            panel.add(logOutButton);
+            panel.add(configureButton(logOutText));
+            panel.add(new JLabel("zalogwano jako: "+ userName));
         }
-        JLabel label = new JLabel("zalogwano jako: "+ userName);
-        panel.add(label);
         add(panel);
     }
 
@@ -87,20 +64,16 @@ public class TopPanel extends JMenuBar implements ActionListener {
         JButton button = new JButton(text);
         button.setActionCommand(text);
         button.setBorderPainted(false);
-        button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBackground(Colors.background);
         button.addActionListener(this);
         return button;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        String command = e.getActionCommand();
         if(userType !=notLogged) {
-            String command = e.getActionCommand();
-            System.out.println(command);
-            if(command.equals(logOutText)){
+            if(command.equals(logOutText)&&logOutMessage()){
                 if(logOutMessage()) {
                     userType = notLogged;
                     userName = null;
@@ -111,24 +84,21 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 goToPage(command);
         }
 
-        else if(e.getActionCommand().equals(logInText)){
+        else if(command.equals(logInText)){
             LoginForm sd = new LoginForm(null,model);
-            sd.setVisible(true);
+
             String[] loginData= sd.getData();
             if(loginData!=null) {
                 userType = model.logIn(loginData);
                 userName = loginData[0];
-                if(userType!=admin){
+                if(userType!=admin)
                     goToPage("personalData");
-                }
-                else{
+                else
                     goToPage(adminText);
-                }
-
-            }else {
-                JOptionPane.showMessageDialog(frame, "Zle haslo lub login");
-                }
             }
+            else
+                JOptionPane.showMessageDialog(frame, "Zle haslo lub receivedValue");
+        }
     }
 
     public void goToPage(String sth){
@@ -172,8 +142,6 @@ public class TopPanel extends JMenuBar implements ActionListener {
     }
 
     public void goToPage(String sth,String login){
-
-        frame.dispose();//To close the current window
         Page newWindow;
         switch(sth){
             case marksText:
@@ -189,14 +157,11 @@ public class TopPanel extends JMenuBar implements ActionListener {
                 newWindow = new WelcomePage();
         }
         newWindow.setVisible(true);
+        frame.dispose();
     }
 
     private boolean logOutMessage(){
-        int n = JOptionPane.showConfirmDialog(
-                this,
-                "Jestes pewien?",
-                "",
-                JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(this, "Jestes pewien?", null, JOptionPane.YES_NO_OPTION);
         return n != 1;
     }
 }

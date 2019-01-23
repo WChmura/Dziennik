@@ -36,68 +36,55 @@ public class Marks extends Page
         if(userType==UserType.student||userType==UserType.parent){
             firstName = model.getFirstName();
             secondName = model.getlastName();
-            System.out.println(firstName+" "+secondName);
-            marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
         }
         else{
             if(userType==UserType.teacher)
                 studentNames = model.getNamesOfGroup(model.getFormGroup()).toArray(new String[0]);
-            else {
+            else
                 studentNames = model.getAllStudents().toArray(new String[0]);
-
-            }
             String[] studentData;
-            if(login!=null){
-                studentData = login.split(" ");
-            }
-            else {
+            if(receivedValue !=null)
+                studentData = receivedValue.split(" ");
+            else
                 studentData = studentNames[0].split(" ");
-            }
             firstName = studentData[0];
             secondName = studentData[1];
-            marks = model.getMarks(studentData[0], studentData[1]).toArray(new Mark[0]);
         }
+        marks = model.getMarks(firstName,secondName).toArray(new Mark[0]);
         subjectsIds = model.getSubjectsOfStudent(firstName,secondName).toArray(new Integer[0]);
         numOfSubjects=model.getSubjectCountOfStudent(firstName,secondName);
-        System.out.println("ilosc przemiotow"+numOfSubjects);
         marksId = new int[numOfSubjects][maxNumOfMarks];
         marksButtons = new JButton[numOfSubjects][maxNumOfMarks];
         if(userType==UserType.teacher||userType==UserType.admin){
             addTopMenu(numOfSubjects+2);
             addTeacherPanel();
         }
-        else{
+        else
             addTopMenu(numOfSubjects+1);
-        }
-        for(int i=0;i<numOfSubjects;i++){
+        for(int i=0;i<numOfSubjects;i++)
             addMarkPanel(i);
-        }
-
     }
 
     private JButton configureMarkButton(JButton button,int value,int i){
         if(value!=0){
             button.setText(String.valueOf(value));
-            button.setBorderPainted(false);
             button.setBackground(Color.white);
-            if(userType==UserType.teacher||userType==UserType.admin){
-                button.setEnabled(true);
+            if(userType==UserType.teacher||userType==UserType.admin)
                 button.addActionListener(ae -> editMark(i));
-            }
+            else
+                button.setEnabled(false);
         }
         else{
             button.setText("");
-            button.setBorderPainted(false);
             button.setBackground(Colors.main);
             button.setEnabled(false);
         }
+        button.setBorderPainted(false);
         return button;
     }
 
     private void editMark(int i){
-        EditMarkForm edit = new EditMarkForm(null,marks[i]);
-        edit.setVisible(true);
-        String[] changesInMark = edit.getData();
+        String[] changesInMark = new EditMarkForm(null,marks[i]).getData();
         if(changesInMark!=null) {
             marks[i].setMark(Integer.valueOf(changesInMark[0]));
             marks[i].setWeight(Integer.valueOf(changesInMark[1]));
@@ -112,8 +99,8 @@ public class Marks extends Page
     private void addTeacherPanel(){
         JPanel teacherPanel = new JPanel();
         final JComboBox<String> comboBox = new JComboBox<>(studentNames);
-        if(login!=null)
-            comboBox.setSelectedItem(login);
+        if(receivedValue !=null)
+            comboBox.setSelectedItem(receivedValue);
         comboBox.addActionListener(e -> {
             String[] studentData = studentNames[comboBox.getSelectedIndex()].split(" ");
             firstName = studentData[0];
@@ -123,18 +110,19 @@ public class Marks extends Page
             updateValues();
         });
         teacherPanel.add(comboBox,BorderLayout.EAST);
-        this.addSubPanel(teacherPanel,30);
+        this.addSubPanel(teacherPanel);
     }
 
     private void addMarkPanel(int num){
         JPanel subjectPanel = new JPanel();
+        subjectPanel.setLayout(new GridBagLayout());
         JPanel marksPanel = new JPanel();
-        subjectPanel.setBackground(Colors.main);
+        marksPanel.setLayout(new GridLayout(1,25,5,0));
         marksPanel.setBackground(Colors.main);
         convertMarks();
-        subjectPanel.setLayout(new GridBagLayout());
+
         GridBagConstraints c = new GridBagConstraints();
-        marksPanel.setLayout(new GridLayout(1,25,5,0));
+
         for(int i=0;i<maxNumOfMarks;i++){
             marksButtons[num][i]=configureMarkButton(new JButton(),marksValues[num][i],marksId[num][i]);
             marksPanel.add(marksButtons[num][i]);
@@ -152,7 +140,7 @@ public class Marks extends Page
         c.gridwidth = 25;
         c.gridx = 1;
         subjectPanel.add(marksPanel, c);
-        this.addSubPanel(subjectPanel,50);
+        this.addSubPanel(subjectPanel);
     }
 
     private void convertMarks(){
