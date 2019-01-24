@@ -84,6 +84,7 @@ public class AdminPanel extends TeacherPanel implements Model {
         return list;
     }
     public  Timetable[][] getTimetables(String groupName) {
+        System.out.println("wywoluje getTimetables dla grupy " + groupName);
         Group grp = GroupDAO.getGroup(groupName);
         ArrayList<Timetable> timetable = TimetableDAO.getScheduleForGroup(grp);
         Timetable[][] schedule = new Timetable[5][8];
@@ -93,6 +94,7 @@ public class AdminPanel extends TeacherPanel implements Model {
             Classroom classroom = ClassroomDAO.getClassroom(cell.getClassroomID());
             schedule[cell.getDay()-1][cell.getHour()-1] = cell;
         }
+        System.out.println("koniec wywolania");
         return schedule;
     }
 }

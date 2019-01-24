@@ -2,10 +2,11 @@ package Database.pojo;
 
 import Database.Db_tests;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Presence {
+public class Presence implements Serializable {
 
     private int presenceId;
     private Date date;

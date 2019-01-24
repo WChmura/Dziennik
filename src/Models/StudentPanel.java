@@ -488,10 +488,10 @@ public class StudentPanel extends DefaultModel implements Model {
     public boolean doesLessonExist(String groupName, int teacherId, String date) {
         return false;
     }
-    @Override
+    /*@Override
     public UserType logIn(String[] loginData) {
         return null;
-    }
+    }*/
 
     @Override
     public ArrayList<String> getAllUserNames() {

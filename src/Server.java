@@ -6,7 +6,7 @@ public class Server {
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(1234);
+            serverSocket = new ServerSocket(2137);
             while (true) {
                 Socket socket = serverSocket.accept();
                 (new ServerThread(socket)).start();

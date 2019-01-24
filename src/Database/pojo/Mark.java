@@ -2,10 +2,11 @@ package Database.pojo;
 
 import Database.Db_tests;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Mark {
+public class Mark implements Serializable {
     private int markID;
     private int subjectID;
     private int studentID;

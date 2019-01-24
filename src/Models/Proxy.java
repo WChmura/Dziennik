@@ -1,32 +1,55 @@
 package Models;
 
+import Common.SerializableMethod;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class Proxy implements InvocationHandler {
-    private Object obj;
+    private Model obj;
 
-    public static Object newInstance(Object obj) {
-        //System.out.println("próba utworzenia proxy dla klasy\n\n" + obj.getClass().getName() + "\n\ni interfejsu\n\n" + obj.getClass().getInterfaces());
+    public static Object newInstance(Model obj) {
         return java.lang.reflect.Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), new Proxy(obj));
     }
 
-    private Proxy(Object obj) {
+    private Proxy(Model obj) {
         this.obj = obj;
     }
 
     public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
         Object result;
         try {
-            long start = System.nanoTime();
-            result = m.invoke(obj, args);
-            long end = System.nanoTime();
-            System.out.println((String.format("%s took %d ns", m.getName(), (end-start))));
-        } catch (InvocationTargetException e) {
-            throw e.getTargetException();
+            Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 2137);
+            ObjectOutputStream outToServer = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
+
+
+            String login = "";
+            int permission = 4;
+            if (obj.getAccount() != null) {
+                login = obj.getAccount().getLogin();
+                permission = obj.getAccount().getPermission();
+            }
+            outToServer.writeObject(login);
+            outToServer.writeObject(permission);
+            outToServer.writeObject(new SerializableMethod(m));
+            outToServer.writeObject(args);
+
+
+            System.out.println("wysylam zapytanie o " + m.getName());
+            //result = m.invoke(obj, args);
+
+            result = inFromServer.readObject();
+
         } catch (Exception e) {
-            throw new RuntimeException("unexpected invocation exception: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
         return result;
     }

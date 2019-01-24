@@ -2,9 +2,10 @@ package Database.pojo;
 
 import Database.Db_tests;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Timetable {
+public class Timetable implements Serializable {
 
     private int lessonID;
     private int groupID;
@@ -13,6 +14,10 @@ public class Timetable {
     private int day;
     private int hour;
     private int subjectID;
+    private String teacherName;
+    private String classroomName;
+    private String groupName;
+    private String subjectName;
     private static AtomicInteger ID_GENERATOR = new AtomicInteger(Db_tests.ID_GEN);
 
     public Timetable(int groupID, int classroomID, int teacherID, int day, int hour, int subjectID) {
@@ -23,6 +28,47 @@ public class Timetable {
         this.day = day;
         this.hour = hour;
         this.subjectID = subjectID;
+    }
+
+    public Timetable(String groupName, String classroomName, String teacherName, int day, int hour, String subjectName) {
+        this.groupName = groupName;
+        this.classroomName = classroomName;
+        this.teacherName = teacherName;
+        this.day = day;
+        this.hour = hour;
+        this.subjectName = subjectName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getClassroomName() {
+        return classroomName;
+    }
+
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public int getLessonID() {

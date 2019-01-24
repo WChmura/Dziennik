@@ -1,15 +1,15 @@
 package Models;
 
 import Common.UserType;
-import Database.pojo.Mark;
-import Database.pojo.Presence;
-import Database.pojo.Student;
-import Database.pojo.Timetable;
+import Database.pojo.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
 
 public interface Model {
+
+    Account getAccount();
+
     UserType logIn(String[] loginData);
 
     ArrayList<String> getAllUserNames();

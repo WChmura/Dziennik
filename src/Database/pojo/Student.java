@@ -2,9 +2,10 @@ package Database.pojo;
 
 import Database.Db_tests;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Student {
+public class Student implements Serializable {
     private int studentID;
     private int groupID;
     private String firstName;
