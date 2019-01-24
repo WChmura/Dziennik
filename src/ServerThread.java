@@ -1,5 +1,8 @@
 import Common.SerializableMethod;
+import Database.dao.*;
 import Database.pojo.Account;
+import Database.pojo.Message;
+import Database.pojo.Timetable;
 import FrontEnd.Views.WelcomePage;
 import Models.*;
 import com.sun.media.sound.ModelInstrument;
@@ -10,6 +13,12 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.sql.Array;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ServerThread extends Thread {
     Socket socket;
@@ -30,11 +39,6 @@ public class ServerThread extends Thread {
             Method m = ((SerializableMethod)inFromClient.readObject()).getMethod();
             Object[] args = (Object[]) inFromClient.readObject();
 
-
-            //if(args.length > 0) for (Object arg : args) System.out.println("el. args: " + arg);
-
-            //System.out.println("login = " + login + ", permission = " + permission + ", methodname = " + methodName + ", args = " + args);
-
             Model model;
             switch (permission) {
                 case 0:
@@ -52,28 +56,7 @@ public class ServerThread extends Thread {
                 default:
                     model = new Authentication();
             }
-            //Method m = null;
-            /*Boolean methodExists = false;
-            Class c = model.getClass();
-            Class<?> classes [] = null;
-            int i = 0;
-            for (Object arg : args) {
-                classes[i] = arg.getClass();
-                i++;
-            }
-            while (!methodExists) {
-                if (c.getName() == "java.lang.Object") c = new Authentication().getClass();
-                try {
-                    System.out.println("sprawdzacz czy " + methodName + "istnieje dla " + c.getName());
-                    m = c.getMethod(methodName, classes);
-                    m.invoke(c.getConstructor().newInstance(), args);
-                    methodExists = true;
-                } catch (NoSuchMethodException e) {
-                    //e.printStackTrace();
-                    c = c.getSuperclass();
-                }
-            }
-            System.out.println("Found method: " + m.getName()   );*/
+
             Object result = null;
             try {
                 if (args != null) result = m.invoke(model, args);
@@ -84,9 +67,40 @@ public class ServerThread extends Thread {
             }
 
             outToClient.writeObject(result) ;
-            //System.out.println(result);
 
             socket.close();
+
+            if (permission == 2) {
+                Account acc = model.getAccount();
+
+                ArrayList<Message> msgs = MessageDAO.getAllMesseges(acc);
+
+                DateFormat day = new SimpleDateFormat("dd.MM.yyyy");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                if ((cal.get(Calendar.HOUR_OF_DAY) == 9 && cal.get(Calendar.MINUTE) >= 10) || cal.get(Calendar.HOUR_OF_DAY) > 9) { // after 9:10
+                    cal.add(Calendar.DATE, 1); // set time to tomorrow
+                    if (cal.get(Calendar.DAY_OF_WEEK) > 6) return; // tomorrow's a weekend day
+                    for (Message msg : msgs) {
+                        if (msg.getTopic().equals("Lekcje w dniu " + day.format(cal.getTime()))) return; // already notified
+                    }
+                    String lessons = "";
+                    ArrayList<Timetable> schedule = TimetableDAO.getScheduleForTeacher(TeacherDAO.getTeacherFromAccount(acc));
+                    for (Timetable t : schedule) {
+                        if (t.getDay()+1 == cal.get(Calendar.DAY_OF_WEEK)) {
+                            lessons += t.getHour() + ". " + GroupDAO.getGroup(t.getGroupID()).getName() + ", "
+                                    + ClassroomDAO.getClassroom(t.getClassroomID()).getName() + " - "
+                                    + SubjectDAO.getSubject(t.getSubjectID()).getName() + "; ";
+                        }
+                    }
+                    if (!lessons.equals("")) {
+                        Message msg = new Message(AccountDAO.getAccount("admin").getPersonID(), acc.getPersonID(),
+                                "Lekcje w dniu " + day.format(cal.getTime()), lessons, 0);
+                        MessageDAO.insertMessage(msg);
+                    }
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
